@@ -1,3 +1,10 @@
+</p>
+<p align="center">
+    <a href="https://twitter.com/intent/follow?screen_name=shields_io">
+        <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen"
+            alt="follow on Twitter"></a>
+</p>
+
 # DepotDownloaderGUI
 A simple GUI tool based on DepotDownloader to download Steam® depots.
 
