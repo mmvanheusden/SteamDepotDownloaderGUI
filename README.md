@@ -1,8 +1,6 @@
 </p>
 <p align="center">
-    <a href="https://twitter.com/intent/follow?screen_name=shields_io">
-        <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen"
-            alt="follow on Twitter"></a>
+    <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen">
 </p>
 
 # DepotDownloaderGUI
