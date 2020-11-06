@@ -1,8 +1,6 @@
-</p>
 <p align="center">
-    <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen" unselectable="on">
+  <img src="https://raster.shields.io/badge/Status-Alpha-yellowgreen.png" />
 </p>
-
 # DepotDownloaderGUI
 A simple GUI tool based on DepotDownloader to download Steam® depots.
 
