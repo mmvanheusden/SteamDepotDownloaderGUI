@@ -1,6 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen" />
   <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/mmvanheusden/DepotDownloaderGUI/total?label=Downloads">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/DepotDownloaderGUI">
 </p>
 
 DepotDownloaderGUI
