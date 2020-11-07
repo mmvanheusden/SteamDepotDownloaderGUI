@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raster.shields.io/badge/Status-Alpha-yellowgreen.png" />
+  <img src="https://img.shields.io/badge/Status-Alpha-yellowgreen" />
   <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/mmvanheusden/DepotDownloaderGUI/total?label=Downloads">
 </p>
 
