@@ -2,11 +2,11 @@
   <img src="https://raster.shields.io/badge/Status-Alpha-yellowgreen.png" />
 </p>
 
-# DepotDownloaderGUI
+DepotDownloaderGUI
+==================
+
 A simple GUI tool based on DepotDownloader to download Steam® depots.
 
-
-
+*Sorry for poor code, i'm not a Python master😩*
 
 ©2020 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
-
