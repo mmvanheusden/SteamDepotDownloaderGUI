@@ -10,7 +10,8 @@ DepotDownloaderGUI
 
 A simple GUI tool based on DepotDownloader to download Steam® depots.
 
-![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The program")
+![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The Program")
+###### The Program.
 
 
 ©2020 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
