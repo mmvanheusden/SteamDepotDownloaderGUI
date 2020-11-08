@@ -1,2 +1,2 @@
 @echo off
-dotnet DepotDownloader.dll
+dotnet %~dp0DepotDownloader.dll %*
