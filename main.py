@@ -4,10 +4,17 @@ from tkinter import *
 from tkinter import ttk
 
 os.chdir("depotdownloader")
+
+
 def test():
-    os.system(
-        f"start /wait cmd /k dotnet DepotDownloader.dll -app {apid} -depot {dpotid} -manifest {manid} -username {uname}"
-        f" -password {pswd} -max-servers 50 -max-downloads 32 -dir ../DownloadedDepot")
+    if pswd == "":
+        os.system(
+            f"start /wait cmd /k dotnet DepotDownloader.dll -app {apid} -depot {dpotid} -manifest {manid}"
+            f" -max-servers 50 -max-downloads 32 -dir ../DownloadedDepot")
+    else:
+        os.system(
+            f"start /wait cmd /k dotnet DepotDownloader.dll -app {apid} -depot {dpotid} -manifest {manid}"
+            f" -username {uname} -password {pswd} -max-servers 50 -max-downloads 32 -dir ../DownloadedDepot")
 
 
 def execute():
