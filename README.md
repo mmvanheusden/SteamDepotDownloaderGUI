@@ -7,7 +7,7 @@
 
 # DepotDownloaderGUI
 
-A simple GUI tool based on DepotDownloader to download Steam® depots.
+A simple GUI tool based on [DepotDownloader][depotdownloader] to download Steam® depots.
 
 ![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The Program")
 
@@ -49,4 +49,4 @@ The downloaded game is stored in the folder "DownloadedDepot"
 ###### ©2020 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
 [steamdb]: https://steamdb.info/
-<a href="https://nick-name.ru/nickname/id1672794/"><img src="https://nick-name.ru/img.php?nick=mmvanheusden&sert=23&text=t9" alt="mmvanheusden" /></a>
+[depotdownloader]: https://github.com/SteamRE/DepotDownloader
