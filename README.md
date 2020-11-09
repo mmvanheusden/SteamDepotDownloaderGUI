@@ -13,32 +13,30 @@ A simple GUI tool based on DepotDownloader to download Steam® depots.
 
 ## How use the program?
 ### step 1:
-Download and install Python 3.8.6. (You can download it [Here][python])
-### step 2:
 Download and unzip the program. (You can download it [Here][latest])
-### step 3:
+### step 2:
 Run DepotDownloaderGUI.exe.
+### step 3:
+Enter your Steam credentials.
 ### step 4:
-Enter your Steam® credentials.
-### step 5:
 Go to [SteamDB][steamdb].
-### step 6:
+### step 5:
 Enter your game of choice at the search bar and click on the game.
-### step 7:
+### step 6:
 Copy the App ID and paste it in the program at "App ID"
-### step 8:
+### step 7:
 Click on "Depots" in the sidebar.
-### step 9:
+### step 8:
 Select the Windows depot (usually it is Win32)
-### step 10:
+### step 9:
 Copy the Depot ID and paste it in the program at "Depot ID"
-### step 11:
+### step 10:
 Click on "Manifests" in the sidebar
-### step 12:
+### step 11:
 Choose a Manifest(game version) of choice and copy its ID and paste it in the program at "Manifest ID"
-### step 13:
+### step 12:
 Click on "Start Download", a terminal will pop up and will show the download progress.
-### step 14:
+### step 13:
 Once the download is done, close the program.
 The downloaded game is stored in the folder "DownloadedDepot"
 **please move the game files to a other folder**
@@ -50,6 +48,5 @@ The downloaded game is stored in the folder "DownloadedDepot"
 
 ###### ©2020 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
-[python]: https://www.python.org/ftp/python/3.8.6/python-3.8.6-amd64.exe
 [steamdb]: https://steamdb.info/
 <a href="https://nick-name.ru/nickname/id1672794/"><img src="https://nick-name.ru/img.php?nick=mmvanheusden&sert=23&text=t9" alt="mmvanheusden" /></a>
