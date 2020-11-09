@@ -52,3 +52,4 @@ The downloaded game is stored in the folder "DownloadedDepot"
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
 [python]: https://www.python.org/ftp/python/3.8.6/python-3.8.6-amd64.exe
 [steamdb]: https://steamdb.info/
+<a href="https://nick-name.ru/nickname/id1672794/"><img src="https://nick-name.ru/img.php?nick=mmvanheusden&sert=23&text=t9" alt="mmvanheusden" /></a>
