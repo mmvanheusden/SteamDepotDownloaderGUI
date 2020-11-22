@@ -7,21 +7,25 @@
 
 # DepotDownloaderGUI
 
-A simple GUI tool based on [DepotDownloader][depotdownloader] to download Steam® depots.
+A simple GUI tool based on [DepotDownloader][depotdownloader] for downloading older versions of steam games.
 
 ![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The Program")
 
+## What can you do with the program?
+You can download older versions of Steam games!!!:sunglasses:
+
 ## How use the program?
+
 ### step 1:
 Download and unzip the program. (You can download it [Here][latest])
 ### step 2:
 Run DepotDownloaderGUI.exe.
 ### step 3:
-Enter your Steam credentials.
+First enter your Steam credentials at "Username" and "Password" (Don't worry, it's safe!)
 ### step 4:
 Go to [SteamDB][steamdb].
 ### step 5:
-Enter your game of choice at the search bar and click on the game.
+Enter your game of choice at the search bar and select the game.
 ### step 6:
 Copy the App ID and paste it in the program at "App ID"
 ### step 7:
@@ -39,11 +43,11 @@ Click on "Start Download", a terminal will pop up and will show the download pro
 ### step 13:
 Once the download is done, close the program.
 The downloaded game is stored in the folder "DownloadedDepot"
-**please move the game files to an other folder**
+> :warning: **Once the download progress is complete, Move the downloaded files to a different folder!**
 ### Enjoy your game!
 
 
-## If you have any questions, send me an e-mail at mmvanheusden@gmail.com or open an GitHub Issue.
+## If you have any questions, open a GitHub Issue.
 
 
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
