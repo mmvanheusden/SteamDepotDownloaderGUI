@@ -46,7 +46,6 @@ The downloaded game is stored in the folder "DownloadedDepot"
 ## If you have any questions, send me an e-mail at mmvanheusden@gmail.com or open an GitHub Issue.
 
 
-###### ©2020 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
 [steamdb]: https://steamdb.info/
 [depotdownloader]: https://github.com/SteamRE/DepotDownloader
