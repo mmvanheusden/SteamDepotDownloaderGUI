@@ -39,7 +39,7 @@ Click on "Start Download", a terminal will pop up and will show the download pro
 ### step 13:
 Once the download is done, close the program.
 The downloaded game is stored in the folder "DownloadedDepot"
-**please move the game files to a other folder**
+**please move the game files to an other folder**
 ### Enjoy your game!
 
 
