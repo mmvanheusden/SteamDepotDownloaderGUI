@@ -2,6 +2,7 @@ import os
 import threading
 from tkinter import *
 from tkinter import ttk
+from webbrowser import open_new_tab as webopen
 
 os.chdir("depotdownloader")
 
@@ -10,11 +11,11 @@ def test():
     if pswd == "":
         os.system(
             f"start /wait cmd /k dotnet DepotDownloader.dll -app {apid} -depot {dpotid} -manifest {manid}"
-            f" -max-servers 50 -max-downloads 32 -dir ../DownloadedDepot")
+            f" -max-servers 100 -max-downloads 65 -dir ../YourGame")
     else:
         os.system(
             f"start /wait cmd /k dotnet DepotDownloader.dll -app {apid} -depot {dpotid} -manifest {manid}"
-            f" -username {uname} -password {pswd} -max-servers 50 -max-downloads 32 -dir ../DownloadedDepot")
+            f" -username {uname} -password {pswd} -max-servers 100 -max-downloads 65 -dir ../YourGame")
 
 
 def execute():
@@ -27,14 +28,23 @@ def execute():
     threading.Thread(target=test).start()
 
 
+def dbsite():
+    webopen("https://steamdb.info/instantsearch/")
+
+
+def ghsite():
+    webopen("https://github.com/mmvanheusden/DepotDownloaderGUI")
+
+
 window = Tk()
-window.title("Steam® Depot Downloader")
+window.title("Steam Depot Downloader")
 window.geometry('375x225')
 a = Label(window, text="username", font=('Arial', 14)).grid(row=0, column=0)
 b = Label(window, text="password", font=('Arial', 14)).grid(row=1, column=0)
 c = Label(window, text="App ID", font=('Arial', 14)).grid(row=2, column=0)
 d = Label(window, text="Depot ID", font=('Arial', 14)).grid(row=3, column=0)
 e = Label(window, text="Manifest ID", font=('Arial', 14)).grid(row=4, column=0)
+f = Label(window, text="Useful Links:", font=('Arial', 13)).grid(row=5, column=1)
 
 username = Entry(window, font=('Arial', 14))
 username.grid(row=0, column=1)
@@ -46,7 +56,11 @@ depotid = Entry(window, font=('Arial', 14))
 depotid.grid(row=3, column=1)
 manifestid = Entry(window, font=('Arial', 14))
 manifestid.grid(row=4, column=1)
-btn = ttk.Button(window, text="Start Download", command=execute)
-btn.grid(row=5, column=0)
+steamdb = ttk.Button(window, text="SteamDB Instant Search", command=dbsite)
+steamdb.grid(row=6, column=1)
+github = ttk.Button(window, text="GitHub Page", command=ghsite)
+github.grid(row=7, column=1)
+dload = ttk.Button(window, text="Start Download", command=execute)
+dload.grid(row=5, column=0)
 
 window.mainloop()

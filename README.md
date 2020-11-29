@@ -7,7 +7,7 @@
 
 # DepotDownloaderGUI
 
-A simple GUI tool based on [DepotDownloader][depotdownloader] for downloading older versions of steam games.
+A simple GUI tool based on [DepotDownloader][depotdownloader] for downloading older versions of Steam games.
 
 ![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The Program")
 
@@ -42,7 +42,7 @@ Choose a Manifest(game version) of choice and copy its ID and paste it in the pr
 Click on "Start Download", a terminal will pop up and will show the download progress.
 ### step 13:
 Once the download is done, close the program.
-The downloaded game is stored in the folder "DownloadedDepot"
+The downloaded game is stored in the folder "YourGame"
 > :warning: **Once the download progress is complete, Move the downloaded files to a different folder!**
 ### Enjoy your game!
 
