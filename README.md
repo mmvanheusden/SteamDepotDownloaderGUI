@@ -7,23 +7,26 @@
 
 # DepotDownloaderGUI
 
-A simple GUI tool based on [DepotDownloader][depotdownloader] for downloading older versions of Steam games.
+A simple GUI tool based on [**DepotDownloader**][depotdownloader] for downloading older versions of Steam games.
 
 ![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/main/src/readme.md/hero.png "The Program")
 
 ## What can you do with the program?
 You can download older versions of Steam games!!!:sunglasses:
 
+## Want an example?
+Go to [**This**][subnauticawiki] tutorial.
+
 ## How use the program?
 
 ### step 1:
-Download and unzip the program. (You can download it [Here][latest])
+Download and unzip the program. (You can download it [**Here**][latest])
 ### step 2:
 Run DepotDownloaderGUI.exe.
 ### step 3:
 First enter your Steam credentials at "Username" and "Password" (Don't worry, it's safe!)
 ### step 4:
-Go to [SteamDB][steamdb].
+Click on "SteamDB Instant Search".
 ### step 5:
 Enter your game of choice at the search bar and select the game.
 ### step 6:
@@ -53,3 +56,4 @@ The downloaded game is stored in the folder "YourGame"
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
 [steamdb]: https://steamdb.info/
 [depotdownloader]: https://github.com/SteamRE/DepotDownloader
+[subnauticawiki]: https://github.com/mmvanheusden/DepotDownloaderGUI/wiki/How-to-Download-older-versions-of-Subnautica
