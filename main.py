@@ -27,13 +27,15 @@ def execute():
     manid = manifestid.get()
     threading.Thread(target=test).start()
 
-
 def dbsite():
     webopen("https://steamdb.info/instantsearch/")
 
 
 def ghsite():
     webopen("https://github.com/mmvanheusden/DepotDownloaderGUI")
+
+def needhelp():
+    webopen("https://github.com/mmvanheusden/DepotDownloaderGUI/discussions")
 
 
 window = Tk()
@@ -62,5 +64,7 @@ github = ttk.Button(window, text="GitHub Page", command=ghsite)
 github.grid(row=7, column=1)
 dload = ttk.Button(window, text="Start Download", command=execute)
 dload.grid(row=5, column=0)
+github = ttk.Button(window, text="Need Help?", command=needhelp)
+github.grid(row=6, column=0)
 
 window.mainloop()
