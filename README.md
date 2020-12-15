@@ -49,8 +49,8 @@ The downloaded game is stored in the folder "YourGame"
 > :warning: **Once the download progress is complete, Move the downloaded files to a different folder!**
 ### Enjoy your game!
 
-
-## If you have any questions, open a GitHub Issue.
+## Need help?
+### If you have any questions, use the shiny new ✨GitHub Discussions✨ page!
 
 
 [latest]: https://github.com/mmvanheusden/DepotDownloaderGUI/releases/latest
