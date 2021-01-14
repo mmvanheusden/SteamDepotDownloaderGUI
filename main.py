@@ -1,12 +1,15 @@
+# Imports
 import os
 import threading
 from tkinter import *
 from tkinter import ttk
 from webbrowser import open_new_tab as webopen
 
+# go in depotdownloader folder
 os.chdir("depotdownloader")
 
 
+# define functions
 def test():
     if pswd == "":
         os.system(
@@ -25,7 +28,8 @@ def execute():
     apid = appid.get()
     dpotid = depotid.get()
     manid = manifestid.get()
-    threading.Thread(target=test).start()
+    threading.Thread(target=test).start()  # run the download on a different thread so that the program doesn't freeze.
+
 
 def dbsite():
     webopen("https://steamdb.info/instantsearch/")
@@ -34,10 +38,12 @@ def dbsite():
 def ghsite():
     webopen("https://github.com/mmvanheusden/DepotDownloaderGUI")
 
+
 def needhelp():
     webopen("https://github.com/mmvanheusden/DepotDownloaderGUI/discussions")
 
 
+# draw the text
 window = Tk()
 window.title("Steam Depot Downloader")
 window.geometry('375x225')
@@ -48,6 +54,7 @@ d = Label(window, text="Depot ID", font=('Arial', 14)).grid(row=3, column=0)
 e = Label(window, text="Manifest ID", font=('Arial', 14)).grid(row=4, column=0)
 f = Label(window, text="Useful Links:", font=('Arial', 13)).grid(row=5, column=1)
 
+# draw the input fields
 username = Entry(window, font=('Arial', 14))
 username.grid(row=0, column=1)
 password = Entry(window, show="*", font=('Arial', 14))
@@ -67,4 +74,5 @@ dload.grid(row=5, column=0)
 github = ttk.Button(window, text="Need Help?", command=needhelp)
 github.grid(row=6, column=0)
 
+# put everything in a loop
 window.mainloop()
