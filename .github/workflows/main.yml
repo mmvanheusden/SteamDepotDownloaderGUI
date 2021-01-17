@@ -3,7 +3,7 @@ name: Git Version
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   lint:
