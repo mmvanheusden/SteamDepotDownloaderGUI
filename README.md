@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Beta-green" />
-  <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/mmvanheusden/DepotDownloaderGUI/total?label=Downloads">
-  <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/mmvanheusden/DepotDownloaderGUI?include_prereleases">
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/DepotDownloaderGUI">
+  <img src="https://img.shields.io/badge/status-Beta-blue" />
+  <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/DepotDownloaderGUI/total?color=orange&label=downloads">
+  <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/mmvanheusden/DepotDownloaderGUI?color=seagreen&include_prereleases">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/DepotDownloaderGUI?color=crimson">
+  <img alt="Discord" src="https://img.shields.io/discord/801430700812927016?color=7289DA&label=discord">
 </p>
 
 # DepotDownloaderGUI
