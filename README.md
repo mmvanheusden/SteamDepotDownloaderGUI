@@ -15,10 +15,12 @@ A simple GUI tool based on [**DepotDownloader**][depotdownloader] for downloadin
 You can download older versions of Steam games!!!:sunglasses:
 
 ## Want an example?
-Go to [**This**][subnauticawiki] tutorial.
+Take a look at [**This**][subnauticawiki] example.
 
 ## How use the program?
 
+### step 0:
+Download [**.NET Core 2.0.**][dotnet] It is required for the program to work properly.
 ### step 1:
 Download and unzip the program. (You can download it [**Here**][latest])
 ### step 2:
@@ -57,3 +59,4 @@ The downloaded game is stored in the folder "YourGame"
 [steamdb]: https://steamdb.info/
 [depotdownloader]: https://github.com/SteamRE/DepotDownloader
 [subnauticawiki]: https://github.com/mmvanheusden/DepotDownloaderGUI/wiki/How-to-Download-older-versions-of-Subnautica
+[dotnet]: https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-2.0.9-windows-x64-installer
