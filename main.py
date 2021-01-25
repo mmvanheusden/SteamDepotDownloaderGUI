@@ -50,6 +50,7 @@ def needhelp():
 window = Tk()
 window.title("Steam Depot Downloader")
 window.geometry('400x278')
+window.resizable(width=False, height=False)
 a = Label(window, text="Username", font=('Arial', 14)).grid(row=0, column=0)
 b = Label(window, text="Password", font=('Arial', 14)).grid(row=1, column=0)
 c = Label(window, text="App ID", font=('Arial', 14)).grid(row=2, column=0)
