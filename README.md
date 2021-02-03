@@ -1,3 +1,11 @@
+![SteamDepotDownloaderGUI](https://socialify.git.ci/mmvanheusden/SteamDepotDownloaderGUI/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Formal%20Invitation&pulls=1&stargazers=1&theme=Dark)
+
+
+
+
+
+
+
 <p align="center">
   <img src="https://img.shields.io/badge/status-Beta-blue" />
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/DepotDownloaderGUI/total?color=orange&label=downloads">
