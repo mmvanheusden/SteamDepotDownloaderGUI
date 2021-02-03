@@ -64,7 +64,7 @@ i = Label(window, text="Optional Arguments", font=('Arial', 14)).grid(row=7, col
 # draw the input fields
 username = Entry(window, font=('Arial', 14))
 username.grid(row=0, column=1)
-password = Entry(window, show='🤫', font=('Arial', 14))
+password = Entry(window, show='*', font=('Arial', 14))
 password.grid(row=1, column=1)
 appid = Entry(window, font=('Arial', 14))
 appid.grid(row=2, column=1)
