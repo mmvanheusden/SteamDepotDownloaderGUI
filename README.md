@@ -25,35 +25,7 @@ You can download older versions of Steam games!!!:sunglasses:
 ## Want an example?
 Take a look at [**This**][subnauticawiki] example.
 
-## How use the program?
-
-### step 0:
-Download [**.NET Core 2.0.**][dotnet] It is required for the program to work properly.
-### step 1:
-Download and unzip the program. (You can download it [**Here**][latest])
-### step 2:
-Run DepotDownloaderGUI.exe.
-### step 3:
-First enter your Steam credentials at "Username" and "Password" (Don't worry, it's safe!)
-### step 4:
-Click on "SteamDB Instant Search".
-### step 5:
-Enter your game of choice at the search bar and select the game.
-### step 6:
-Copy the App ID and paste it in the program at "App ID"
-### step 7:
-Click on "Depots" in the sidebar.
-### step 8:
-Select the Windows depot (usually it is Win32)
-### step 9:
-Copy the Depot ID and paste it in the program at "Depot ID"
-### step 10:
-Click on "Manifests" in the sidebar
-### step 11:
-Choose a Manifest(game version) of choice and copy its ID and paste it in the program at "Manifest ID"
-### step 12:
-Click on "Start Download", a terminal will pop up and will show the download progress.
-### step 13:
+# Currently working in a C# version... Stay tuned for that!
 Once the download is done, close the program.
 The downloaded game is stored in the folder "YourGame"
 > :warning: **Once the download progress is complete, Move the downloaded files to a different folder!**
