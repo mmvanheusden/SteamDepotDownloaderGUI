@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepotDownloaderGUI", "DepotDownloaderGUI\DepotDownloaderGUI.csproj", "{47A04BE5-9D15-4B06-AD24-99BB210A53DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47A04BE5-9D15-4B06-AD24-99BB210A53DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A04BE5-9D15-4B06-AD24-99BB210A53DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A04BE5-9D15-4B06-AD24-99BB210A53DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A04BE5-9D15-4B06-AD24-99BB210A53DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B70AB4DF-5E9D-49DB-9EE1-E766968B61B7}
+	EndGlobalSection
+EndGlobal
