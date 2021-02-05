@@ -8,6 +8,7 @@
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
   <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/mmvanheusden/SteamDepotDownloaderGUI?color=seagreen&include_prereleases">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/SteamDepotDownloaderGUI?color=crimson">
+  <a href="https://wakatime.com/badge/github/mmvanheusden/SteamDepotDownloaderGUI"><img src="https://wakatime.com/badge/github/mmvanheusden/SteamDepotDownloaderGUI.svg"></a>
 </p>
 
 # DepotDownloaderGUI
