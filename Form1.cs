@@ -29,9 +29,9 @@ namespace DepotDownloaderGUI
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox2.Text == "")
-                Command = $" /k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
+                Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
             else
-                Command = $" /k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -username {textBox1.Text} -password {textBox2.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
+                Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -username {textBox1.Text} -password {textBox2.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
             System.Diagnostics.Process.Start("cmd.exe", Command);
         }
 
