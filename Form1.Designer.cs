@@ -117,7 +117,6 @@ namespace DepotDownloaderGUI
             resources.ApplyResources(this.textBox2, "textBox2");
             this.textBox2.Name = "textBox2";
             this.toolTip1.SetToolTip(this.textBox2, resources.GetString("textBox2.ToolTip"));
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox3
             // 
@@ -142,7 +141,6 @@ namespace DepotDownloaderGUI
             resources.ApplyResources(this.textBox8, "textBox8");
             this.textBox8.Name = "textBox8";
             this.toolTip1.SetToolTip(this.textBox8, resources.GetString("textBox8.ToolTip"));
-            this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             // 
             // button1
             // 
@@ -249,7 +247,6 @@ namespace DepotDownloaderGUI
             this.toolTip1.ReshowDelay = 600;
             this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip1.ToolTipTitle = "Info";
-            this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
             // Form1
             // 
@@ -279,7 +276,6 @@ namespace DepotDownloaderGUI
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);

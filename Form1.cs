@@ -21,10 +21,6 @@ namespace DepotDownloaderGUI
             textBox2.PasswordChar = '*';
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -35,15 +31,6 @@ namespace DepotDownloaderGUI
             System.Diagnostics.Process.Start("cmd.exe", Command);
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox8_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -60,9 +47,5 @@ namespace DepotDownloaderGUI
             System.Diagnostics.Process.Start("https://github.com/mmvanheusden/SteamDepotDownloaderGUI");
         }
 
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
     }
 }
