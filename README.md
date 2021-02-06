@@ -1,5 +1,6 @@
-![SteamDepotDownloaderGUI](https://socialify.git.ci/mmvanheusden/SteamDepotDownloaderGUI/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Formal%20Invitation&pulls=1&stargazers=1&theme=Dark)
 
+
+<img src="https://socialify.git.ci/mmvanheusden/SteamDepotDownloaderGUI/image?description=1&font=Inter&forks=1&issues=1&language=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Light" alt="Banner" width="768"/>
 
 
 
@@ -15,7 +16,7 @@
 
 A simple GUI tool based on [**DepotDownloader**][depotdownloader] for downloading older versions of Steam games.
 
-![The Program](https://raw.githubusercontent.com/mmvanheusden/DepotDownloaderGUI/master/src/readme.md/hero.png "The Program")
+![The Program](https://raw.githubusercontent.com/mmvanheusden/SteamDepotDownloaderGUI/master/src/readme.md/hero.png "The Program")
 
 ## What can you do with the program?
 You can download older versions of Steam games and software!!!:sunglasses:
