@@ -60,6 +60,7 @@ The downloaded game is stored in the folder "YourGame"
 ### Enjoy your game!
 
 ## Need help?
+Just place your cursor on a text label or button and a help balloon will appear!
 ### If you have any questions, use the shiny new ✨GitHub Discussions✨ page!
 
 
