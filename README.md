@@ -13,7 +13,7 @@
   <img alt="Visitor Count" src="https://visitor-badge.glitch.me/badge?page_id=mmvanheusden.SteamDepotDownloaderGUI">
 </p>
 
-# DepotDownloaderGUI
+# SteamDepotDownloaderGUI
 
 A simple GUI tool based on [**DepotDownloader**][depotdownloader] for downloading older versions of Steam games.
 
