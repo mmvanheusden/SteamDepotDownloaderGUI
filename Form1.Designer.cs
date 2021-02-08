@@ -110,37 +110,31 @@ namespace DepotDownloaderGUI
             // 
             resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
-            this.toolTip1.SetToolTip(this.textBox1, resources.GetString("textBox1.ToolTip"));
             // 
             // textBox2
             // 
             resources.ApplyResources(this.textBox2, "textBox2");
             this.textBox2.Name = "textBox2";
-            this.toolTip1.SetToolTip(this.textBox2, resources.GetString("textBox2.ToolTip"));
             // 
             // textBox3
             // 
             resources.ApplyResources(this.textBox3, "textBox3");
             this.textBox3.Name = "textBox3";
-            this.toolTip1.SetToolTip(this.textBox3, resources.GetString("textBox3.ToolTip"));
             // 
             // textBox4
             // 
             resources.ApplyResources(this.textBox4, "textBox4");
             this.textBox4.Name = "textBox4";
-            this.toolTip1.SetToolTip(this.textBox4, resources.GetString("textBox4.ToolTip"));
             // 
             // textBox5
             // 
             resources.ApplyResources(this.textBox5, "textBox5");
             this.textBox5.Name = "textBox5";
-            this.toolTip1.SetToolTip(this.textBox5, resources.GetString("textBox5.ToolTip"));
             // 
             // textBox8
             // 
             resources.ApplyResources(this.textBox8, "textBox8");
             this.textBox8.Name = "textBox8";
-            this.toolTip1.SetToolTip(this.textBox8, resources.GetString("textBox8.ToolTip"));
             // 
             // button1
             // 
@@ -169,7 +163,6 @@ namespace DepotDownloaderGUI
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.toolTip1.SetToolTip(this.numericUpDown1, resources.GetString("numericUpDown1.ToolTip"));
             this.numericUpDown1.Value = new decimal(new int[] {
             10,
             0,
@@ -195,7 +188,6 @@ namespace DepotDownloaderGUI
             0,
             0});
             this.numericUpDown2.Name = "numericUpDown2";
-            this.toolTip1.SetToolTip(this.numericUpDown2, resources.GetString("numericUpDown2.ToolTip"));
             this.numericUpDown2.Value = new decimal(new int[] {
             10,
             0,
@@ -206,7 +198,6 @@ namespace DepotDownloaderGUI
             // 
             resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
-            this.toolTip1.SetToolTip(this.button2, resources.GetString("button2.ToolTip"));
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -230,7 +221,6 @@ namespace DepotDownloaderGUI
             // 
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            this.toolTip1.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
             // 
             // label10
             // 
@@ -275,7 +265,6 @@ namespace DepotDownloaderGUI
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
