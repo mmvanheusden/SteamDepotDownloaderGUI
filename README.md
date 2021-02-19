@@ -27,7 +27,7 @@ Take a look at [**This**][subnauticawiki] example.
 
 ## YouTube Video
 <a href="https://www.youtube.com/watch?v=X-tzW5ywCgU">
-<img border="0" alt="YouTube Tutorial" src="https://img.youtube.com/vi/X-tzW5ywCgU/maxresdefault.jpg" width="768">
+<img border="0" alt="YouTube Tutorial" src="/src/readme.md/youtube.png" width="768">
 </a>
 
 ## How use the program?
