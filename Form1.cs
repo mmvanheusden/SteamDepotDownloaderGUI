@@ -37,6 +37,8 @@ namespace DepotDownloaderGUI
             Directory.SetCurrentDirectory("./depotdownloader/");
             textBox2.PasswordChar = '*';
             label9.Font = Poppins;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
         }
 
 
