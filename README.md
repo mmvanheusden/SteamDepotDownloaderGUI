@@ -10,6 +10,7 @@
   <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/mmvanheusden/SteamDepotDownloaderGUI?color=seagreen&include_prereleases">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/SteamDepotDownloaderGUI?color=crimson">
   <a href="https://wakatime.com/badge/github/mmvanheusden/SteamDepotDownloaderGUI"><img src="https://wakatime.com/badge/github/mmvanheusden/SteamDepotDownloaderGUI.svg"></a>
+  <a href="https://en.cryptobadges.io/donate/19sE9mHShbag5WiBwZ75nG21BSFZ1UnjpZ"><img src="https://en.cryptobadges.io/badge/small/19sE9mHShbag5WiBwZ75nG21BSFZ1UnjpZ"></a>
   <img alt="Visitor Count" src="https://visitor-badge.glitch.me/badge?page_id=mmvanheusden.SteamDepotDownloaderGUI">
 </p>
 
