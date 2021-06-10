@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Text;
+using System.Net;
+using System.IO.Compression;
 
 namespace DepotDownloaderGUI
 {
@@ -26,6 +28,19 @@ namespace DepotDownloaderGUI
         public Form1()
         {
             InitializeComponent();
+            if (!Directory.Exists("DepotDownloader"))
+            {
+                //Download
+                string Download = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.3/depotdownloader-2.4.3.zip";
+                string zipname = "depotdownloader-2.4.3.zip";
+                string extractPath = "DepotDownloader";
+                WebClient myWebClient = new WebClient();
+                myWebClient.DownloadFile(Download, zipname);
+                //Extract
+                ZipFile.ExtractToDirectory(zipname, extractPath);
+                //Delete
+                File.Delete(zipname);
+            }
             byte[] fontData = Properties.Resources.Poppins_Medium;
             IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
             System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
@@ -34,21 +49,38 @@ namespace DepotDownloaderGUI
             AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.Poppins_Medium.Length, IntPtr.Zero, ref dummy);
             System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             Poppins = new Font(fonts.Families[0], 18.0F);
-            Directory.SetCurrentDirectory("./depotdownloader/");
-            textBox2.PasswordChar = '*';
+            Directory.SetCurrentDirectory("./DepotDownloader/");
+            //textBox2.PasswordChar = '*'; -Added into Designer
             label9.Font = Poppins;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
+            //FormBorderStyle = FormBorderStyle.FixedSingle; -Added into Designer
+            //MaximizeBox = false; -Added into Designer
         }
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")
-                Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            DialogResult result = folderDlg.ShowDialog();
+            if (result == DialogResult.OK & result != DialogResult.Cancel)
+            {
+                string selectedpath = folderDlg.SelectedPath;
+                if (textBox2.Text.Length <= 0)
+                {
+                    //Todo Remember Password tick
+                    //Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
+                    Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir " + '"' +  selectedpath + '"' + " " + textBox8.Text;
+                }
+                else
+                {
+                    Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -username {textBox1.Text} -password {textBox2.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir " + '"' + selectedpath + '"' + " " + textBox8.Text;
+                }
+
+                System.Diagnostics.Process.Start("cmd.exe", Command);
+            }
             else
-                Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -username {textBox1.Text} -password {textBox2.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
-            System.Diagnostics.Process.Start("cmd.exe", Command);
+            {
+                return;
+            }
         }
 
 
@@ -66,6 +98,5 @@ namespace DepotDownloaderGUI
         {
             System.Diagnostics.Process.Start("https://github.com/mmvanheusden/SteamDepotDownloaderGUI");
         }
-
     }
 }
