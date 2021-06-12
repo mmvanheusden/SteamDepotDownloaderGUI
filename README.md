@@ -60,16 +60,14 @@ Choose a Manifest(game version) of choice and copy its ID and paste it in the pr
 ### step 13:
 If you want a faster download speed, increase the max servers and max chunks.
 ### step 14:
-Click on "Start Download", a terminal will pop up and will show the download progress.
+Click on "Start Download", choose the location and a terminal window will pop up and will show the download progress.
 ### step 15:
 Once the download is done, close the program.
-The downloaded game is stored in the folder "YourGame"
-> :warning: **Once the download progress is complete, Move the downloaded files to a different folder, Or else your next game download will mix with your old download!**
+The downloaded game is stored in the specified location
 ### Enjoy your game!
 
 ## Need help?
 Just place your cursor on a text label or button and a help balloon will appear!
-### If you have any questions, use the shiny new ✨GitHub Discussions✨ page!
 
 
 [latest]: https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest
