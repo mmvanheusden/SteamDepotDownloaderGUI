@@ -21,7 +21,7 @@ A simple GUI tool based on [**DepotDownloader**][depotdownloader] for downloadin
 ![The Program](https://raw.githubusercontent.com/mmvanheusden/SteamDepotDownloaderGUI/master/src/readme.md/hero.png "The Program")
 
 ## What can you do with the program?
-You can download older versions of Steam games and software :sunglasses:
+You can download older builds of Steam games and software
 
 ## Want an example?
 Take a look at [**This**][subnauticawiki] example.
@@ -36,27 +36,27 @@ Take a look at [**This**][subnauticawiki] example.
 ### step 1:
 Download [**.NET Core 2.0**][dotnet] It is required for the program to work properly.
 ### step 2:
-Download and unzip the program. (You can download it [**Here**][latest])
+Download and unzip the program. (You can download the latest version [**here**][latest])
 ### step 3:
 Run DepotDownloaderGUI.exe.
 ### step 4:
-First enter your Steam credentials at "Username" and "Password" (Don't worry, it's safe!)
+First enter your Steam credentials at "Username" and "Password"
 ### step 5:
 Click on "SteamDB Instant Search".
 ### step 6:
-Enter your game of choice at the search bar and select the game.
+Enter your game/software of choice at the search bar and select the game.
 ### step 7:
 Copy the App ID and paste it in the program at "App ID"
 ### step 8:
 Click on "Depots" in the sidebar.
 ### step 9:
-Select the Windows depot (usually it is Win32)
+Select the Windows depot (usually Win32)
 ### step 10:
 Copy the Depot ID and paste it in the program at "Depot ID"
 ### step 11:
 Click on "Manifests" in the sidebar
 ### step 12:
-Choose a Manifest(game version) of choice and copy its ID and paste it in the program at "Manifest ID"
+Choose a Manifest(build) of choice and copy its ID and paste it in the program at "Manifest ID"
 ### step 13:
 If you want a faster download speed, increase the max servers and max chunks.
 ### step 14:
@@ -67,7 +67,7 @@ The downloaded game is stored in the specified location
 ### Enjoy your game!
 
 ## Need help?
-Just place your cursor on a text label or button and a help balloon will appear!
+Open an issue.
 
 
 [latest]: https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest
