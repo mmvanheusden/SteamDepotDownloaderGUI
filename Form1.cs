@@ -31,8 +31,8 @@ namespace DepotDownloaderGUI
             if (!Directory.Exists("DepotDownloader"))
             {
                 //Download
-                string Download = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.3/depotdownloader-2.4.3.zip";
-                string zipname = "depotdownloader-2.4.3.zip";
+                string Download = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.5/depotdownloader-2.4.5.zip";
+                string zipname = "depotdownloader-2.4.5.zip";
                 string extractPath = "DepotDownloader";
                 WebClient myWebClient = new WebClient();
                 myWebClient.DownloadFile(Download, zipname);

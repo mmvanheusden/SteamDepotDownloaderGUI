@@ -226,7 +226,6 @@ namespace DepotDownloaderGUI
             // 
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
-            this.toolTip1.SetToolTip(this.label10, resources.GetString("label10.ToolTip"));
             // 
             // toolTip1
             // 
