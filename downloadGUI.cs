@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Text;
@@ -50,53 +44,55 @@ namespace DepotDownloaderGUI
             System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             Poppins = new Font(fonts.Families[0], 18.0F);
             Directory.SetCurrentDirectory("./DepotDownloader/");
-            //textBox2.PasswordChar = '*'; -Added into Designer
-            label9.Font = Poppins;
-            //FormBorderStyle = FormBorderStyle.FixedSingle; -Added into Designer
-            //MaximizeBox = false; -Added into Designer
+            labelTitle.Font = Poppins;
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonDownload_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            DialogResult result = folderDlg.ShowDialog();
-            if (result == DialogResult.OK & result != DialogResult.Cancel)
+            if (string.IsNullOrEmpty(textBoxAppID.Text) || string.IsNullOrEmpty(textBoxDepotID.Text) || string.IsNullOrEmpty(textBoxManifestID.Text))
             {
-                string selectedpath = folderDlg.SelectedPath;
-                if (textBox2.Text.Length <= 0)
-                {
-                    //Todo Remember Password tick
-                    //Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir ../YourGame {textBox8.Text}";
-                    Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir " + '"' +  selectedpath + '"' + " " + textBox8.Text;
-                }
-                else
-                {
-                    Command = $"/k dotnet DepotDownloader.dll -app {textBox3.Text} -depot {textBox4.Text} -manifest {textBox5.Text} -username {textBox1.Text} -password {textBox2.Text} -max-servers {numericUpDown1.Value} -max-downloads {numericUpDown2.Value} -dir " + '"' + selectedpath + '"' + " " + textBox8.Text;
-                }
-
-                System.Diagnostics.Process.Start("cmd.exe", Command);
+                MessageBox.Show("Please fill all required fields.");
             }
             else
             {
-                return;
+                FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+                DialogResult result = folderDlg.ShowDialog();
+                if (result == DialogResult.OK & result != DialogResult.Cancel)
+                {
+                    string selectedpath = folderDlg.SelectedPath;
+                    if (textBoxPassword.Text.Length <= 0)
+                    {
+                        //Todo Remember Password tick
+                        Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
+                    }
+                    else
+                    {
+                        Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -username {textBoxUsername.Text} -password {textBoxPassword.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
+                    }
+
+                    open("cmd.exe", Command);
+                }
             }
         }
-
-
-        private void button2_Click(object sender, EventArgs e)
+        private void open(string url, string args = "")
         {
-            System.Diagnostics.Process.Start("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/discussions/5");
+            System.Diagnostics.Process.Start(url, args);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://steamdb.info/instantsearch/");
+            open("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/discussions/5");
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonSearch_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/mmvanheusden/SteamDepotDownloaderGUI");
+            open("https://steamdb.info/instantsearch/");
+        }
+
+        private void buttonRepo_Click(object sender, EventArgs e)
+        {
+            open("https://github.com/mmvanheusden/SteamDepotDownloaderGUI");
         }
     }
 }
