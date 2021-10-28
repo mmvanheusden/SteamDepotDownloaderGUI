@@ -54,6 +54,7 @@ namespace DepotDownloaderGUI
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelIssue = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.RemeberPassCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxServers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxChunks)).BeginInit();
             this.SuspendLayout();
@@ -257,11 +258,19 @@ namespace DepotDownloaderGUI
             this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip1.ToolTipTitle = "Info";
             // 
+            // RemeberPassCheckBox
+            // 
+            resources.ApplyResources(this.RemeberPassCheckBox, "RemeberPassCheckBox");
+            this.RemeberPassCheckBox.Name = "RemeberPassCheckBox";
+            this.RemeberPassCheckBox.UseVisualStyleBackColor = true;
+            this.RemeberPassCheckBox.CheckedChanged += new System.EventHandler(this.RememberChanged);
+            // 
             // downloadGUI
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.RemeberPassCheckBox);
             this.Controls.Add(this.labelIssue);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.buttonRepo);
@@ -320,6 +329,7 @@ namespace DepotDownloaderGUI
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Label labelIssue;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox RemeberPassCheckBox;
     }
 }
 

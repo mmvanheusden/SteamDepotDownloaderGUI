@@ -153,7 +153,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -186,7 +186,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -219,7 +219,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -253,7 +253,7 @@ SteamDB website at 'Depots' in the sidebar.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -287,7 +287,7 @@ SteamDB website at 'Manifests' in the sidebar.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -321,7 +321,7 @@ Speeds up download drastically</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -355,7 +355,7 @@ Speeds up download drastically</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -389,7 +389,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="textBoxUsername.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -417,7 +417,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxUsername.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="textBoxPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -447,7 +447,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxPassword.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="textBoxAppID.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -474,7 +474,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxAppID.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="textBoxDepotID.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -501,7 +501,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxDepotID.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="textBoxManifestID.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -528,7 +528,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxManifestID.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="textBoxArgs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -555,7 +555,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;textBoxArgs.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="buttonDownload.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -567,7 +567,7 @@ For advanced users</value>
     <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
   </data>
   <data name="buttonDownload.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 355</value>
+    <value>188, 384</value>
   </data>
   <data name="buttonDownload.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 57</value>
@@ -591,7 +591,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonDownload.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="numericUpDownMaxServers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -618,7 +618,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDownMaxServers.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="numericUpDownMaxChunks.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -645,7 +645,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDownMaxChunks.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="buttonHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -657,7 +657,7 @@ For advanced users</value>
     <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
   </data>
   <data name="buttonHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 387</value>
+    <value>13, 416</value>
   </data>
   <data name="buttonHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 25</value>
@@ -678,7 +678,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonHelp.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="buttonSearch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -693,7 +693,7 @@ For advanced users</value>
     <value>NoControl</value>
   </data>
   <data name="buttonSearch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 355</value>
+    <value>13, 384</value>
   </data>
   <data name="buttonSearch.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 25</value>
@@ -717,7 +717,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonSearch.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="buttonRepo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -729,7 +729,7 @@ For advanced users</value>
     <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
   </data>
   <data name="buttonRepo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 418</value>
+    <value>13, 447</value>
   </data>
   <data name="buttonRepo.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 25</value>
@@ -753,7 +753,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonRepo.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="labelTitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -786,7 +786,7 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="labelIssue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -795,7 +795,7 @@ For advanced users</value>
     <value>True</value>
   </data>
   <data name="labelIssue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>186, 425</value>
+    <value>186, 454</value>
   </data>
   <data name="labelIssue.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 13</value>
@@ -816,6 +816,36 @@ For advanced users</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelIssue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RemeberPassCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RemeberPassCheckBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="RemeberPassCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>187, 345</value>
+  </data>
+  <data name="RemeberPassCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 25</value>
+  </data>
+  <data name="RemeberPassCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="RemeberPassCheckBox.Text" xml:space="preserve">
+    <value>Remember Password</value>
+  </data>
+  <data name="&gt;&gt;RemeberPassCheckBox.Name" xml:space="preserve">
+    <value>RemeberPassCheckBox</value>
+  </data>
+  <data name="&gt;&gt;RemeberPassCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RemeberPassCheckBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RemeberPassCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -825,7 +855,7 @@ For advanced users</value>
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>379, 452</value>
+    <value>379, 481</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1958,6 +1988,9 @@ For advanced users</value>
         ////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////8=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

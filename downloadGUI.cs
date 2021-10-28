@@ -17,7 +17,7 @@ namespace DepotDownloaderGUI
         private PrivateFontCollection fonts = new PrivateFontCollection();
 
         Font Poppins;
-
+        string ChooseBox_PSW;
         string Command;
         public downloadGUI()
         {
@@ -63,12 +63,17 @@ namespace DepotDownloaderGUI
                     string selectedpath = folderDlg.SelectedPath;
                     if (textBoxPassword.Text.Length <= 0)
                     {
-                        //Todo Remember Password tick
+                        //Todo Remember Password tick, done?
                         Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
                     }
                     else
                     {
                         Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -username {textBoxUsername.Text} -password {textBoxPassword.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
+                        if (ChooseBox_PSW != null & !textBoxArgs.Text.Contains("-remember-password"))
+                        {
+
+                            Command += ChooseBox_PSW;
+                        }
                     }
 
                     open("cmd.exe", Command);
@@ -93,6 +98,18 @@ namespace DepotDownloaderGUI
         private void buttonRepo_Click(object sender, EventArgs e)
         {
             open("https://github.com/mmvanheusden/SteamDepotDownloaderGUI");
+        }
+
+        private void RememberChanged(object sender, EventArgs e)
+        {
+            if (RemeberPassCheckBox.Checked)
+            {
+                ChooseBox_PSW = "-remember-password";
+            }
+            else
+            {
+                ChooseBox_PSW = null;
+            }
         }
     }
 }
