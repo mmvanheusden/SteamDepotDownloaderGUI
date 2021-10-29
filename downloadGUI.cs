@@ -15,8 +15,8 @@ namespace DepotDownloaderGUI
             IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
 
         private PrivateFontCollection fonts = new PrivateFontCollection();
-
         Font Poppins;
+        //Strings
         string ChooseBox_PSW;
         string Command;
         public downloadGUI()
@@ -35,6 +35,8 @@ namespace DepotDownloaderGUI
                 //Delete
                 File.Delete(zipname);
             }
+            Directory.SetCurrentDirectory("./DepotDownloader/");
+            //Font Adding,creating,etc
             byte[] fontData = Properties.Resources.Poppins_Medium;
             IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
             System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
@@ -43,10 +45,8 @@ namespace DepotDownloaderGUI
             AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.Poppins_Medium.Length, IntPtr.Zero, ref dummy);
             System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             Poppins = new Font(fonts.Families[0], 18.0F);
-            Directory.SetCurrentDirectory("./DepotDownloader/");
             labelTitle.Font = Poppins;
         }
-
 
         private void buttonDownload_Click(object sender, EventArgs e)
         {
@@ -61,21 +61,34 @@ namespace DepotDownloaderGUI
                 if (result == DialogResult.OK & result != DialogResult.Cancel)
                 {
                     string selectedpath = folderDlg.SelectedPath;
-                    if (textBoxPassword.Text.Length <= 0)
-                    {
-                        //Todo Remember Password tick, done?
-                        Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
-                    }
-                    else
-                    {
-                        Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -username {textBoxUsername.Text} -password {textBoxPassword.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
-                        if (ChooseBox_PSW != null & !textBoxArgs.Text.Contains("-remember-password"))
-                        {
 
-                            Command += ChooseBox_PSW;
-                        }
+                    Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
+                    
+                    
+                    //First Checking if Password AND username is empty (Length is smaller or equal 0)
+                    if (textBoxPassword.Text.Length <= 0 & textBoxUsername.Text.Length <= 0)
+                    {
+                        MessageBox.Show("No Username or Password, continue with Anonim");
+                        //It will probably just continue,because no else state, and no need else state if nothing is there.
                     }
-
+                    //IF has username,adding it
+                    if (textBoxUsername.Text.Length > 0)
+                    {
+                        Command += $" -username { textBoxUsername.Text}";
+                    }
+                    //IF has Passowrd adding it
+                    if (textBoxPassword.Text.Length > 0)
+                    {
+                        Command += $" -password { textBoxPassword.Text}";
+                    }
+                    //Note: remmeber password only works if has username.
+                    //IF has username,and NOT has password, adding remember-password in the end.
+                    //But you still can type it in the "Optional Argument"
+                    if (textBoxUsername.Text.Length > 0 & ChooseBox_PSW != null & !textBoxArgs.Text.Contains("-remember-password") & textBoxPassword.Text.Length <= 0)
+                    {
+                        Command += ChooseBox_PSW;
+                    }
+                    //Open CMD with DepotDownloader Args
                     open("cmd.exe", Command);
                 }
             }
@@ -92,7 +105,13 @@ namespace DepotDownloaderGUI
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            open("https://steamdb.info/instantsearch/");
+            string url = "https://steamdb.info/instantsearch/";
+            string query = "?query=";
+            if (textBoxAppID.Text.Length > 0) //It parse the ID-s too, not fixed
+            {
+                url += query + textBoxAppID.Text;
+            }
+            open(url);
         }
 
         private void buttonRepo_Click(object sender, EventArgs e)
@@ -104,12 +123,18 @@ namespace DepotDownloaderGUI
         {
             if (RemeberPassCheckBox.Checked)
             {
-                ChooseBox_PSW = "-remember-password";
+                ChooseBox_PSW = " -remember-password";
             }
             else
             {
                 ChooseBox_PSW = null;
             }
+        }
+
+        private void textBoxAppID_MouseHover(object sender, EventArgs e)
+        {
+            string x = "You can type here a NAME of the App, then hit the instant Search"; //slejm broken english grammar, fix it if you can. Also remove this line too
+            toolTip1.SetToolTip(textBoxAppID, x);
         }
     }
 }

@@ -127,6 +127,7 @@ namespace DepotDownloaderGUI
             this.textBoxAppID.BackColor = System.Drawing.Color.Black;
             this.textBoxAppID.ForeColor = System.Drawing.Color.White;
             this.textBoxAppID.Name = "textBoxAppID";
+            this.textBoxAppID.MouseHover += new System.EventHandler(this.textBoxAppID_MouseHover);
             // 
             // textBoxDepotID
             // 
