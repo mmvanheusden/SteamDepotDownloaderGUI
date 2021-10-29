@@ -61,7 +61,7 @@ namespace DepotDownloaderGUI
                 if (result == DialogResult.OK & result != DialogResult.Cancel)
                 {
                     string selectedpath = folderDlg.SelectedPath;
-                    //The command
+                    //The command 
                     Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
                     //First Checking if Password AND username is empty (Length is smaller or equal 0)
                     if (textBoxPassword.Text.Length <= 0 & textBoxUsername.Text.Length <= 0)
