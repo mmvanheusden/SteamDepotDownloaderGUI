@@ -32,7 +32,7 @@ namespace DepotDownloaderGUI
                 ZipDownloader.DownloadFile(Download, zipname);
                 //Extract
                 ZipFile.ExtractToDirectory(zipname, extractPath);
-                //Delete
+                //Delete garbage
                 File.Delete(zipname);
             }
             Directory.SetCurrentDirectory("./DepotDownloader/");
@@ -63,28 +63,29 @@ namespace DepotDownloaderGUI
                     string selectedpath = folderDlg.SelectedPath;
                     //The command 
                     Command = $"/k dotnet DepotDownloader.dll -app {textBoxAppID.Text} -depot {textBoxDepotID.Text} -manifest {textBoxManifestID.Text} -max-servers {numericUpDownMaxServers.Value} -max-downloads {numericUpDownMaxChunks.Value} -dir " + '"' + selectedpath + '"' + " " + textBoxArgs.Text;
-                    //First Checking if Password AND username is empty (Length is smaller or equal 0)
+                    //First Checks if password and username are empty (Length is smaller or equal to 0)
                     if (textBoxPassword.Text.Length <= 0 & textBoxUsername.Text.Length <= 0)
                     {
-                        MessageBox.Show("No Username or Password, continue with Anonim");
-                        //It will probably just continue,because no else state, and no need else state if nothing is there.
+                        MessageBox.Show("No username or password entered, proceeding with anonymous download");
                     }
-                    //IF has username,adding it
+                    //if a username is entered, it will add it to the command
                     if (textBoxUsername.Text.Length > 0)
                     {
                         Command += $" -username { textBoxUsername.Text}";
                     }
-                    //IF has Passowrd adding it
+                    //IIf a password is entered, add it to the args
                     if (textBoxPassword.Text.Length > 0)
                     {
                         Command += $" -password { textBoxPassword.Text}";
                     }
-                    //Note: remmeber password only works if has username.
-                    //IF has username,and NOT has password, adding remember-password in the end.
-                    //But you still can type it in the "Optional Argument"
+                    //Note: remember password only works if a username is entered.
                     if (textBoxUsername.Text.Length > 0 & ChooseBox_PSW != null & !textBoxArgs.Text.Contains("-remember-password") & textBoxPassword.Text.Length <= 0)
                     {
                         Command += ChooseBox_PSW;
+                    }
+                    if (RemeberPassCheckBox.Checked)
+                    {
+                        MessageBox.Show("You don't have to enter your password next time since you checked the checkmark!");
                     }
                     //Open CMD with DepotDownloader Args
                     open("cmd.exe", Command);
@@ -104,11 +105,6 @@ namespace DepotDownloaderGUI
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             string url = "https://steamdb.info/instantsearch/";
-            string query = "?query=";
-            if (textBoxAppID.Text.Length > 0) //It parse the ID-s too, not fixed
-            {
-                url += query + textBoxAppID.Text;
-            }
             open(url);
         }
 
@@ -131,7 +127,7 @@ namespace DepotDownloaderGUI
 
         private void textBoxAppID_MouseHover(object sender, EventArgs e)
         {
-            string x = "You can type here a NAME of the App, then hit the instant Search"; //slejm broken english grammar, fix it if you can. Also remove this line too
+            string x = "The unique app-ID";
             toolTip1.SetToolTip(textBoxAppID, x);
         }
     }
