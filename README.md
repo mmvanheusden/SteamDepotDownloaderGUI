@@ -33,7 +33,7 @@ Take a look at [**This**][subnauticawiki] example.
 ## How use the program?
 
 ### step 1:
-Download [**.NET Core 2.0**][dotnet] It is required for the program to work properly.
+Download [**.NET Core 5.0**][dotnet] It is required for the program to work properly.
 ### step 2:
 Download and unzip the program. (You can download the latest version [**here**][latest])
 ### step 3:
@@ -70,7 +70,7 @@ Open an issue.
 
 
 [latest]: https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest
-[steamdb]: https://steamdb.info/
+[steamdb]: https://steamdb.info
 [depotdownloader]: https://github.com/SteamRE/DepotDownloader
 [subnauticawiki]: https://github.com/mmvanheusden/SteamDepotDownloaderGUI/wiki/How-to-Download-older-versions-of-Subnautica
-[dotnet]: https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-2.0.9-windows-x64-installer
+[dotnet]: https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.402-windows-x64-installer
