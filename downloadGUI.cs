@@ -76,7 +76,7 @@ namespace DepotDownloaderGUI
                     //IIf a password is entered, add it to the args
                     if (textBoxPassword.Text.Length > 0)
                     {
-                        Command += $" -password { textBoxPassword.Text}";
+                        Command += $" -password '{textBoxPassword.Text.Replace("'", "\\'")}'";
                     }
                     //Note: remember password only works if a username is entered.
                     if (textBoxUsername.Text.Length > 0 & ChooseBox_PSW != null & !textBoxArgs.Text.Contains("-remember-password") & textBoxPassword.Text.Length <= 0)
