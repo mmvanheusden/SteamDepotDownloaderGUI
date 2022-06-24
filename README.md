@@ -18,9 +18,10 @@ You can download older builds(aka manifests) of Steam games and software
 Take a look at [**This**][subnauticawiki] example.
 
 ## YouTube Tutorial
+
+:warning: **This might be outdated**
+
 <a href="https://www.youtube.com/watch?v=X-tzW5ywCgU">
-> **Note**
-> This might be outdated
 <img border="0" alt="YouTube Tutorial" src="/src/readme.md/youtube.png" width="768">
 </a>
 
