@@ -2,9 +2,10 @@
   "name": "steamdepotdownloadergui",
   "version": "2.0.0",
   "description": "DepotDownloader Electron frontend",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues"
   },
-  "homepage": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI#readme"
+  "homepage": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI#readme",
+  "devDependencies": {
+    "electron": "^19.0.6"
+  }
 }
