@@ -1,0 +1,28 @@
+{
+  "name": "steamdepotdownloadergui",
+  "version": "2.0.0",
+  "description": "DepotDownloader Electron frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmvanheusden/SteamDepotDownloaderGUI.git"
+  },
+  "keywords": [
+    "electron",
+    "steam",
+    "depotdownloader",
+    "electron",
+    "gui",
+    "ui",
+    "subnautica"
+  ],
+  "author": "mmvanheusden",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues"
+  },
+  "homepage": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI#readme"
+}
