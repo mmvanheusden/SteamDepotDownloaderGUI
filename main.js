@@ -5,6 +5,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
     resizable: true,
+    width: 400,
+    height: 520,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false

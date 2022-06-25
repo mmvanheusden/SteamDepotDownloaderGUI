@@ -134,3 +134,6 @@ dist
 
 # IntelliJ
 .idea/
+
+# SteamDepotDownloaderGUI specific directories
+/depotdownloader/
