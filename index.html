@@ -1,64 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<!--  automatic dark mode :) -->
+<html data-color-mode="auto" data-dark-theme="dark" data-light-theme="light" lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" />
-    <html data-color-mode="dark" data-dark-theme="dark"></html>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" rel="stylesheet"/>
     <title>SteamDepotDownloaderGUI</title>
-  </head>
-  <body>
-    <script>
-      function submitForm() {
+</head>
+<body>
+<script>
+    function submitForm() {
+        var os = require('os');
+        //TODO: make this download the latest DepotDownloader zip and make it compatible on Linux, macOS and windows
         console.log('Form Submit!');
-        document.getElementById("download").disabled = true;
-      }
-    </script>
-    <h2>Steam Depot Downloader</h2>
-    <form>
-      <div class="form-group">
+        //document.getElementById("download").disabled = true;
+        let spawn = require("child_process").spawn;
+        let username = document.forms["theform"]["username"].value;
+        let password = document.forms["theform"]["password"].value;
+        let appid = document.forms["theform"]["appid"].value;
+        let depotid = document.forms["theform"]["depotid"].value;
+        let manifestid = document.forms["theform"]["manifestid"].value;
+        console.debug(
+            "DEBUG INFO\n" + "Username: " + username + "\nPassword: no" + "\nApp ID: " + appid +
+            "\nDepot ID: " + depotid + "\nManifest ID: " + manifestid + "\nPlatform: " + os.platform()
+        );
+    }
+</script>
+<h2>Steam Depot Downloader</h2>
+<form id="theform">
+    <div class="form-group">
         <div class="form-group-header">
-          <label for="example-text">Username</label>
+            <label for="username">Username</label>
         </div>
         <div class="form-group-body">
-          <input class="form-control" type="text" placeholder="Username" aria-label="Repository description" />
+            <input aria-label="Repository description" class="form-control" id="username" placeholder="Username"
+                   type="text"/>
         </div>
         <br>
         <div class="form-group-header">
-          <label for="example-text">Username</label>
+            <label for="password">Password</label>
         </div>
         <div class="form-group-body">
-          <input class="form-control" type="text" placeholder="Password" aria-label="Repository description" />
+            <input aria-label="Repository description" class="form-control" id="password" placeholder="Password"
+                   type="password"/>
         </div>
         <br>
         <div class="form-group-header">
-          <label for="example-text">Username</label>
+            <label for="appid">App ID</label>
         </div>
         <div class="form-group-body">
-          <input class="form-control" type="text" placeholder="App ID" aria-label="Repository description" />
+            <input aria-label="Repository description" class="form-control" id="appid" placeholder="App ID"
+                   type="text"/>
         </div>
         <br>
         <div class="form-group-header">
-          <label for="example-text">Username</label>
+            <label for="depotid">Depot ID</label>
         </div>
         <div class="form-group-body">
-          <input class="form-control" type="text" placeholder="Depot ID" aria-label="Repository description" />
+            <input aria-label="Repository description" class="form-control" id="depotid" placeholder="Depot ID"
+                   type="text"/>
         </div>
         <br>
         <div class="form-group-header">
-          <label for="example-text">Username</label>
+            <label for="manifestid">Manifest ID</label>
         </div>
         <div class="form-group-body">
-          <input class="form-control" type="text" placeholder="Manifest ID" aria-label="Repository description" />
+            <input aria-label="Repository description" class="form-control" id="manifestid" placeholder="Manifest ID"
+                   type="text"/>
         </div>
-      </div>
-    </form>
-
-    <button class="btn btn-primary mr-2" type="submit" id="download" onclick="submitForm()">
-      Download
-      <svg class="octicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-        <path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path>
-      </svg>
-    </button>
-  </body>
+    </div>
+</form>
+<button class="btn btn-primary" id="download" onclick="submitForm()">
+    Download
+    <svg class="octicon" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5
+         0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"
+              fill-rule="evenodd"></path>
+    </svg>
+</button>
+</body>
 </html>

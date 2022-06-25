@@ -1,11 +1,14 @@
 const { app, BrowserWindow } = require('electron')
-const path = require('path')
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    resizable: true
+    resizable: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   })
 
   // and load the index.html of the app.
