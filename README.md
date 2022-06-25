@@ -2,7 +2,7 @@
 
 
 ## How to setup dev environment
-* First, install `npm` and `nodejs` on your system.
+* First, install `npm`, `nodejs` and Electron on your system.
 
 > For Arch Linux users, run `sudo pacman -S npm nodejs`
 
