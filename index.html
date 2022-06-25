@@ -48,18 +48,25 @@
             } catch (err) {
                 console.log(err);
             }
-            const url = 'https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip';
-            https.get(url,(res) => {
-                // Image will be stored at this path
-                const path = `${__dirname}/depotdownloader/depotdownloader-2.4.6.zip`;
-                const filePath = fs.createWriteStream(path);
-                res.pipe(filePath);
-                filePath.on('finish',() => {
-                    filePath.close();
-                    console.log('Download Completed');
+            const fetchJSON = url => new Promise((res, rej) => {
+                const https = require("https")
+                const request = https.request(url, response => {
+                    let data = ""
+                    response.on("data", chunk => {
+                        data += chunk.toString()
+                    })
+                    response.on("end", () => {
+                        try {
+                            res(data)
+                        } catch (err) {
+                            rej(err)
+                        }
+                    })
                 })
+                request.on("error", err => rej(err))
+                request.end()
             })
-            console.log("Downloaded DepotDownloader zip");
+            fetchJSON("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip")
         }
     }
 
