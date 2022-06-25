@@ -48,7 +48,7 @@
             } catch (err) {
                 console.log(err);
             }
-            const fetchJSON = url => new Promise((res, rej) => {
+            const fetchData = url => new Promise((res, rej) => {
                 const https = require("https")
                 const request = https.request(url, response => {
                     let data = ""
@@ -56,17 +56,21 @@
                         data += chunk.toString()
                     })
                     response.on("end", () => {
-                        try {
-                            res(data)
-                        } catch (err) {
-                            rej(err)
-                        }
+                        res(data)
                     })
                 })
                 request.on("error", err => rej(err))
                 request.end()
             })
-            fetchJSON("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip")
+            fetchData('https://2.bp.blogspot.com/-HlRfgNOuhVs/Uo_wCgHavAI/AAAAAAAAACk/4Pn6tNtXJe0/s1600/Black+Labrador+Retriever+Wallpaper.jpg').then(res => {
+                console.log(res.toString())
+                fs.writeFile((path + '/depotdownloader/Black+Labrador+Retriever+Wallpaper.jpg'), res, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log("The file was saved!");
+                })
+            })
         }
     }
 
