@@ -1,23 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" />
+    <html data-color-mode="dark" data-dark-theme="dark"></html>
     <title>SteamDepotDownloaderGUI</title>
   </head>
   <body>
-    <h1>Steam Depot Downloader</h1>
-    <label>Username:
-    <input type="text"><br><br>
-    <label>Password:</label>
-    <input type="password"><br><br>
-    <label>App ID:</label>
-    <input type="text"><br><br>
-    <label>Depot ID:</label>
-    <input type="text"><br><br>
-    <label>Manifest ID:</label>
-    <input type="text" ><br><br>
-    <input type="submit" value="Download">
+    <script>
+      function submitForm() {
+        console.log('Form Submit!');
+        document.getElementById("download").disabled = true;
+      }
+    </script>
+    <h2>Steam Depot Downloader</h2>
+    <form>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="example-text">Username</label>
+        </div>
+        <div class="form-group-body">
+          <input class="form-control" type="text" placeholder="Username" aria-label="Repository description" />
+        </div>
+        <br>
+        <div class="form-group-header">
+          <label for="example-text">Username</label>
+        </div>
+        <div class="form-group-body">
+          <input class="form-control" type="text" placeholder="Password" aria-label="Repository description" />
+        </div>
+        <br>
+        <div class="form-group-header">
+          <label for="example-text">Username</label>
+        </div>
+        <div class="form-group-body">
+          <input class="form-control" type="text" placeholder="App ID" aria-label="Repository description" />
+        </div>
+        <br>
+        <div class="form-group-header">
+          <label for="example-text">Username</label>
+        </div>
+        <div class="form-group-body">
+          <input class="form-control" type="text" placeholder="Depot ID" aria-label="Repository description" />
+        </div>
+        <br>
+        <div class="form-group-header">
+          <label for="example-text">Username</label>
+        </div>
+        <div class="form-group-body">
+          <input class="form-control" type="text" placeholder="Manifest ID" aria-label="Repository description" />
+        </div>
+      </div>
+    </form>
+
+    <button class="btn btn-primary mr-2" type="submit" id="download" onclick="submitForm()">
+      Download
+      <svg class="octicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path>
+      </svg>
+    </button>
   </body>
 </html>
