@@ -1,7 +1,7 @@
 # SteamDepotDownloaderGUI
-### **Rewrite soon™**
+### **A rewrite in JavaScript is currently work-in-progress🤞**
 <p align="center">
-  <img src="https://img.shields.io/badge/status-inactive_for_now-blue" />
+  <img src="https://img.shields.io/badge/status-being_rewritten-blue" />
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/SteamDepotDownloaderGUI?color=crimson">
   <img alt="Visitor Count" src="https://visitor-badge.glitch.me/badge?page_id=mmvanheusden.SteamDepotDownloaderGUI">
@@ -19,7 +19,7 @@ Take a look at [**This**][subnauticawiki] example.
 
 ## YouTube Tutorial
 
-:warning: **This might be outdated**
+> ⚠️ **This might be outdated**
 
 <a href="https://www.youtube.com/watch?v=X-tzW5ywCgU">
 <img border="0" alt="YouTube Tutorial" src="/src/readme.md/youtube.png" width="768">
