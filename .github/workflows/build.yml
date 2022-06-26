@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+      - rewrite
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repositoty
+        uses: actions/checkout@v3
+
+      - name: Set up nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Set up npm project
+        run: npm install
+
+      - name: build project
+        run: electron-builder -c electron-builder.yml -mwl
+
+      - name: Move x64 exe
+        run: mv dist/SteamDepotDownloaderGUI*.exe SteamDepotDownloaderGUI-${{ github.run_number }}.exe
+
+      - name: Move x64 AppImage
+        run: mv dist/SteamDepotDownloaderGUI-*.AppImage SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
+
+      - name: Move x64 zip
+        run: mv dist/SteamDepotDownloaderGUI-*.zip SteamDepotDownloaderGUI-${{ github.run_number }}.zip
+
+      - name: Move arm64 AppImage
+        run: mv dist/*-arm64.AppImage SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.AppImage
+
+      - name: Move arm64 zip
+        run: mv dist/*-arm64.zip SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.zip
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: SteamDepotDownloaderGUI-${{ github.run_number }}
+          path: SteamDepotDownloaderGUI-${{ github.run_number }}*.{exe,AppImage,zip}
