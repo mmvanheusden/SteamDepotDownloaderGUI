@@ -71,9 +71,10 @@
                 console.log(err);
             }
             const fetchData = url => new Promise((res, rej) => {
-                const https = require("https")
+                const { http, https } = require('follow-redirects');
                 const request = https.request(url, response => {
                     let data = ""
+                    console.log(response.statusCode)
                     response.on("data", chunk => {
                         data += chunk.toString()
                     })
@@ -84,9 +85,9 @@
                 request.on("error", err => rej(err))
                 request.end()
             })
-            fetchData('https://pastebin.com/raw/Gh46mhfM').then(res => {
+            fetchData('https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip').then(res => {
                 console.log(res.toString())
-                fs.writeFile((path + '/depotdownloader/test.txt'), res, function (err) {
+                fs.writeFile((path + '/depotdownloader/depotdownloader-2.4.6.zip'), res, 'binary', function (err) {
                     if (err) {
                         return console.log(err);
                     }
