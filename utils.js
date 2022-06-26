@@ -28,8 +28,8 @@ function submitForm() {
 	const fs = require("fs")
 	const path = require("path").dirname(__filename)
 	const which = require("which")
-	const {http, https} = require("follow-redirects")
-	const spawn = require("child_process").spawn
+	const {https} = require("follow-redirects")
+
 	let username = document.forms["theform"]["username"].value
 	let password = document.forms["theform"]["password"].value
 	let appid = document.forms["theform"]["appid"].value
@@ -37,13 +37,13 @@ function submitForm() {
 	let manifestid = document.forms["theform"]["manifestid"].value
 	console.debug(
 		"DEBUG INFO\n"
-        + "Username: " + username
-        + "\nPassword: no"
-        + "\nApp ID: " + appid +
-        "\nDepot ID: " + depotid
-        + "\nManifest ID: " + manifestid
-        + "\nPlatform: " + os.platform()
-        + "\nPath: " + path
+		+ "Username: " + username
+		+ "\nPassword: no"
+		+ "\nApp ID: " + appid +
+		"\nDepot ID: " + depotid
+		+ "\nManifest ID: " + manifestid
+		+ "\nPlatform: " + os.platform()
+		+ "\nPath: " + path
 	)
 	if (os.platform().includes("win")) {
 		console.log("Using Windows!")
