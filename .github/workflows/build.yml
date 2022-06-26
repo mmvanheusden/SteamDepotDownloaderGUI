@@ -23,20 +23,23 @@ jobs:
       - name: build project
         run: npm run buildall
 
+      - name: debug
+        run: ls -Al && pwd
+
       - name: Move x64 exe
-        run: mv dist/SteamDepotDownloaderGUI*.exe SteamDepotDownloaderGUI-${{ github.run_number }}.exe
+        run: mv ./dist/SteamDepotDownloaderGUI*.exe ./SteamDepotDownloaderGUI-${{ github.run_number }}.exe
 
       - name: Move x64 AppImage
-        run: mv dist/SteamDepotDownloaderGUI-*.AppImage SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
+        run: mv ./dist/SteamDepotDownloaderGUI-*.AppImage ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
 
       - name: Move x64 zip
-        run: mv dist/SteamDepotDownloaderGUI-*.zip SteamDepotDownloaderGUI-${{ github.run_number }}.zip
+        run: mv ./dist/SteamDepotDownloaderGUI-*.zip ./SteamDepotDownloaderGUI-${{ github.run_number }}.zip
 
       - name: Move arm64 AppImage
-        run: mv dist/*-arm64.AppImage SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.AppImage
+        run: mv ./dist/*-arm64.AppImage ./SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.AppImage
 
       - name: Move arm64 zip
-        run: mv dist/*-arm64.zip SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.zip
+        run: mv ./dist/*-arm64.zip ./SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.zip
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
