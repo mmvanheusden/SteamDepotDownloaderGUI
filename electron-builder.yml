@@ -16,7 +16,7 @@ linux:
         - x64
         - arm64
 
-# lmao mac building only works on mac because of signing issues mac moment
+# lmao mac building only works on mac
 mac:
   category: public.app-category.utilities
   target:
