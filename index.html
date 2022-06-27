@@ -8,7 +8,7 @@
 	<title>SteamDepotDownloaderGUI</title>
 </head>
 <body>
-<script src="utils.js"></script>
+<script src="downloader.js"></script>
 <div class="flash  flash-error mx-4 mt-2 mb-2" hidden id="alert">
 	<svg class="octicon" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
 		<path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"
@@ -65,6 +65,24 @@
 		<div class="form-group-body">
 			<input aria-label="Repository description" class="form-control" id="manifestid" placeholder="Manifest ID"
 				   type="number"/>
+		</div>
+		<br>
+		<div class="form-group-header">
+			<label for="osdropdown">Operating system</label>
+		</div>
+		<div class="form-group-body align-center">
+			<select id="osdropdown" class="form-select" aria-label="Preference">
+				<option disabled>Choose your OS</option>
+				<option>Windows</option>
+				<option>macOS</option>
+				<option disabled>If you are using Linux</option>
+				<option disabled>Select your terminal</option>
+				<option>KDE Konsole</option>
+				<option>Gnome Terminal</option>
+				<option>Xfce Terminal</option>
+				<option>Terminator</option>
+				<option>Print command in console</option>
+			</select>
 		</div>
 	</div>
 </form>

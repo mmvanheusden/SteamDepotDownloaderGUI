@@ -4,7 +4,7 @@ const createWindow = () => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
-		resizable: false,
+		//resizable: false,
 		width: 425,
 		height: 575,
 		maximizable: false, // lol this does not work on kde plasma
