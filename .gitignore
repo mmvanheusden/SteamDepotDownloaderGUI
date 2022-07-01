@@ -137,3 +137,4 @@ dist
 
 # SteamDepotDownloaderGUI specific directories
 /depotdownloader/
+/games/

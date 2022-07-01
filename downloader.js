@@ -1,6 +1,3 @@
-"use strict"
-
-
 function submitDotnet() {
 	const electron = require("electron")
 	const os = require("os")
@@ -8,19 +5,18 @@ function submitDotnet() {
 	document.getElementById("alert").hidden = true
 	document.getElementById("alertbtn").hidden = true
 	if (os.platform().includes("win")) {
-		console.info("Opened .NET download page for " + os.platform().charAt(0).toUpperCase() + os.platform().slice(1))
+		console.debug("Opened .NET download page for " + os.platform().charAt(0).toUpperCase() + os.platform().slice(1))
 		electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-windows-x64-installer")
 	}
 	if (os.platform().includes("linux")) {
-		console.info("Opened .NET download page for " + os.platform().charAt(0).toUpperCase() + os.platform().slice(1))
+		console.debug("Opened .NET download page for " + os.platform().charAt(0).toUpperCase() + os.platform().slice(1))
 		electron.shell.openExternal("https://docs.microsoft.com/en-us/dotnet/core/install/linux")
 	}
 	if (os.platform().includes("darwin")) {
-		console.info("Opened .NET download page for" + os.platform())
+		console.debug("Opened .NET download page for" + os.platform())
 		//TODO: apple silicon(ARM64) URL
 		electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-macos-x64-installer")
 	}
-
 }
 
 function submitForm() {
@@ -66,14 +62,14 @@ function submitForm() {
 				console.log("Found dotnet in system path")
 				try {
 					// first check if directory already exists
-					if (!fs.existsSync("./depotdownloader")) {
-						fs.mkdirSync("./depotdownloader")
-						console.info("Directory is created.")
-					} else {
-						console.info("Directory already exists.")
-					}
-				} catch (err) {
-					console.error(err)
+					if (!fs.existsSync("./depotdownloader")) {						// INFO FOR TESTING:
+						fs.mkdirSync("./depotdownloader")							// appid: 346900
+						console.info("Directory is created.")						// depotid:
+					} else {															// linux: 346903
+						console.info("Directory already exists.")					// windows: 346901
+					}																	// manifestid:
+				} catch (err) {															// linux 1203243898820547407
+					console.error(err)													// windows: 581051086350795523
 				}
 				const file = fs.createWriteStream("./depotdownloader/depotdownloader.zip")
 				const request = https.get("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip", function (response) {
@@ -154,8 +150,6 @@ function submitForm() {
 							}
 						})
 					}, 400)
-
-
 				})
 			}
 		})
