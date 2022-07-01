@@ -87,81 +87,81 @@ function submitForm() {
 			})
 
 			// Once the file is finished downloading, do the rest
-			file.on("finish", function () {
+			file.on("finish", async function () {
 				file.close()
 				console.info("Extracting DepotDownloader binary")
 
 				// note:  The following code has delays in between because async read/write operations won't work well
 				// Clean up leftovers
-				setTimeout(() => {
-					exec("file ./depotdownloader/* | grep -vi zip | cut -d: -f1 | tr '\\n' '\\0' | xargs -0 -r rm", (err, stdout, stderr) => {
-						if (err) {
-							console.error(err)
-							return
-						}
-						if (stderr !== "") {
-							console.error(stderr)
-						}
-					})
-					console.debug("Removed leftover files")
-				}, 100)
+				await exec("file ./depotdownloader/* | grep -vi zip | cut -d: -f1 | tr '\\n' '\\0' | xargs -0 -r rm", (err, stdout, stderr) => {
+					if (err) {
+						console.error(err)
+						return
+					}
+					if (stderr !== "") {
+						console.error(stderr)
+					}
+				})
+				console.debug("Removed leftover files")
 
 				// Unzip downloaded zip
-				setTimeout(() => {
-					exec("unzip -o ./depotdownloader/depotdownloader.zip -d ./depotdownloader/", (err, stdout, stderr) => {
-						if (err) {
-							console.error(err)
-							return
-						}
-						if (stderr !== "") {
-							console.error(stderr)
-						}
-					})
-					console.debug("Unzipped")
-				}, 200)
+				await exec("unzip -o ./depotdownloader/depotdownloader.zip -d ./depotdownloader/", (err, stdout, stderr) => {
+					if (err) {
+						console.error(err)
+						return
+					}
+					if (stderr !== "") {
+						console.error(stderr)
+					}
+				})
+				console.debug("Unzipped")
 
 				// Remove the zip after unzip
-				setTimeout(() => {
-					exec("rm ./depotdownloader/depotdownloader.zip", (err, stdout, stderr) => {
-						if (err) {
-							console.error(err)
-							return
-						}
-						if (stderr !== "") {
-							console.log(stderr)
-						}
-					})
-					console.debug("Removed leftover zip")
-				}, 350)
+				await exec("rm ./depotdownloader/depotdownloader.zip", (err, stdout, stderr) => {
+					if (err) {
+						console.error(err)
+						return
+					}
+					if (stderr !== "") {
+						console.log(stderr)
+					}
+				})
+				console.debug("Removed leftover zip")
 
 				// Run the actual depotdownloader process in a terminal
-				setTimeout(() => {
-					console.info("Finished extracting DepotDownloader binary..")
-					console.debug("Starting dotnet process...")
+				console.info("Finished extracting DepotDownloader binary..")
+				console.debug("Starting dotnet process...")
 
-					// The following code creates a variable that will contain the final command that will be executed
-					let finalcommand
-					if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
-						finalcommand = `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
-						finalcommand = `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
-						// TODO: macOS command
-						// something like open -a Terminal.app zsh -c "
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
-						finalcommand = `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
-						finalcommand = `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
-						finalcommand = `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
-					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
-						console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
-						finalcommand = "ls > /dev/null" //lazy lol
+				// The following code creates a variable that will contain the final command that will be executed
+				let finalcommand
+				if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
+					finalcommand = `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
+					finalcommand = `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
+					// TODO: macOS command
+					// something like open -a Terminal.app zsh -c "
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
+					finalcommand = `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
+					finalcommand = `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
+					finalcommand = `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+				} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
+					console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
+					finalcommand = "ls > /dev/null" //lazy lol
+				}
+
+				// Execute the final command
+				await exec(finalcommand, (err, stdout, stderr) => {
+					if (err) {
+						console.error(err)
+						return
 					}
-
-					// Execute the final command
-					exec(finalcommand)
-				}, 400)
+					if (stderr !== "") {
+						console.log(stderr)
+					}
+				})
 			})
 		}
 	})

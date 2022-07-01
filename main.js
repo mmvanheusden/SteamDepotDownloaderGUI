@@ -10,8 +10,7 @@ const createWindow = () => {
 		maximizable: false,
 		webPreferences: {
 			nodeIntegration: true,
-			contextIsolation: false,
-			"disableBlinkFeatures ": "Auxclick"
+			contextIsolation: false
 		}
 	})
 
