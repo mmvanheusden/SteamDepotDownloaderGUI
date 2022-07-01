@@ -34,7 +34,8 @@ function submitForm() {
 	let appid = document.forms["theform"]["appid"].value
 	let depotid = document.forms["theform"]["depotid"].value
 	let manifestid = document.forms["theform"]["manifestid"].value
-	var osdropdown = document.getElementById("osdropdown")
+	let osdropdown = document.getElementById("osdropdown")
+
 	// Debug info
 	console.debug(
 		"DEBUG INFO\n"
@@ -50,6 +51,7 @@ function submitForm() {
 	// OS check
 	console.info("Using " + os.platform())
 
+
 	// Main code
 	// Check if dotnet is found in the PATH
 	which("dotnet", function (er) {
@@ -59,6 +61,7 @@ function submitForm() {
 			document.getElementById("alert").hidden = false
 			document.getElementById("alertbtn").hidden = false
 			document.getElementById("download").disabled = true
+
 		} else {
 			// If dotnet is found, start the download process
 			console.log("Found dotnet in system path")
@@ -88,7 +91,7 @@ function submitForm() {
 				file.close()
 				console.info("Extracting DepotDownloader binary")
 
-				// The following code has delays in between because async read/write operations won't work well
+				// note:  The following code has delays in between because async read/write operations won't work well
 				// Clean up leftovers
 				setTimeout(() => {
 					exec("file ./depotdownloader/* | grep -vi zip | cut -d: -f1 | tr '\\n' '\\0' | xargs -0 -r rm", (err, stdout, stderr) => {
@@ -137,7 +140,7 @@ function submitForm() {
 					console.debug("Starting dotnet process...")
 
 					// The following code creates a variable that will contain the final command that will be executed
-					var finalcommand
+					let finalcommand
 					if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
 						finalcommand = `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
 					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
@@ -157,12 +160,7 @@ function submitForm() {
 					}
 
 					// Execute the final command
-					exec(finalcommand, (err, stdout, stderr) => {
-						if (err) {
-							console.error(err)
-
-						}
-					})
+					exec(finalcommand)
 				}, 400)
 			})
 		}

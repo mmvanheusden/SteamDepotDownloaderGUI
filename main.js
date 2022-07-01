@@ -7,7 +7,7 @@ const createWindow = () => {
 		//resizable: false,
 		width: 425,
 		height: 575,
-		maximizable: false, // lol this does not work on kde plasma
+		maximizable: false,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -17,7 +17,8 @@ const createWindow = () => {
 
 	// and load the index.html of the app.
 	mainWindow.loadFile("index.html")
-	//TODO: don't do this in the release lol
+
+	// Open the DevTools for debugging
 	mainWindow.webContents.openDevTools({mode: "detach"})
 }
 
