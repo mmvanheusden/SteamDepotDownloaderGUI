@@ -16,7 +16,7 @@ const createWindow = () => {
 	})
 
 	// and load the index.html of the app.
-    mainWindow.loadFile("index.html")
+	mainWindow.loadFile("index.html")
 	//TODO: don't do this in the release lol
 	mainWindow.webContents.openDevTools({mode: "detach"})
 }

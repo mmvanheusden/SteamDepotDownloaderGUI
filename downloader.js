@@ -32,7 +32,7 @@ function submitForm() {
 	let depotid = document.forms["theform"]["depotid"].value
 	let manifestid = document.forms["theform"]["manifestid"].value
 	var osdropdown = document.getElementById("osdropdown")
-	console.debug("Selected terminal: "+ osdropdown.options[osdropdown.selectedIndex].text)
+	console.debug("Selected terminal: " + osdropdown.options[osdropdown.selectedIndex].text)
 	console.debug(
 		"DEBUG INFO\n"
 		+ "Username: " + username
