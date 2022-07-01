@@ -20,19 +20,22 @@ function submitDotnet() {
 }
 
 function submitForm() {
+	// Imports
 	const os = require("os")
 	const fs = require("fs")
 	const path = require("path").dirname(__filename)
 	const which = require("which")
 	const {https} = require("follow-redirects")
+	const {exec} = require("child_process")
 
+	// Variables
 	let username = document.forms["theform"]["username"].value
 	let password = document.forms["theform"]["password"].value
 	let appid = document.forms["theform"]["appid"].value
 	let depotid = document.forms["theform"]["depotid"].value
 	let manifestid = document.forms["theform"]["manifestid"].value
 	var osdropdown = document.getElementById("osdropdown")
-	console.debug("Selected terminal: " + osdropdown.options[osdropdown.selectedIndex].text)
+	// Debug info
 	console.debug(
 		"DEBUG INFO\n"
 		+ "Username: " + username
@@ -43,116 +46,126 @@ function submitForm() {
 		+ "\nPlatform: " + os.platform()
 		+ "\nPath: " + path
 	)
-	if (os.platform().includes("win")) {
-		console.info("Using Windows!")
-		//TODO: windows compat lol
-	}
-	if (os.platform().includes("linux")) {
-		console.info("Using Linux")
-		which("dotnet", function (er) {
-			// er is returned if no "node" is found on the PATH
-			// if it is found, then the absolute path to the exec is returned
-			if (er) {
-				console.warn("dotnet not found(in system path)")
-				document.getElementById("alert").hidden = false
-				document.getElementById("alertbtn").hidden = false
-				document.getElementById("download").disabled = true
 
-			} else {
-				console.log("Found dotnet in system path")
-				try {
-					// first check if directory already exists
-					if (!fs.existsSync("./depotdownloader")) {						// INFO FOR TESTING:
-						fs.mkdirSync("./depotdownloader")							// appid: 346900
-						console.info("Directory is created.")						// depotid:
-					} else {															// linux: 346903
-						console.info("Directory already exists.")					// windows: 346901
-					}																	// manifestid:
-				} catch (err) {															// linux 1203243898820547407
-					console.error(err)													// windows: 581051086350795523
-				}
-				const file = fs.createWriteStream("./depotdownloader/depotdownloader.zip")
-				const request = https.get("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip", function (response) {
-					response.pipe(file)
-					console.info("Downloaded DepotDownloader binary zip")
-				})
-				file.on("finish", function () {
-					file.close()
-					const {exec} = require("child_process")
-					console.info("Extracting DepotDownloader binary")
+	// OS check
+	console.info("Using " + os.platform())
 
-					// The following code has delays in between because async io operations won't work well
-					// Cleans up old files (but not the downloaded zip)
-					setTimeout(() => {
-						exec("file ./depotdownloader/* | grep -vi zip | cut -d: -f1 | tr '\\n' '\\0' | xargs -0 -r rm", (err, stdout, stderr) => {
-							if (err) {
-								console.error(err)
-								return
-							}
-							if (stderr !== "") {
-								console.error(stderr)
-							}
-						})
-						console.debug("Removed leftover files")
-					}, 100)
-					// Unzips downloaded zip
-					setTimeout(() => {
-						exec("unzip -o ./depotdownloader/depotdownloader.zip -d ./depotdownloader/", (err, stdout, stderr) => {
-							if (err) {
-								console.error(err)
-								return
-							}
-							if (stderr !== "") {
-								console.error(stderr)
-							}
-						})
-						console.debug("Unzipped")
-					}, 200)
-					// Removes the zip after unzip
-					setTimeout(() => {
-						exec("rm ./depotdownloader/depotdownloader.zip", (err, stdout, stderr) => {
-							if (err) {
-								console.error(err)
-								return
-							}
-							if (stderr !== "") {
-								console.log(stderr)
-							}
-						})
-						console.debug("Removed leftover zip")
-					}, 350)
-					setTimeout(() => {
-						console.info("Finished extracting DepotDownloader binary..")
-						console.debug("Starting dotnet process...")
-						var finalcommand
-						if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
-							finalcommand = `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
-							finalcommand = `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
-							//TODO: something like open -a Terminal.app zsh -c "
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
-							// chad konsole
-							finalcommand = `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
-							finalcommand = `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
-							finalcommand = `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
-						} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
-							console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
-							finalcommand = "ls > /dev/null"
-						}
+	// Main code
+	// Check if dotnet is found in the PATH
+	which("dotnet", function (er) {
+		// er is returned if no "dotnet" is found on the PATH
+		if (er) {
+			console.warn("dotnet not found(in system path)")
+			document.getElementById("alert").hidden = false
+			document.getElementById("alertbtn").hidden = false
+			document.getElementById("download").disabled = true
+		} else {
+			// If dotnet is found, start the download process
+			console.log("Found dotnet in system path")
 
-						exec(finalcommand, (err, stdout, stderr) => {
-							if (err) {
-								console.error(err)
+			// Check if directory already exists
+			try {
 
-							}
-						})
-					}, 400)
-				})
+				if (!fs.existsSync("./depotdownloader")) {						// INFO FOR TESTING:
+					fs.mkdirSync("./depotdownloader")							// appid: 346900
+					console.info("Directory is created.")						// depotid:
+				} else {															// linux: 346903
+					console.info("Directory already exists.")					// windows: 346901
+				}																	// manifestid:
+			} catch (err) {															// linux 1203243898820547407
+				console.error(err)													// windows: 581051086350795523
 			}
-		})
 
-	}
+			// Download the file
+			const file = fs.createWriteStream("./depotdownloader/depotdownloader.zip")
+			const request = https.get("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip", function (response) {
+				response.pipe(file)
+				console.info("Downloaded DepotDownloader binary zip")
+			})
+
+			// Once the file is finished downloading, do the rest
+			file.on("finish", function () {
+				file.close()
+				console.info("Extracting DepotDownloader binary")
+
+				// The following code has delays in between because async read/write operations won't work well
+				// Clean up leftovers
+				setTimeout(() => {
+					exec("file ./depotdownloader/* | grep -vi zip | cut -d: -f1 | tr '\\n' '\\0' | xargs -0 -r rm", (err, stdout, stderr) => {
+						if (err) {
+							console.error(err)
+							return
+						}
+						if (stderr !== "") {
+							console.error(stderr)
+						}
+					})
+					console.debug("Removed leftover files")
+				}, 100)
+
+				// Unzip downloaded zip
+				setTimeout(() => {
+					exec("unzip -o ./depotdownloader/depotdownloader.zip -d ./depotdownloader/", (err, stdout, stderr) => {
+						if (err) {
+							console.error(err)
+							return
+						}
+						if (stderr !== "") {
+							console.error(stderr)
+						}
+					})
+					console.debug("Unzipped")
+				}, 200)
+
+				// Remove the zip after unzip
+				setTimeout(() => {
+					exec("rm ./depotdownloader/depotdownloader.zip", (err, stdout, stderr) => {
+						if (err) {
+							console.error(err)
+							return
+						}
+						if (stderr !== "") {
+							console.log(stderr)
+						}
+					})
+					console.debug("Removed leftover zip")
+				}, 350)
+
+				// Run the actual depotdownloader process in a terminal
+				setTimeout(() => {
+					console.info("Finished extracting DepotDownloader binary..")
+					console.debug("Starting dotnet process...")
+
+					// The following code creates a variable that will contain the final command that will be executed
+					var finalcommand
+					if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
+						finalcommand = `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
+						finalcommand = `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
+						// TODO: macOS command
+						// something like open -a Terminal.app zsh -c "
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
+						finalcommand = `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
+						finalcommand = `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
+						finalcommand = `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+					} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
+						console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
+						finalcommand = "ls > /dev/null" //lazy lol
+					}
+
+					// Execute the final command
+					exec(finalcommand, (err, stdout, stderr) => {
+						if (err) {
+							console.error(err)
+
+						}
+					})
+				}, 400)
+			})
+		}
+	})
+
 }
