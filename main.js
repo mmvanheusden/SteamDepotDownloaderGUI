@@ -15,7 +15,7 @@ const createWindow = () => {
 	})
 
 	// and load the index.html of the app.
-	mainWindow.loadFile("index.html")
+	mainWindow.loadFile("index2.html")
 
 	// Open the DevTools for debugging
 	mainWindow.webContents.openDevTools({mode: "detach"})
