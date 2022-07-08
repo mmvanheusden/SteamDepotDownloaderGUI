@@ -23,23 +23,20 @@ jobs:
       - name: build project
         run: npm run buildall
 
-      - name: debug
-        run: ls -Al && pwd
-
       - name: Move x64 exe
         run: cp ./dist/SteamDepotDownloaderGUI*.exe ./SteamDepotDownloaderGUI-${{ github.run_number }}.exe
 
       - name: Move x64 AppImage
-        run: cp ./dist/SteamDepotDownloaderGUI-*.*.*.AppImage ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
+        run: cp `ls -d1 dist/* | grep -E "SteamDepotDownloaderGUI-[0-9]+\.[0-9]+\.[0-9]+\.AppImage"` ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
 
       - name: Move x64 zip
-        run: cp ./dist/steamdepotdownloadergui-*.zip ./SteamDepotDownloaderGUI-${{ github.run_number }}.zip
+        run: cp `ls -d1 dist/* | grep -E "steamdepotdownloadergui-[0-9]+\.[0-9]+\.[0-9]+\.zip"` ./SteamDepotDownloaderGUI-${{ github.run_number }}.zip
 
       - name: Move arm64 AppImage
-        run: cp ./dist/*-arm64.AppImage ./SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.AppImage
+        run: cp `ls -d1 dist/* | grep -E "SteamDepotDownloaderGUI-[0-9]+\.[0-9]+\.[0-9]+\-arm64.AppImage"` ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
 
       - name: Move arm64 zip
-        run: cp ./dist/steamdepotdownloadergui-*.*.*-arm64.zip ./SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.zip
+        run: cp `ls -d1 dist/* | grep -E "steamdepotdownloadergui-[0-9]+\.[0-9]+\.[0-9]+\-arm64.zip"` ./SteamDepotDownloaderGUI-${{ github.run_number }}-arm64.zip
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
