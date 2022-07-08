@@ -6,6 +6,9 @@ function submitForm() {
 		} else {
 			console.info("dotnet found in PATH")
 
+			// Remove the old depotdownloader directory
+			await removeDir("depotdownloader")
+
 			// Download the DepotDownloader binary, so it doesn't have to be included in the source code
 			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip")
 
@@ -91,6 +94,23 @@ function removeFile(file) {
 }
 
 /**
+ * Removes a directory from the current directory
+ * @param dir The directory to remove
+ * @returns {Promise<unknown>} A promise that resolves when the directory is removed (or fails)
+ */
+function removeDir(dir) {
+	return new Promise((resolve) => {
+		const fs = require("fs")
+		fs.rm(dir, {recursive: true, force: true}, function (err) {
+			if (err) {
+				console.error(err)
+			}
+			resolve()
+		})
+	})
+}
+
+/**
  * Unzip a file to the current directory
  * @param file The file to unzip, preferably a .zip file
  * @param target The target directory to unzip to
@@ -101,7 +121,8 @@ function unzip(file, target) {
 	//TODO: Windows support
 	return new Promise((resolve) => {
 		if (process.platform.toString().includes("win")) {
-			const command = "powershell -Command \"& { Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('" + file + "', '" + target + "') }\""
+			//const command = "powershell Expand-Archive -Path depotdownloader-2.4.6.zip -Destination depotdownloader"
+			const command = "powershell.exe -Command Expand-Archive -Path " + __dirname + "/" + file + " -Destination " + target
 			exec(command, function (error, stdout, stderr) {
 				if (error) {
 					console.error("Unzipping failed with error: " + error)
@@ -168,7 +189,7 @@ const createCommand = () => {
 	if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
 		return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
-		return `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
+		return `start cmd.exe /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
 		// TODO: macOS command
 		// I believe it is something like "open -a Terminal.app zsh -c "
@@ -179,7 +200,7 @@ const createCommand = () => {
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
 		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
-		console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
+		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
 		return "echo hello"
 	}
 }
