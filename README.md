@@ -26,6 +26,9 @@ There is a video tutorial available [here](https://www.youtube.com/watch?v=dQw4w
 
 ## Contributing
 
+If you want to contribute to SteamDepotDownloaderGUI, please make sure to follow
+the [contributing instructions and guidelines](contributing.md).
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to keep code consistent and cross-platform compatible.
