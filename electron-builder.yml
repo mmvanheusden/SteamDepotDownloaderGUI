@@ -1,0 +1,32 @@
+appId: steam.depot.downloader.gui
+productName: SteamDepotDownloaderGUI
+copyright: Copyright © 2022 mmvanheusden | This work is free. Licensed under the Do What The Fuck You Want To Public License
+
+linux:
+  executableName: SteamDepotDownloaderGUI
+  category: Utility;FileTools;
+  maintainer: mmvanheusden
+  target:
+    - target: AppImage
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+        - x64
+        - arm64
+
+# lmao mac building only works on mac
+mac:
+  category: public.app-category.utilities
+  target:
+    - target: dmg
+      arch:
+        - x64
+
+win:
+  legalTrademarks: Copyright © 2022 mmvanheusden | This work is free. Licensed under the Do What The Fuck You Want To Public License
+  target:
+    - target: portable
+      arch:
+        - x64
