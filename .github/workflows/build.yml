@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SteamDepotDownloaderGUI-${{ github.run_number }}
-          path: SteamDepotDownloaderGUI-${{ github.run_number }}*.{exe,AppImage,zip}
+          path: SteamDepotDownloaderGUI-${{ github.run_number }}*.*
