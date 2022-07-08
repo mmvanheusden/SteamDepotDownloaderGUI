@@ -27,17 +27,29 @@ function submitForm() {
  * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
 function checkDotnet() {
-	//TODO: Windows support
 	return new Promise((resolve) => {
-		const {exec} = require("child_process")
-		const command = "dotnet --version"
-		exec(command, function (error) {
-			if (error) {
-				resolve(false)
-			} else {
-				resolve(true)
-			}
-		})
+		if (process.platform.toString().includes("win")) {
+			const {exec} = require("child_process")
+			const command = "dotnet.exe --version"
+			exec(command, function (error) {
+				if (error) {
+					resolve(false)
+				} else {
+					resolve(true)
+				}
+			})
+		} else {
+			const {exec} = require("child_process")
+			const command = "dotnet --version"
+			exec(command, function (error) {
+				if (error) {
+					resolve(false)
+				} else {
+					resolve(true)
+				}
+			})
+		}
+
 	})
 }
 
@@ -85,20 +97,34 @@ function removeFile(file) {
  * @returns {Promise<unknown>} A promise that resolves when the unzip is complete (or fails)
  */
 function unzip(file, target) {
+	const {exec} = require("child_process")
 	//TODO: Windows support
 	return new Promise((resolve) => {
-		const {exec} = require("child_process")
-		const command = "unzip -o " + file + " -d ./" + target + "/"
-		exec(command, function (error, stdout, stderr) {
-			if (error) {
-				console.error("Unzipping failed with error: " + error)
-			}
-			console.debug(stdout)
-			if (stderr) {
-				console.error(stderr)
-			}
-			resolve()
-		})
+		if (process.platform.toString().includes("win")) {
+			const command = "powershell -Command \"& { Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory('" + file + "', '" + target + "') }\""
+			exec(command, function (error, stdout, stderr) {
+				if (error) {
+					console.error("Unzipping failed with error: " + error)
+				}
+				console.debug(stdout)
+				if (stderr) {
+					console.error(stderr)
+				}
+				resolve()
+			})
+		} else {
+			const command = "unzip -o " + file + " -d ./" + target + "/"
+			exec(command, function (error, stdout, stderr) {
+				if (error) {
+					console.error("Unzipping failed with error: " + error)
+				}
+				console.debug(stdout)
+				if (stderr) {
+					console.error(stderr)
+				}
+				resolve()
+			})
+		}
 	})
 }
 
