@@ -4,7 +4,7 @@ const createWindow = () => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
-		//resizable: false,
+		resizable: false,
 		width: 425,
 		height: 575,
 		maximizable: false,
@@ -17,8 +17,10 @@ const createWindow = () => {
 	// and load the index.html of the app.
 	mainWindow.loadFile("index.html")
 
-	// Open the DevTools for debugging
-	mainWindow.webContents.openDevTools({mode: "detach"})
+	// Open the DevTools for debugging, only if not in production.
+	if (!app.isPackaged) {
+		mainWindow.webContents.openDevTools({mode: "detach"})
+	}
 }
 
 // This method will be called when Electron has finished

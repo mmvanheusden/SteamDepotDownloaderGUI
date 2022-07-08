@@ -1,10 +1,11 @@
 <h1 align="center">SteamDepotDownloaderGUI</h1>
 
 <p align="center">
-  <img alt="Project Status" src="https://img.shields.io/badge/status-being_rewritten-blue" />
+  <img alt="Project Status" src="https://img.shields.io/badge/status-maintained-blue" />
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/SteamDepotDownloaderGUI?color=crimson">
   <img alt="Visitor Count" src="https://visitor-badge.glitch.me/badge?page_id=mmvanheusden.SteamDepotDownloaderGUI">
+  <a href="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/overview/rewrite"><img src="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/badge/rewrite" alt="CodeFactor" /></a>
 </p>
 <p align="center">
   <img alt="Screenshot" src="screenshot.png" />
