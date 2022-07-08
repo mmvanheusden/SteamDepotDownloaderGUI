@@ -158,7 +158,6 @@ const createCommand = () => {
 	}
 }
 
-
 /**
  * Runs a command in a separate process, printing errors and debugging info to the console
  * @param command The command to run
