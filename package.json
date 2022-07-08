@@ -34,7 +34,6 @@
     "eslint": "^8.18.0"
   },
   "dependencies": {
-    "follow-redirects": "^1.15.1",
-    "which": "^2.0.2"
+    "follow-redirects": "^1.15.1"
   }
 }

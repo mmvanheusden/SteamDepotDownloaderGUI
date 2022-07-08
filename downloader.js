@@ -145,7 +145,7 @@ const createCommand = () => {
 		return `cmd.exe  /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
 		// TODO: macOS command
-		// something like open -a Terminal.app zsh -c "
+		// I believe it is something like "open -a Terminal.app zsh -c "
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
 		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
@@ -154,7 +154,7 @@ const createCommand = () => {
 		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
 		console.log(`\COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
-		return "ls > /dev/null" //lazy lol
+		return "echo hello"
 	}
 }
 
