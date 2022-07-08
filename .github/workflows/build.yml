@@ -30,7 +30,7 @@ jobs:
         run: cp ./dist/SteamDepotDownloaderGUI*.exe ./SteamDepotDownloaderGUI-${{ github.run_number }}.exe
 
       - name: Move x64 AppImage
-        run: cp `ls -1 dist/ | grep -E "SteamDepotDownloaderGUI-[0-9]+\.[0-9]+\.[0-9]+\.AppImage"` ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
+        run: cp `ls -d1 dist/* | grep -E "SteamDepotDownloaderGUI-[0-9]+\.[0-9]+\.[0-9]+\.AppImage"` ./SteamDepotDownloaderGUI-${{ github.run_number }}.AppImage
 
       - name: Move x64 zip
         run: cp ./dist/steamdepotdownloadergui-*.zip ./SteamDepotDownloaderGUI-${{ github.run_number }}.zip
