@@ -1,5 +1,4 @@
 const {checkDotnet, download, createCommand, runCommand, removeDir, removeFile, unzip} = require("./utils")
-const electron = require("electron")
 
 function submitForm() {
 	checkDotnet().then(async function (result) {
