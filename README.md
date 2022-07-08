@@ -1,5 +1,5 @@
-# SteamDepotDownloaderGUI
 ### **A rewrite in JavaScript is currently work-in-progress🤞**
+# SteamDepotDownloaderGUI
 <p align="center">
   <img src="https://img.shields.io/badge/status-being_rewritten-blue" />
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
@@ -10,6 +10,7 @@
 A simple GUI tool build on top of [**DepotDownloader**][depotdownloader] for downloading older versions of Steam games.
 
 ![The GUI](https://raw.githubusercontent.com/mmvanheusden/SteamDepotDownloaderGUI/master/src/readme.md/hero.png "The GUI")
+
 
 ## What can you do with the software?
 You can download older builds(aka manifests) of Steam games and software
@@ -62,6 +63,9 @@ The downloaded game is stored in the specified location
 
 ## Need help?
 Open an issue.
+
+### **Rewrite preview :eyes:**
+![image](https://user-images.githubusercontent.com/50550545/177958510-47771031-3c70-4bcd-865f-48dcd7f42201.png)
 
 
 [steamdb]: https://steamdb.info
