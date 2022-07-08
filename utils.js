@@ -140,8 +140,7 @@ const createCommand = () => {
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
 		return `start cmd.exe /k dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
-		// TODO: macOS command
-		// I believe it is something like "open -a Terminal.app zsh -c "
+		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
 		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
