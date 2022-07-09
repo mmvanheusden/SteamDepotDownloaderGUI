@@ -1,4 +1,13 @@
-const {checkDotnet, download, createCommand, runCommand, removeDir, removeFile, unzip} = require("./utils")
+const {
+	checkDotnet,
+	download,
+	createCommand,
+	runCommand,
+	removeDir,
+	removeFile,
+	unzip,
+	platformpath
+} = require("./utils")
 
 function submitForm() {
 	checkDotnet().then(async function (result) {
@@ -9,16 +18,16 @@ function submitForm() {
 			console.info("dotnet found in PATH")
 
 			// Remove the old depotdownloader directory
-			await removeDir("depotdownloader")
+			await removeDir("depotdownloader", platformpath())
 
 			// Download the DepotDownloader binary, so it doesn't have to be included in the source code
-			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip")
+			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip", platformpath())
 
 			// Unzip the DepotDownloader binary
-			await unzip("depotdownloader-2.4.6.zip", "depotdownloader")
+			await unzip("depotdownloader-2.4.6.zip", "depotdownloader", platformpath())
 
 			// Clean up the old files
-			await removeFile("depotdownloader-2.4.6.zip")
+			await removeFile("depotdownloader-2.4.6.zip", platformpath())
 
 			// Run the final command
 			await runCommand(createCommand().toString())
