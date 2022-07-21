@@ -23,7 +23,7 @@ from [GitHub](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/l
 
 Enter everything you normally would in the SteamDepotDownloader console.
 
-There is a video tutorial available [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+There is a video tutorial available [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ). (not done yet)
 
 ## Contributing
 
