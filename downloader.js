@@ -5,8 +5,7 @@ const {
 	runCommand,
 	removeDir,
 	removeFile,
-	unzip,
-	platformpath
+	unzip
 } = require("./utils")
 
 function submitForm() {
