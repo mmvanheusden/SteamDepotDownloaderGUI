@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "build": "electron-builder -c electron-builder.yml -wl -p never",
-    "buildall": "electron-builder -c electron-builder.yml -mwl -p never"
+    "buildall": "electron-builder -c electron-builder.yml -mwl -p never",
+    "buildlinux": "electron-builder -c electron-builder.yml -l -p never",
+    "buildwin": "electron-builder -c electron-builder.yml -w -p never",
+    "buildmacos": "electron-builder -c electron-builder.yml -m -p never"
   },
   "repository": {
     "type": "git",
