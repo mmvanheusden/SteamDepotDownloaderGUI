@@ -55,9 +55,21 @@ function submitDotnet() {
 	}
 }
 
+function openGitHubIssues() {
+	const electron = require("electron")
+	console.debug("Opened GitHub issues page")
+	void electron.shell.openExternal("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues/new")
+}
+
+function openSteamDB() {
+	const electron = require("electron")
+	console.debug("Opened SteamDB instant search page")
+	void electron.shell.openExternal("https://steamdb.info/instantsearch/")
+}
 
 window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("alertbtn").addEventListener("click", submitDotnet)
 	document.getElementById("downloadbtn").addEventListener("click", submitForm)
+	document.getElementById("smbtn1").addEventListener("click", openGitHubIssues)
+	document.getElementById("smbtn2").addEventListener("click", openSteamDB)
 })
-
