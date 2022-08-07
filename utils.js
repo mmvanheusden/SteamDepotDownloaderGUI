@@ -32,10 +32,10 @@ function checkDotnet() {
 /**
  * Download a file from a url, saving it to the current directory (__dirname)
  * @param url The url to download from
- * @returns {Promise<unknown>} A promise that resolves when the download is finished
+ * @returns {Promise<unknown>} A promise that resolves when the download is finished, or rejects if something fails
  */
 function download(url) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		const {https} = require("follow-redirects")
 		const fs = require("fs")
 		const path = require("path")
@@ -46,6 +46,10 @@ function download(url) {
 				file.close()
 				resolve()
 			})
+			file.on("error", function (error) {
+				console.error(error)
+				reject(error)
+			})
 		})
 	})
 }
@@ -53,17 +57,17 @@ function download(url) {
 /**
  * Removes a file from the current directory
  * @param file The filename to remove
- * @returns {Promise<unknown>} A promise that resolves when the file is removed (or fails)
+ * @returns {Promise<unknown>} A promise that resolves when the file is removed, or rejects if something fails
  */
 function removeFile(file) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		const fs = require("fs")
 		const path = require("path")
-		fs.unlink(platformpath() + path.sep + file, function (err) {
-			if (err) {
-				console.error(err)
-			}
-			resolve()
+		fs.unlink(platformpath() + path.sep + file, function (error) {
+			if (error) {
+				reject(error)
+				console.error(error)
+			} else resolve()
 		})
 	})
 }
@@ -71,17 +75,17 @@ function removeFile(file) {
 /**
  * Removes a directory from the current directory
  * @param dir The directory to remove
- * @returns {Promise<unknown>} A promise that resolves when the directory is removed (or fails)
+ * @returns {Promise<unknown>} A promise that resolves when the directory is removed, or rejects if something fails
  */
 function removeDir(dir,) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		const fs = require("fs")
 		const path = require("path")
-		fs.rm(platformpath() + path.sep + dir, {recursive: true, force: true}, function (err) {
-			if (err) {
-				console.error(err)
-			}
-			resolve()
+		fs.rm(platformpath() + path.sep + dir, {recursive: true, force: true}, function (error) {
+			if (error) {
+				reject(error)
+				console.error(error)
+			} else resolve()
 		})
 	})
 }
@@ -90,36 +94,28 @@ function removeDir(dir,) {
  * Unzip a file to the current directory
  * @param file The file to unzip, preferably a .zip file
  * @param target The target directory to unzip to
- * @returns {Promise<unknown>} A promise that resolves when the unzip is complete (or fails)
+ * @returns {Promise<unknown>} A promise that resolves when the unzip is complete, or rejects if something fails
  */
 function unzip(file, target) {
 	const {exec} = require("child_process")
 	const path = require("path")
 
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		if (process.platform.toString().includes("win")) {
 			const command = "powershell.exe -Command Expand-Archive -Path " + platformpath() + path.sep + file + " -Destination " + platformpath() + path.sep + target
-			exec(command, function (error, stdout, stderr) {
+			exec(command, function (error) {
 				if (error) {
-					console.error("Unzipping failed with error: " + error)
-				}
-				console.debug(stdout)
-				if (stderr) {
-					console.error(stderr)
-				}
-				resolve()
+					reject(error)
+					console.error(error)
+				} else resolve()
 			})
 		} else {
 			const command = "unzip -o " + file + " -d ./" + target + "/"
-			exec(command, function (error, stdout, stderr) {
+			exec(command, function (error) {
 				if (error) {
-					console.error("Unzipping failed with error: " + error)
-				}
-				console.debug(stdout)
-				if (stderr) {
-					console.error(stderr)
-				}
-				resolve()
+					reject(error)
+					console.error(error)
+				} else resolve()
 			})
 		}
 	})
