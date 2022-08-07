@@ -2,8 +2,6 @@
  * Checks if dotnet is installed in the system path
  * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
-
-
 function checkDotnet() {
 	return new Promise((resolve) => {
 		if (process.platform.toString().includes("win")) {
@@ -127,7 +125,6 @@ function unzip(file, target) {
 	})
 }
 
-
 /**
  * Creates a command based on the operating system/terminal being selected and the form values
  * @returns {string} The final command to run
@@ -144,21 +141,23 @@ const createCommand = () => {
 	let manifestid = document.forms["theform"]["manifestid"].value
 	let osdropdown = document.getElementById("osdropdown")
 
+	const finalPath = platformpath() + path.sep + "games" + path.sep + appid
+
 	// The final command to run, returned by this function
 	if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
-		return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+		return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
-		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${platformpath()}${path.sep}games${path.sep}${appid}/ -max-servers 50 -max-downloads 16`
+		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
-		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16'`
+		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
-		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
-		return `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16"`
+		return `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
-		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16";bash'`
+		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
-		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${__dirname}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ./games/${appid}/ -max-servers 50 -max-downloads 16`)
+		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${platformpath()}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`)
 		return "echo hello"
 	}
 }
@@ -166,23 +165,25 @@ const createCommand = () => {
 /**
  * Runs a command in a separate process, printing errors and debugging info to the console
  * @param command The command to run
- * @returns {Promise<unknown>} A promise that resolves when the command is complete (or fails)
+ * @returns {Promise<unknown>} A promise that resolves when the command is complete or rejects if something fails
  */
 function runCommand(command) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		const {exec} = require("child_process")
-		exec(command, function (error, stdout, stderr) {
+		exec(command, function (error) {
 			if (error) {
-				console.debug("Command failed with error: " + error)
-			}
-			if (stderr) {
-				console.error(stderr)
-			}
-			resolve()
+				const msg = "Running command failed with error:\n" + error
+				reject(msg)
+			} else resolve()
 		})
 	})
 }
 
+/**
+ * Returns the path where the actual program is being run from, depending on the operating system.
+ * Because __dirname is inconsistent across operating systems, this function is used to get the correct path
+ * @returns {string} The absolute path
+ */
 const platformpath = () => {
 	if ((__dirname.includes("AppData") || __dirname.includes("Temp")) && process.platform.toString().includes("win")) {
 		// Windows portable exe
