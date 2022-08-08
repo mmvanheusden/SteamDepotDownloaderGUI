@@ -50,7 +50,7 @@ function submitDotnet() {
 	}
 	if (os.includes("darwin")) {
 		console.debug("Opened .NET download page for" + os)
-		//TODO: apple silicon(ARM64) URL
+		//TODO: Apple Silicon(ARM64) URL
 		void electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-macos-x64-installer")
 	}
 }
