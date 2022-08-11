@@ -21,7 +21,7 @@ from [GitHub](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/l
 
 ## Usage
 
-Enter everything you normally would in the SteamDepotDownloader console.
+Enter everything you normally would in the DepotDownloader console.
 
 There is a video tutorial available [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ). (not done yet)
 
