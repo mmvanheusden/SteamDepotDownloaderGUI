@@ -36,7 +36,7 @@ function checkDotnet() {
  */
 function download(url) {
 	return new Promise((resolve, reject) => {
-		const {https} = require("follow-redirects")
+		const {https} = require("follow-redirects") /* Using follow-redirects to follow redirects */
 		const fs = require("fs")
 		const path = require("path")
 		const file = fs.createWriteStream(platformpath() + path.sep + url.split("/").pop())
