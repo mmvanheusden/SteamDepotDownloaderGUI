@@ -37,6 +37,7 @@
     "eslint": "^8.18.0"
   },
   "dependencies": {
+    "elecron": "^0.0.1-security",
     "follow-redirects": "^1.15.1"
   }
 }

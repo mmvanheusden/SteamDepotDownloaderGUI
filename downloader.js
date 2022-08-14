@@ -35,7 +35,6 @@ function submitForm() {
 	})
 }
 
-
 function submitDotnet() {
 	const electron = require("electron")
 	const os = process.platform.toString()
