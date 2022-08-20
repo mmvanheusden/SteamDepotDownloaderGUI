@@ -21,13 +21,13 @@ function submitForm() {
 			await removeDir("depotdownloader")
 
 			// Download the DepotDownloader binary, so it doesn't have to be included in the source code
-			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.6/depotdownloader-2.4.6.zip")
+			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.7/depotdownloader-2.4.7.zip")
 
 			// Unzip the DepotDownloader binary
-			await unzip("depotdownloader-2.4.6.zip", "depotdownloader")
+			await unzip("depotdownloader-2.4.7.zip", "depotdownloader")
 
 			// Clean up the old files
-			await removeFile("depotdownloader-2.4.6.zip")
+			await removeFile("depotdownloader-2.4.7.zip")
 
 			// Run the final command
 			await runCommand(createCommand().toString())
