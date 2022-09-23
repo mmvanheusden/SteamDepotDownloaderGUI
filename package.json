@@ -21,12 +21,10 @@
     "steam",
     "depotdownloader",
     "electron",
-    "gui",
-    "ui",
-    "subnautica"
+    "gui"
   ],
   "author": "mmvanheusden",
-  "license": "WTFPL",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues"
   },
