@@ -5,7 +5,7 @@
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/mmvanheusden/SteamDepotDownloaderGUI?color=crimson">
   <img alt="Visitor Count" src="https://visitor-badge.glitch.me/badge?page_id=mmvanheusden.SteamDepotDownloaderGUI">
-  <a href="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/overview/rewrite"><img src="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/badge/master" alt="CodeFactor" /></a>
+  <a href="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/overview/master"><img src="https://www.codefactor.io/repository/github/mmvanheusden/steamdepotdownloadergui/badge/master" alt="CodeFactor" /></a>
 </p>
 <p align="center">
   <img alt="Screenshot" src="screenshot.png" />
