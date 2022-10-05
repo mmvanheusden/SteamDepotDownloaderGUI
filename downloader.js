@@ -1,5 +1,5 @@
 const {
-	checkDotnet,
+	preDownloadCheck,
 	download,
 	createCommand,
 	runCommand,
@@ -9,28 +9,35 @@ const {
 } = require("./utils")
 
 function submitForm() {
-	checkDotnet().then(async function (result) {
-		if (!result) {
-			console.error("dotnet not found in PATH")
+	// Check if the form is filled in and if dotnet is installed
+	preDownloadCheck().then(async function () {
+		document.getElementById("dotnetwarning").hidden = true
+		document.getElementById("emptywarning").hidden = true
+		console.info("dotnet found in PATH")
+
+		// Remove the old depotdownloader directory
+		await removeDir("depotdownloader")
+
+		// Download the DepotDownloader binary, so it doesn't have to be included in the source code
+		await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.7/depotdownloader-2.4.7.zip")
+
+		// Unzip the DepotDownloader binary
+		await unzip("depotdownloader-2.4.7.zip", "depotdownloader")
+
+		// Clean up the old files
+		await removeFile("depotdownloader-2.4.7.zip")
+
+		// Run the final command
+		await runCommand(createCommand())
+	}).catch(function (error) {
+		if (error === "noDotnet") {
+			console.error("Dotnet not found in PATH")
+			document.getElementById("emptywarning").hidden = true
 			document.getElementById("dotnetwarning").hidden = false
-		} else {
-
-			console.info("dotnet found in PATH")
-
-			// Remove the old depotdownloader directory
-			await removeDir("depotdownloader")
-
-			// Download the DepotDownloader binary, so it doesn't have to be included in the source code
-			await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.7/depotdownloader-2.4.7.zip")
-
-			// Unzip the DepotDownloader binary
-			await unzip("depotdownloader-2.4.7.zip", "depotdownloader")
-
-			// Clean up the old files
-			await removeFile("depotdownloader-2.4.7.zip")
-
-			// Run the final command
-			await runCommand(createCommand().toString())
+		} else if (error === "emptyField") {
+			console.error("Fill in all the fields")
+			document.getElementById("dotnetwarning").hidden = true
+			document.getElementById("emptywarning").hidden = false
 		}
 	})
 }
@@ -66,8 +73,11 @@ function openSteamDB() {
 	void electron.shell.openExternal("https://steamdb.info/instantsearch/")
 }
 
+/* Everything below this line runs when the page is loaded */
+
+// Add event listeners to the buttons
 window.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("alertbtn").addEventListener("click", submitDotnet)
+	document.getElementById("dotnetalertbtn").addEventListener("click", submitDotnet)
 	document.getElementById("downloadbtn").addEventListener("click", submitForm)
 	document.getElementById("smbtn1").addEventListener("click", openGitHubIssues)
 	document.getElementById("smbtn2").addEventListener("click", openSteamDB)
