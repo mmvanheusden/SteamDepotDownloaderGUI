@@ -2,30 +2,45 @@
  * Checks if dotnet is installed in the system path
  * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
-function checkDotnet() {
-	return new Promise((resolve) => {
+function preDownloadCheck() {
+	return new Promise((resolve, reject) => {
+		let username = document.forms["theform"]["username"].value
+		let password = document.forms["theform"]["password"].value
+		let appid = document.forms["theform"]["appid"].value
+		let depotid = document.forms["theform"]["depotid"].value
+		let manifestid = document.forms["theform"]["manifestid"].value
+
+		// Check if all fields are filled
+		if (username === "" || password === "" || appid === "" || depotid === "" || manifestid === "") {
+			// Reject before even checking if dotnet is installed
+			reject("emptyField")
+			return
+		}
+
+		// Check if dotnet is installed, depending on the platform
 		if (process.platform.toString().includes("win")) {
+			// Windows
 			const {exec} = require("child_process")
 			const command = "dotnet.exe --version"
 			exec(command, function (error) {
 				if (error) {
-					resolve(false)
+					reject("noDotnet")
 				} else {
 					resolve(true)
 				}
 			})
 		} else {
+			// Linux
 			const {exec} = require("child_process")
 			const command = "dotnet --version"
 			exec(command, function (error) {
 				if (error) {
-					resolve(false)
+					reject("noDotnet")
 				} else {
 					resolve(true)
 				}
 			})
 		}
-
 	})
 }
 
@@ -193,4 +208,4 @@ const platformpath = () => {
 	}
 }
 
-module.exports = {checkDotnet, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath}
+module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath}
