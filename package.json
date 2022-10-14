@@ -32,7 +32,7 @@
   "devDependencies": {
     "electron": "^21.1.1",
     "electron-builder": "^23.1.0",
-    "eslint": "^8.24.0"
+    "eslint": "^8.25.0"
   },
   "dependencies": {
     "elecron": "^0.0.1-security",
