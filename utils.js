@@ -4,14 +4,12 @@
  */
 function preDownloadCheck() {
 	return new Promise((resolve, reject) => {
-		let username = document.forms["theform"]["username"].value
-		let password = document.forms["theform"]["password"].value
 		let appid = document.forms["theform"]["appid"].value
 		let depotid = document.forms["theform"]["depotid"].value
 		let manifestid = document.forms["theform"]["manifestid"].value
 
 		// Check if all fields are filled
-		if (username === "" || password === "" || appid === "" || depotid === "" || manifestid === "") {
+		if (appid === "" || depotid === "" || manifestid === "") {
 			// Reject before even checking if dotnet is installed
 			reject("emptyField")
 			return
@@ -152,23 +150,29 @@ const createCommand = () => {
 	let manifestid = document.forms["theform"]["manifestid"].value
 	let osdropdown = document.getElementById("osdropdown")
 
+	// if either the username or password fields are empty, anonymous login is used
+	let anonymous = username === "" || password === ""
+
+	// build the username and password flags into one string, allowing for anonymous login
+	let userpass = anonymous ? "" : `-username ${username} -password ${password}`
+
 	const finalPath = platformpath() + path.sep + "games" + path.sep + appid
 
 	// The final command to run, returned by this function
 	if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {
-		return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
+		return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Windows")) {
-		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
+		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll -${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("macOS")) {
-		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
+		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Konsole")) {
-		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
+		return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Xfce")) {
-		return `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
+		return `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Terminator")) {
-		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
+		return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";bash'`
 	} else if (osdropdown.options[osdropdown.selectedIndex].text.includes("Print command")) {
-		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${platformpath()}/depotdownloader/DepotDownloader.dll -username ${username} -password ${password} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`)
+		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${platformpath()}/depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`)
 		return "echo hello"
 	}
 }
