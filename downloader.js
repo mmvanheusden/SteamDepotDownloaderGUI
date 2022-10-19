@@ -35,7 +35,7 @@ function submitForm() {
 			document.getElementById("emptywarning").hidden = true
 			document.getElementById("dotnetwarning").hidden = false
 		} else if (error === "emptyField") {
-			console.error("Fill in all the fields")
+			console.error("Fill in all required fields")
 			document.getElementById("dotnetwarning").hidden = true
 			document.getElementById("emptywarning").hidden = false
 		}
