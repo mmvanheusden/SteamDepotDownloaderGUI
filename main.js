@@ -7,6 +7,7 @@ const createWindow = () => {
 		resizable: false,
 		width: 430,
 		height: 590,
+		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
 			nodeIntegration: true,
