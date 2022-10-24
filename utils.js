@@ -4,13 +4,16 @@
  */
 function preDownloadCheck() {
 	return new Promise((resolve, reject) => {
-		let appid = document.forms["theform"]["appid"].value
-		let depotid = document.forms["theform"]["depotid"].value
-		let manifestid = document.forms["theform"]["manifestid"].value
-
 		// Check if all fields are filled
-		if (appid === "" || depotid === "" || manifestid === "") {
-			// Reject before even checking if dotnet is installed
+		const formInputs = document.forms["theform"]
+
+		let unfilledFields = 0
+		for (const input of formInputs) {
+			const isInvalid = input.value === "" && input.parentElement.classList.contains("required")
+			input.parentElement.classList.toggle("errored", isInvalid) // toggle the 'errored' class depending on if isInvalid is true or false.
+			if (isInvalid) unfilledFields++
+		}
+		if (unfilledFields > 0) {
 			reject("emptyField")
 			return
 		}
