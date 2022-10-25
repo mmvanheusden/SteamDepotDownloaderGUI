@@ -19,6 +19,11 @@
 Download the latest release for your operating system
 from [GitHub](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest).
 
+## Support
+If you need help, please open an issue.
+
+**⚠️ No support will be provided for binaries downloaded from unofficial mirrors like softpedia. ⚠️**
+
 ## Usage
 
 Enter everything you normally would in the DepotDownloader console.
