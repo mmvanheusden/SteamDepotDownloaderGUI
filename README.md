@@ -1,5 +1,8 @@
 <h1 align="center">SteamDepotDownloaderGUI</h1>
 
+<p align="center">SteamDepotDownloaderGUI is a graphical user interface for DepotDownloader.</p>
+<p align="center">You can download older versions of Steam games, useful for testing and speedrunners.</p>
+
 <p align="center">
   <img alt="Project Status" src="https://img.shields.io/badge/status-maintained-blue" />
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads">
@@ -11,8 +14,6 @@
   <img alt="Screenshot" src="screenshot.png" />
 </p>
 
-<p align="center">SteamDepotDownloaderGUI is a graphical user interface for DepotDownloader.</p>
-<p align="center">You can download older versions of Steam games, useful for testing and speedrunners.</p>
 
 ## Installation
 
@@ -22,7 +23,7 @@ from [GitHub](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/l
 ## Support
 If you need help, please open an issue.
 
-**⚠️ No support will be provided for binaries downloaded from unofficial mirrors like softpedia. ⚠️**
+**⚠ No support will be provided for binaries downloaded from unofficial mirrors like softpedia. ⚠**
 
 ## Usage
 
