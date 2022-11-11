@@ -1,6 +1,6 @@
-appId: steam.depot.downloader.gui
+appId: rocks.maarten.depotdownloader
 productName: SteamDepotDownloaderGUI
-copyright: Copyright © 2022 mmvanheusden | This work is free. Licensed under the Do What The Fuck You Want To Public License
+copyright: Copyright © 2022 mmvanheusden | This work is free. Licensed under the GNU GPLv2 Public License
 
 linux:
   executableName: SteamDepotDownloaderGUI
@@ -25,7 +25,7 @@ mac:
         - x64
 
 win:
-  legalTrademarks: Copyright © 2022 mmvanheusden | This work is free. Licensed under the Do What The Fuck You Want To Public License
+  legalTrademarks: Copyright © 2022 mmvanheusden | This work is free. Licensed under the GNU GPLv2 Public License
   target:
     - target: portable
       arch:
