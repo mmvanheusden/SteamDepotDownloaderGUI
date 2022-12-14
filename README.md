@@ -39,3 +39,11 @@ the [contributing instructions and guidelines](contributing.md).
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to keep code consistent and cross-platform compatible.
+
+
+<p align="center">
+  <img src="https://forthebadge.com/images/badges/powered-by-black-magic.svg">
+  <img src="https://forthebadge.com/images/badges/built-with-swag.svg">
+  <img src="https://forthebadge.com/images/badges/does-not-contain-treenuts.svg">
+  <img src="https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg">
+</p>
