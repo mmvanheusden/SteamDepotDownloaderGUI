@@ -48,7 +48,7 @@ function submitDotnet() {
 	document.getElementById("dotnetwarning").hidden = true
 	if (os.includes("win")) {
 		console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
-		void electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-windows-x64-installer")
+		void electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.407-windows-x64-installer")
 	}
 	if (os.includes("linux")) {
 		console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
@@ -57,7 +57,7 @@ function submitDotnet() {
 	if (os.includes("darwin")) {
 		console.debug("Opened .NET download page for" + os)
 		//TODO: Apple Silicon(ARM64) URL
-		void electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-macos-x64-installer")
+		void electron.shell.openExternal("https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.407-macos-x64-installer")
 	}
 }
 
