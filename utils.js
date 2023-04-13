@@ -156,8 +156,11 @@ const createCommand = () => {
 	// if either the username or password fields are empty, anonymous login is used
 	let anonymous = username === "" || password === ""
 
+	// Allows enormous strings like &$§"&$="§$/"(§NJUIDW>;!%?aQ52V?*['YsDnRy|(+Q 1h6BmnDQp,(Xr&Th _fMMm|*1T5a^HBuJr)EYKdA$~V*9N~74zg3hf9ZH(!HR"§RH§"H(R being used as password
+	password = password.replace(/"/g, "\"\"")
+
 	// build the username and password flags into one string, allowing for anonymous login
-	let userpass = anonymous ? "" : `-username ${username} -password ${password}`
+	let userpass = anonymous ? "" : `-username ${username} -password "${password}"`
 
 	const finalPath = platformpath() + path.sep + "games" + path.sep + appid
 
