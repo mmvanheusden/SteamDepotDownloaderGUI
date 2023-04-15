@@ -73,6 +73,12 @@ function openSteamDB() {
 	void electron.shell.openExternal("https://steamdb.info/instantsearch/")
 }
 
+function openDonate() {
+	const electron = require("electron")
+	console.debug("Opened donation page")
+	void electron.shell.openExternal("https://liberapay.com/barbapapa/")
+}
+
 /* Everything below this line runs when the page is loaded */
 
 // Add event listeners to the buttons
@@ -81,4 +87,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("downloadbtn").addEventListener("click", submitForm)
 	document.getElementById("smbtn1").addEventListener("click", openGitHubIssues)
 	document.getElementById("smbtn2").addEventListener("click", openSteamDB)
+	document.getElementById("smbtn3").addEventListener("click", openDonate)
 })
