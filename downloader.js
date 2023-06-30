@@ -8,6 +8,7 @@ const {
 	unzip
 } = require("./utils")
 
+// Initializes the variable that holds the path to the specified download location
 let exportedFile
 
 function submitForm() {
@@ -82,12 +83,11 @@ function openDonate() {
 }
 
 function checkPath() {
+	// Opens the chosen location where the game will be downloaded to
 	shell.openPath(exportedFile)
 }
 
-
-
-/* Everything below this line runs when the page is loaded */
+/* Everything beyond this line runs when the page is loaded */
 
 const { ipcRenderer, shell} = require("electron")
 
@@ -100,16 +100,13 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("smbtn3").addEventListener("click", openDonate)
 	document.getElementById("smbtn3").addEventListener("click", openDonate)
 	document.getElementById("pickpath").addEventListener("click", () => {
-		ipcRenderer.send("pick-path")
+		ipcRenderer.send("selectpath")
 	})
 	document.getElementById("checkpath").addEventListener("click", checkPath)
 })
 
-//upon receiving a file, process accordingly
-
-
 ipcRenderer.on("file", (event, file) => {
 	console.log("obtained file from main process: " + file)
-	document.getElementById("checkpath").hidden = false
+	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
 	exportedFile = file
 })

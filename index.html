@@ -74,15 +74,18 @@
 			<input class="form-control input-block" id="manifestid" type="number"/>
 		</div>
 
-		<div class="d-flex">
-			<!-- todo polish-->
-			<div aria-label="pick." class="btn btn-sm ml-3 tooltipped tooltipped-ne" id="pickpath">
-				pick
+		<div class="form-group mx-3 mt-1 required">
+			<div class="form-group-header">
+				<label>Download Location</label>
 			</div>
+			<div class="d-flex">
+				<div aria-label="Pick the path/location where the game will be downloaded to." class="btn btn-sm tooltipped tooltipped-ne" id="pickpath">
+					Set download location
+				</div>
 
-			<!-- todo polish-->
-			<div aria-label="check." class="btn btn-sm ml-3 tooltipped tooltipped-ne" id="checkpath" hidden>
-				check
+				<div aria-label="Check the location that has been selected." class="btn btn-sm ml-2 tooltipped tooltipped-ne" id="checkpath" aria-disabled="true">
+					Visit download location
+				</div>
 			</div>
 		</div>
 

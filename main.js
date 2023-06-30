@@ -1,6 +1,7 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
-const {path} = require("path")
 const {platformpath} = require("./utils")
+
+
 
 const createWindow = () => {
 	// Create the browser window.
@@ -47,22 +48,19 @@ app.on("window-all-closed", () => {
 })
 
 
-ipcMain.on("pick-path", (event) => {
-	// If the platform is 'win32' or 'Linux'
+ipcMain.on("selectpath", (event) => {
 	// Resolves to a Promise<Object>
 	dialog.showOpenDialog({
-		title: "Select the Path where the game will be downloaded to",
+		title: "Select the path where the game will be downloaded to",
 		defaultPath: platformpath(),
 		buttonLabel: "Select",
 		// Specifying the Directory Selector Property
 		properties: ["openDirectory"]
 	}).then(file => {
-		// Stating whether dialog operation was
-		// cancelled or not.
-		console.log(file.canceled)
+		console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below"))
 		if (!file.canceled) {
 			const filepath = file.filePaths[0].toString()
-			console.log(filepath)
+			console.debug("Path selected is " + filepath)
 			event.reply("file", filepath)
 		}
 	}).catch(err => {
