@@ -9,7 +9,7 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		resizable: false,
 		width: 430,
-		height: 590,
+		height: 660,
 		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
@@ -49,15 +49,14 @@ app.on("window-all-closed", () => {
 
 
 ipcMain.on("selectpath", (event) => {
-	// Resolves to a Promise<Object>
-	dialog.showOpenDialog({
-		title: "Select the path where the game will be downloaded to",
-		defaultPath: platformpath(),
-		buttonLabel: "Select",
+	dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
 		// Specifying the Directory Selector Property
-		properties: ["openDirectory"]
+		properties: ["openDirectory"],
+		title: "Select the path where the game will be downloaded",
+		defaultPath: platformpath(),
+		buttonLabel: "Select"
 	}).then(file => {
-		console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below"))
+		//console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below")) --- doesn't log to the dev console TODO
 		if (!file.canceled) {
 			const filepath = file.filePaths[0].toString()
 			console.debug("Path selected is " + filepath)
