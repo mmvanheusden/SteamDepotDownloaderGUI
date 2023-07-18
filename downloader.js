@@ -108,5 +108,5 @@ window.addEventListener("DOMContentLoaded", () => {
 ipcRenderer.on("file", (event, file) => {
 	console.log("obtained file from main process: " + file)
 	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
-	exportedFile = file
+	exportedFile = file.toString()
 })

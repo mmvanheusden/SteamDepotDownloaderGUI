@@ -59,7 +59,7 @@ ipcMain.on("selectpath", (event) => {
 		//console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below")) --- doesn't log to the dev console TODO
 		if (!file.canceled) {
 			const filepath = file.filePaths[0].toString()
-			console.debug("Path selected is " + filepath)
+			// console.debug("Path selected is " + filepath)											--- same thing
 			event.reply("file", filepath)
 		}
 	}).catch(err => {
