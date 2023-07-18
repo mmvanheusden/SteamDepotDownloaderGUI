@@ -8,6 +8,9 @@ const {
 	unzip
 } = require("./utils")
 
+// Initializes the variable that holds the path to the specified download location
+let exportedFile
+
 function submitForm() {
 	// Check if the form is filled in and if dotnet is installed
 	preDownloadCheck().then(async function () {
@@ -79,7 +82,14 @@ function openDonate() {
 	void electron.shell.openExternal("https://liberapay.com/barbapapa/")
 }
 
-/* Everything below this line runs when the page is loaded */
+function checkPath() {
+	// Opens the chosen location where the game will be downloaded to
+	shell.openPath(exportedFile)
+}
+
+/* Everything beyond this line runs when the page is loaded */
+
+const { ipcRenderer, shell} = require("electron")
 
 // Add event listeners to the buttons
 window.addEventListener("DOMContentLoaded", () => {
@@ -88,4 +98,15 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("smbtn1").addEventListener("click", openGitHubIssues)
 	document.getElementById("smbtn2").addEventListener("click", openSteamDB)
 	document.getElementById("smbtn3").addEventListener("click", openDonate)
+	document.getElementById("smbtn3").addEventListener("click", openDonate)
+	document.getElementById("pickpath").addEventListener("click", () => {
+		ipcRenderer.send("selectpath")
+	})
+	document.getElementById("checkpath").addEventListener("click", checkPath)
+})
+
+ipcRenderer.on("file", (event, file) => {
+	console.log("obtained file from main process: " + file)
+	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
+	exportedFile = file.toString()
 })

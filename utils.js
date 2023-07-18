@@ -162,7 +162,10 @@ const createCommand = () => {
 	// build the username and password flags into one string, allowing for anonymous login
 	let userpass = anonymous ? "" : `-username ${username} -password "${password}"`
 
-	const finalPath = platformpath() + path.sep + "games" + path.sep + appid
+	// for some reason exportedFile doesn't have to be imported or exported
+	// eslint-disable-next-line no-undef
+	const finalPath = exportedFile + path.sep + appid
+	console.debug("download path will be: " + finalPath)
 
 	// The final command to run, returned by this function
 	if (osdropdown.options[osdropdown.selectedIndex].text.includes("Gnome")) {

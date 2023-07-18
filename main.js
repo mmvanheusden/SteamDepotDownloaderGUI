@@ -1,4 +1,7 @@
-const {app, BrowserWindow} = require("electron")
+const {app, BrowserWindow, dialog, ipcMain} = require("electron")
+const {platformpath} = require("./utils")
+
+
 
 const createWindow = () => {
 	// Create the browser window.
@@ -6,7 +9,7 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		resizable: false,
 		width: 430,
-		height: 590,
+		height: 660,
 		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
@@ -42,4 +45,24 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") app.quit()
+})
+
+
+ipcMain.on("selectpath", (event) => {
+	dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+		// Specifying the Directory Selector Property
+		properties: ["openDirectory"],
+		title: "Select the path where the game will be downloaded",
+		defaultPath: platformpath(),
+		buttonLabel: "Select"
+	}).then(file => {
+		//console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below")) --- doesn't log to the dev console TODO
+		if (!file.canceled) {
+			const filepath = file.filePaths[0].toString()
+			// console.debug("Path selected is " + filepath)											--- same thing
+			event.reply("file", filepath)
+		}
+	}).catch(err => {
+		console.log(err)
+	})
 })
