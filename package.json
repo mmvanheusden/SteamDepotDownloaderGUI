@@ -31,7 +31,7 @@
   "homepage": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI#readme",
   "devDependencies": {
     "electron": "^25.3.0",
-    "electron-builder": "^24.4.0",
+    "electron-builder": "^24.6.3",
     "eslint": "^8.45.0"
   },
   "dependencies": {
