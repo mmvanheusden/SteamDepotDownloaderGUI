@@ -4,3 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    # ignore small updates
+    ignore:
+      update-types: ["version-update:semver-patch"]
