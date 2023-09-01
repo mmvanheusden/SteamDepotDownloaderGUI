@@ -1,3 +1,6 @@
+// Uses a prebuild binary of https://github.com/SteamRE/DepotDownloader
+// License can be found at https://github.com/SteamRE/DepotDownloader/blob/master/LICENSE
+
 const {
 	preDownloadCheck,
 	download,
@@ -18,17 +21,17 @@ function submitForm() {
 		document.getElementById("emptywarning").hidden = true
 		console.info("dotnet found in PATH")
 
-		// Remove the old depotdownloader directory
+		// Remove the old depotdownloader directory if there are any
 		await removeDir("depotdownloader")
 
-		// Download the DepotDownloader binary, so it doesn't have to be included in the source code
-		await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.4.7/depotdownloader-2.4.7.zip")
+		// Download a prebuild DepotDownloader binary, so it doesn't have to be included in the source code
+		await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip")
 
 		// Unzip the DepotDownloader binary
-		await unzip("depotdownloader-2.4.7.zip", "depotdownloader")
+		await unzip("depotdownloader-2.5.0.zip", "depotdownloader")
 
 		// Clean up the old files
-		await removeFile("depotdownloader-2.4.7.zip")
+		await removeFile("depotdownloader-2.5.0.zip")
 
 		// Run the final command
 		await runCommand(createCommand())
