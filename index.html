@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link href="https://unpkg.com/@primer/css@21.0.7/dist/primer.css" rel="stylesheet"/>
+	<link href="https://unpkg.com/@primer/css@21.0.9/dist/primer.css" rel="stylesheet"/>
 	<title>SteamDepotDownloaderGUI</title>
 </head>
 <body>
@@ -94,16 +94,32 @@
 
 			<div aria-label="Select your OS/terminal here." class="form-group-body tooltipped tooltipped-n">
 				<select aria-label="Preference" class="form-select width-full" id="osdropdown">
-					<option disabled>Choose your OS</option>
 					<option>Windows</option>
 					<option disabled>macOS (NOT YET IMPLEMENTED)</option>
-					<option disabled>If you are using Linux</option>
-					<option disabled>Select your terminal</option>
-					<option>KDE Konsole</option>
+					<option>Linux</option>
+					<option>Print command in console (CTRL-SHIFT-I)</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group mx-3 mt-3 required">
+			<div class="form-group-header ">
+				<label for="osdropdown2">Terminal</label>
+			</div>
+
+			<div aria-label="Select the terminal emulator you use." class="form-group-body tooltipped tooltipped-n">
+				<select aria-label="Preference" class="form-select width-full" id="osdropdown2" disabled>
 					<option>Gnome Terminal</option>
+					<option>KDE Konsole</option>
 					<option>Xfce Terminal</option>
 					<option>Terminator</option>
-					<option>Print command in console (CTRL-SHIFT-I)</option>
+					<option>Terminology</option>
+					<option>xterm</option>
+					<option>Kitty</option>
+					<option>LXTerminal</option>
+					<option>Tilix</option>
+					<option>Deepin Terminal</option>
+					<option>cool-retro-term</option>
 				</select>
 			</div>
 		</div>

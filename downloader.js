@@ -90,6 +90,19 @@ function checkPath() {
 	shell.openPath(exportedFile)
 }
 
+function checkSelection() {
+	// If Linux is selected in the dropdown menu, enable the second dropdown so the user can choose their terminal emulator.
+	/*
+	[0] - Windows
+	[1] - macOS
+	[2] - Linux
+	[3] - manual
+	 */
+	let docu = document.getElementById("osdropdown")
+	let docu2 = document.getElementById("osdropdown2")
+	docu2.disabled = docu.selectedIndex !== 2; docu2.selectedIndex = 0
+}
+
 /* Everything beyond this line runs when the page is loaded */
 
 const { ipcRenderer, shell} = require("electron")
@@ -106,6 +119,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		ipcRenderer.send("selectpath")
 	})
 	document.getElementById("checkpath").addEventListener("click", checkPath)
+	document.getElementById("osdropdown").addEventListener("change", checkSelection)
 })
 
 ipcRenderer.on("file", (event, file) => {
