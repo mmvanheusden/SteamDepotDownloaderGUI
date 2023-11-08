@@ -1,6 +1,6 @@
 // Uses a prebuild binary of https://github.com/SteamRE/DepotDownloader
 // License can be found at https://github.com/SteamRE/DepotDownloader/blob/master/LICENSE
-
+const { ipcRenderer, shell} = require("electron")
 const {
 	preDownloadCheck,
 	download,
@@ -48,50 +48,55 @@ function submitForm() {
 	})
 }
 
-function submitDotnet() {
+// Combines all buttons that are supposed to open an external URL into one big function.
+function openRelevantPage(target) {
 	const electron = require("electron")
 	const os = process.platform.toString()
-	document.getElementById("dotnetwarning").hidden = true
-	if (os.includes("win")) {
-		console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
-		void electron.shell.openExternal("https://aka.ms/dotnet/6.0/dotnet-sdk-win-x64.exe")
+	switch (target) {
+	// why are you not indenting nicely eslint?
+	/* eslint-disable indent */
+		case "dotnet":
+			document.getElementById("dotnetwarning").hidden = true
+			if (os.includes("win")) {
+				console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
+				void electron.shell.openExternal("https://aka.ms/dotnet/6.0/dotnet-sdk-win-x64.exe")
+			}
+			if (os.includes("linux")) {
+				const electron = require("electron")
+				console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
+				void electron.shell.openExternal("https://docs.microsoft.com/en-us/dotnet/core/install/linux")
+			}
+			if (os.includes("darwin")) {
+				console.debug("Opened .NET download page for" + os)
+				//TODO: Apple Silicon(ARM64) URL
+				void electron.shell.openExternal("https://aka.ms/dotnet/6.0/dotnet-sdk-osx-x64.pkg")
+			}
+			break
+		case "issues":
+			console.debug("Opened GitHub issues page")
+			void electron.shell.openExternal("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues/new")
+			break
+		case "steamdb":
+			console.debug("Opened SteamDB instant search page")
+			void electron.shell.openExternal("https://steamdb.info/instantsearch/")
+			break
+		case "donate":
+			console.debug("Opened donation page")
+			void electron.shell.openExternal("https://liberapay.com/barbapapa/")
+			break
+		default:
+			return
 	}
-	if (os.includes("linux")) {
-		console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
-		void electron.shell.openExternal("https://docs.microsoft.com/en-us/dotnet/core/install/linux")
-	}
-	if (os.includes("darwin")) {
-		console.debug("Opened .NET download page for" + os)
-		//TODO: Apple Silicon(ARM64) URL
-		void electron.shell.openExternal("https://aka.ms/dotnet/6.0/dotnet-sdk-osx-x64.pkg")
-	}
+	/* eslint-enable indent */
 }
 
-function openGitHubIssues() {
-	const electron = require("electron")
-	console.debug("Opened GitHub issues page")
-	void electron.shell.openExternal("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues/new")
-}
-
-function openSteamDB() {
-	const electron = require("electron")
-	console.debug("Opened SteamDB instant search page")
-	void electron.shell.openExternal("https://steamdb.info/instantsearch/")
-}
-
-function openDonate() {
-	const electron = require("electron")
-	console.debug("Opened donation page")
-	void electron.shell.openExternal("https://liberapay.com/barbapapa/")
-}
-
+// Opens the chosen location where the game will be downloaded to
 function checkPath() {
-	// Opens the chosen location where the game will be downloaded to
 	shell.openPath(exportedFile)
 }
 
+// If Linux is selected in the dropdown menu, enable the second dropdown so the user can choose their terminal emulator.
 function checkSelection() {
-	// If Linux is selected in the dropdown menu, enable the second dropdown so the user can choose their terminal emulator.
 	/*
 	[0] - Windows
 	[1] - macOS
@@ -100,26 +105,33 @@ function checkSelection() {
 	 */
 	let docu = document.getElementById("osdropdown")
 	let docu2 = document.getElementById("osdropdown2")
+	// if the choice = 2, enable the terminal selection dropdown.
 	docu2.disabled = docu.selectedIndex !== 2; docu2.selectedIndex = 0
 }
 
-/* Everything beyond this line runs when the page is loaded */
-
-const { ipcRenderer, shell} = require("electron")
+// This changes the dropdown selection, based on the platform being used.
+ipcRenderer.on("update-value", (e, msg) => {
+	const osdropdown = document.getElementById("osdropdown")
+	if (msg === "linux") {
+		osdropdown.selectedIndex = 2
+	} else if (msg === "win") {
+		osdropdown.selectedIndex = 0
+	} else if (msg === "darwin") {
+		osdropdown.selectedIndex = 1
+	}
+	checkSelection() // force check the selection so the terminal dropdown can be unhidden.
+})
 
 // Add event listeners to the buttons
 window.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("dotnetalertbtn").addEventListener("click", submitDotnet)
-	document.getElementById("downloadbtn").addEventListener("click", submitForm)
-	document.getElementById("smbtn1").addEventListener("click", openGitHubIssues)
-	document.getElementById("smbtn2").addEventListener("click", openSteamDB)
-	document.getElementById("smbtn3").addEventListener("click", openDonate)
-	document.getElementById("smbtn3").addEventListener("click", openDonate)
-	document.getElementById("pickpath").addEventListener("click", () => {
-		ipcRenderer.send("selectpath")
-	})
+	document.getElementById("dotnetalertbtn").addEventListener("click", () => openRelevantPage("dotnet"))
+	document.getElementById("smbtn1").addEventListener("click", () => openRelevantPage("issues"))
+	document.getElementById("smbtn2").addEventListener("click", () => openRelevantPage("steamdb"))
+	document.getElementById("smbtn3").addEventListener("click", () => openRelevantPage("donate"))
+	document.getElementById("pickpath").addEventListener("click", () => ipcRenderer.send("selectpath"))
 	document.getElementById("checkpath").addEventListener("click", checkPath)
-	document.getElementById("osdropdown").addEventListener("change", checkSelection)
+	document.getElementById("osdropdown").addEventListener("input", checkSelection)
+	document.getElementById("downloadbtn").addEventListener("click", submitForm)
 })
 
 ipcRenderer.on("file", (event, file) => {

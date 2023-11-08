@@ -38,7 +38,7 @@ If you haven't already, install [.NET SDK 6.0](https://dotnet.microsoft.com/en-u
 From then, download the appropriate build from [here](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest).
 
 
-> **Note**
+> **Note:**
 > No support will be provided for binaries downloaded from unofficial mirrors like softpedia.
 
 
@@ -51,10 +51,11 @@ Enter everything you normally would in the DepotDownloader console and select yo
 
 This software makes use of the following projects:
 - [**DepotDownloader**](https://github.com/SteamRE/DepotDownloader/)
-- [Electron](http://electron.atom.io/)
+- [Electron](https://www.electronjs.org/)
 - [Node.js](https://nodejs.org/)
 - [Primer CSS](https://primer.style/css/)
 - [follow-redirects](https://github.com/follow-redirects/follow-redirects)
+- [Hubut Sans](https://github.com/github/hubot-sans) under [license](https://github.com/github/hubot-sans/blob/05d5ea150c20e6434485db8ffd2277ed18a9e911/LICENSE) 
 
 
 ## Support

@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Hubot Sans';
+    src:
+            url('Hubot-Sans.woff2') format('woff2 supports variations'),
+            url('Hubot-Sans.woff2') format('woff2-variations');
+    font-weight: 770;
+    font-stretch: expanded;
+}
+.f1-light {
+    font-family: 'Hubot Sans', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+}

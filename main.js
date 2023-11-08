@@ -9,7 +9,7 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		resizable: false,
 		width: 430,
-		height: 660,
+		height: 730,
 		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
@@ -38,6 +38,12 @@ app.whenReady().then(() => {
 		// dock icon is clicked and there are no other windows open.
 		if (BrowserWindow.getAllWindows().length === 0) createWindow()
 	})
+
+	// Waits one second so the DOM is ready, and then sends the process platform to the downloader.
+	// TODO: On slow machine this WILL cause issues. Fix required!
+	setTimeout(() => {
+		BrowserWindow.getFocusedWindow().webContents.postMessage("update-value", (process.platform.toString() || "win"))
+	}, 1000)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

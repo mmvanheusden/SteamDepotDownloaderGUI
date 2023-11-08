@@ -2,8 +2,8 @@
 
 SteamDepotDownloaderGUI is a graphical user interface for DepotDownloader.
 
-It is written in Node.js and uses the [electron](https://electronjs.org/) framework.
-The CSS framework is [Primer](https://primer.style).
+It is written in Node.js and uses the [Electron](https://electronjs.org/) framework.
+The CSS framework being used is [Primer](https://primer.style), by GitHub.
 
 ## Setup development environment
 
@@ -38,7 +38,7 @@ npm start
 npm run build
 ```
 
-* If you are using macOS, you may build using the following command:
+* If you are using macOS, you can build using the following command:
 
 ```bash
 npm run buildall
