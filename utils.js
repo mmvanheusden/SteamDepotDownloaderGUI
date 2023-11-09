@@ -109,7 +109,7 @@ function removeDir(dir,) {
 
 /**
  * Unzip a file to the current directory
- * @param file The file to unzip, preferably a .zip file
+ * @param file The zip file to unzip.
  * @param target The target directory to unzip to
  * @returns {Promise<unknown>} A promise that resolves when the unzip is complete, or rejects if something fails
  */
