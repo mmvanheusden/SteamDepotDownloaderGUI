@@ -1,5 +1,5 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
-const {platformpath} = require("./utils")
+const {platformpath, forceTerminals} = require("./utils")
 
 
 
@@ -43,6 +43,7 @@ app.whenReady().then(() => {
 	// TODO: On slow machine this WILL cause issues. Fix required!
 	setTimeout(() => {
 		BrowserWindow.getFocusedWindow().webContents.postMessage("update-value", (process.platform.toString() || "win"))
+		forceTerminals()
 	}, 1000)
 })
 

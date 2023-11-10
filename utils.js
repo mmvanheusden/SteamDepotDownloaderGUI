@@ -260,4 +260,31 @@ const platformpath = () => {
 	}
 }
 
-module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath}
+
+async function forceTerminals() {
+	const commands = [
+		"gnome-terminal --version",
+		"konsole --version",
+		"xfce4-terminal --version",
+		"terminator --version",
+		"terminology --version",
+		"xterm -v",
+		"kitty --version",
+		"lxterminal --version",
+		"tilix --version",
+		"deepin-terminal --version",
+		"cool-retro-term --version",
+		"hregreger"
+	]
+	if (process.platform === "linux") {
+		for (let cmd in commands) {
+			runCommand(commands[cmd]).then(() => {
+				console.log("hit " + cmd.toString())
+			}).catch(() => {
+				console.log("oh no " + cmd.toString())
+			})
+		}
+	}
+}
+
+module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath, forceTerminals}
