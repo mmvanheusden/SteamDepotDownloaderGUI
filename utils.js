@@ -255,7 +255,7 @@ const platformpath = () => {
 		// Linux AppImage
 		return process.cwd()
 	} else {
-		// .zip binary
+		// .zip binary TODO needs to be looked into, does weird stuff
 		return __dirname
 	}
 }
