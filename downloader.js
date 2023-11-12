@@ -14,6 +14,11 @@ const {
 // Initializes the variable that holds the path to the specified download location
 let exportedFile
 
+(async () => {
+	let r = await fetch("https://api.github.com/zen")
+	console.debug(await r.text())
+})()
+
 function submitForm() {
 	// Check if the form is filled in and if dotnet is installed
 	preDownloadCheck().then(async function () {
@@ -107,6 +112,9 @@ function checkSelection() {
 	let docu2 = document.getElementById("osdropdown2")
 	// if the choice = 2, enable the terminal selection dropdown.
 	docu2.disabled = docu.selectedIndex !== 2; docu2.selectedIndex = 0
+	if (docu.selectedIndex === 2) {
+		document.getElementById("osdropdownlabel").classList.add("required")
+	} else document.getElementById("osdropdownlabel").classList.remove("required")
 }
 
 // This changes the dropdown selection, based on the platform being used.

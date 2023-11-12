@@ -8,7 +8,7 @@
 
 <p align="center">
   <img alt="Screenshot of the downloader interface" src="screenshot.png"  
-     style="max-width: 70%;"/>
+     style="max-width: 60%;"/>
 </p>
 
 ## Features
