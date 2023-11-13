@@ -242,20 +242,27 @@ function runCommand(command) {
 
 /**
  * Returns the path where the actual program is being run from, depending on the operating system.
- * Because __dirname is inconsistent across operating systems, this function is used to get the correct path
+ * Because __dirname is inconsistent across operating systems, this function is used to get the correct path.
+ *
+ * Windows .exe -> process.env.PORTABLE_EXECUTABLE_DIR
+ * Linux .appimage -> process.cwd()
+ * Linux .zip -> process.cwd()
  * @returns {string} The absolute path
  */
 const platformpath = () => {
 	if ((__dirname.includes("AppData") || __dirname.includes("Temp")) && process.platform.toString().includes("win")) {
 		// Windows portable exe
 		return process.env.PORTABLE_EXECUTABLE_DIR
-	} else if (__dirname.includes("/tmp/") && process.platform.toString().includes("linux")) {
-		// Linux AppImage
+	} else if (/*__dirname.includes("/tmp/") && */process.platform.toString().includes("linux")) {
+		// in a .zip, __dirname seems to return a broken path, ending with app.asar.
+		// using process.cwd() fixes that, but might not work on all distros as this has been an issue in the past.
+		// see commit 894197e75e774f4a17cced00d9862ab3942a8a5a
+
+		// Linux AppImage / .zip
 		return process.cwd()
-	} else {
-		// .zip binary TODO needs to be looked into, does weird stuff
+	} /*else {
 		return __dirname
-	}
+	}*/
 }
 
 module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath}
