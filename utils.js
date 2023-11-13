@@ -187,9 +187,7 @@ const createCommand = () => {
 
 	// for some reason exportedFile doesn't have to be imported or exported
 	// eslint-disable-next-line no-undef
-	const finalPath = exportedFile + path.sep + appid
-	console.debug("download path will be: " + finalPath)
-
+	const finalPath = (exportedFile + path.sep + appid).replaceAll(" ", "\\ ")
 	// The final command to run, returned by this function
 	if (os === 0) {
 		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
@@ -217,7 +215,7 @@ const createCommand = () => {
 		} else if (terminal === 9) {
 			return `deepin-terminal -e 'sh -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"'`
 		} else if (terminal === 10) {
-			return `cool-retro-term -e sh -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"`
+			return `cool-retro-term -e sh -c "cd ${platformpath()} && dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"`
 		}
 	} else if (os === 3) {
 		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${platformpath()}/depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`)
