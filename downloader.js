@@ -39,6 +39,7 @@ function submitForm() {
 		await removeFile("depotdownloader-2.5.0.zip")
 
 		// Run the final command
+		if (document.getElementById("osdropdown").selectedIndex !== 3) await console.debug("Command issued: " + createCommand())
 		await runCommand(createCommand())
 	}).catch(function (error) {
 		if (error === "noDotnet") {
