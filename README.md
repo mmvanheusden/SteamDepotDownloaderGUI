@@ -13,11 +13,11 @@
 
 ## Features
 
-* Cross platform
+* **Cross platform**
   - Windows
   - <s>macOS</s> (in development™)
   - Linux
-* Cross terminal
+* **Cross terminal**
   - Gnome Terminal
   - Konsole
   - xfce4-terminal
@@ -30,16 +30,23 @@
   - Deepin Terminal
   - cool-retro-term
   - Manual: produce a script that can be copy pasted into a terminal of choice
-* Support for anonymous downloads
+* **Support for anonymous downloads**
 
-## Installation
-
-If you haven't already, install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) on your computer.
-From then, download the appropriate build from [here](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest).
-
+## Download
 
 > **Note:**
-> No support will be provided for binaries downloaded from unofficial mirrors like softpedia.
+> No support will be provided for downloads distributed by unofficial mirrors like softpedia.
+
+### Windows:
+* If you haven't already, install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) on your computer.
+  Then, download the [latest Windows build](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest)
+### **Linux:**
+#### Arch Linux:
+* An official [AUR package](https://aur.archlinux.org/packages/steamdepotdownloadergui-appimage) has been made. this can be installed using `yay -S steamdepotdownloadergui-appimage`.
+#### Other Linux distros:
+* There are several options, AppImage, and a `.zip`, for both x64 and arm64. **.NET 6.0 is required.**
+  
+  [Download latest release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest)
 
 
 ## How to use
@@ -58,7 +65,7 @@ This software makes use of the following projects:
 - [Hubut Sans](https://github.com/github/hubot-sans) under [license](https://github.com/github/hubot-sans/blob/05d5ea150c20e6434485db8ffd2277ed18a9e911/LICENSE) 
 
 
-## Support
+## Donate
 
 Donations can be made through Liberapay :)
 
@@ -69,7 +76,7 @@ Donations can be made through Liberapay :)
 
 ## Contribute
 
-If you want to contribute to SteamDepotDownloaderGUI, please make sure to follow
+If you would like to contribute to SteamDepotDownloaderGUI, please make sure to follow
 the [contributing instructions and guidelines](contributing.md).
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
