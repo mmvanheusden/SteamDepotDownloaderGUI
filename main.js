@@ -2,19 +2,17 @@ const {app, BrowserWindow, dialog, ipcMain} = require("electron")
 const {platformpath} = require("./utils")
 
 
-
 const createWindow = () => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
 		resizable: false,
-		width: 430,
+		width: 440,
 		height: 730,
 		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false
+			nodeIntegration: true, contextIsolation: false
 		}
 	})
 
@@ -64,7 +62,7 @@ ipcMain.on("selectpath", (event) => {
 		defaultPath: platformpath(),
 		buttonLabel: "Select"
 	}).then(file => {
-		//console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below")) --- doesn't log to the dev console TODO
+		//console.debug("Has path selection succeeded: " + ((file.canceled) ? "NO" : "YES; see below")) --- doesn't log to the dev console
 		if (!file.canceled) {
 			const filepath = file.filePaths[0].toString()
 			// console.debug("Path selected is " + filepath)											--- same thing
