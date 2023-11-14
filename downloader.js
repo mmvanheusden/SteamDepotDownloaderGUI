@@ -124,14 +124,18 @@ function checkSelection() {
 	}
 }
 
-// This changes the dropdown selection, based on the platform being used.
-ipcRenderer.on("update-value", (e, msg) => {
+
+// main.js sends a ready message if the page is loaded in. This will be received here.
+// process.platform -> 'linux' -> selectedIndex = 2 (Linux)
+// process.platform -> 'win32' -> selectedIndex = 0 (Windows)
+// process.platform -> 'darwin' -> selectedIndex = 1 (macOS)
+ipcRenderer.on("ready", () => {
 	const osdropdown = document.getElementById("osdropdown")
-	if (msg === "linux") {
+	if (process.platform.toString().includes("linux")) {
 		osdropdown.selectedIndex = 2
-	} else if (msg === "win") {
+	} else if (process.platform.toString().includes("win")) {
 		osdropdown.selectedIndex = 0
-	} else if (msg === "darwin") {
+	} else if (process.platform.toString().includes("darwin")) {
 		osdropdown.selectedIndex = 1
 	}
 	checkSelection() // force check the selection so the terminal dropdown can be unhidden.

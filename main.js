@@ -39,11 +39,13 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow()
 	})
 
-	// Waits one second so the DOM is ready, and then sends the process platform to the downloader.
-	// TODO: On slow machine this WILL cause issues. Fix required!
-	setTimeout(() => {
-		BrowserWindow.getFocusedWindow().webContents.postMessage("update-value", (process.platform.toString() || "win"))
-	}, 1000)
+})
+
+// If the page is fully loaded in, send a sign.
+app.on("web-contents-created", (event, contents) => {
+	contents.on("dom-ready", () => {
+		contents.send("ready")
+	})
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
