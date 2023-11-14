@@ -98,7 +98,9 @@ function openRelevantPage(target) {
 
 // Opens the chosen location where the game will be downloaded to
 function checkPath() {
-	shell.openPath(exportedFile)
+	shell.openPath(exportedFile).then( () => {
+		console.log("Opened " + exportedFile + " in file explorer.")
+	})
 }
 
 // If Linux is selected in the dropdown menu, enable the second dropdown so the user can choose their terminal emulator.
@@ -109,13 +111,17 @@ function checkSelection() {
 	[2] - Linux
 	[3] - manual
 	 */
-	let docu = document.getElementById("osdropdown")
-	let docu2 = document.getElementById("osdropdown2")
+	let os_dropdown = document.getElementById("osdropdown")
+	let terminal_dropdown = document.getElementById("osdropdown2")
 	// if the choice = 2, enable the terminal selection dropdown.
-	docu2.disabled = docu.selectedIndex !== 2; docu2.selectedIndex = 0
-	if (docu.selectedIndex === 2) {
+	if (os_dropdown.selectedIndex === 2) {
+		terminal_dropdown.disabled = false
 		document.getElementById("osdropdownlabel").classList.add("required")
-	} else document.getElementById("osdropdownlabel").classList.remove("required")
+	} else {
+		terminal_dropdown.disabled = true
+		terminal_dropdown.selectedIndex = 0
+		document.getElementById("osdropdownlabel").classList.remove("required")
+	}
 }
 
 // This changes the dropdown selection, based on the platform being used.
@@ -144,7 +150,7 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 ipcRenderer.on("file", (event, file) => {
-	console.log("obtained file from main process: " + file)
+	console.log("path selected by user: " + file)
 	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
 	exportedFile = file.toString()
 })
