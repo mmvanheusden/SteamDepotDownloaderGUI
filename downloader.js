@@ -116,11 +116,11 @@ function checkSelection() {
 	// if the choice = 2, enable the terminal selection dropdown.
 	if (os_dropdown.selectedIndex === 2) {
 		terminal_dropdown.disabled = false
-		document.getElementById("osdropdownlabel").classList.add("required")
+		document.getElementById("osdropdown2label").classList.add("required")
 	} else {
 		terminal_dropdown.disabled = true
-		terminal_dropdown.selectedIndex = 0
-		document.getElementById("osdropdownlabel").classList.remove("required")
+		terminal_dropdown.selectedIndex = 11
+		document.getElementById("osdropdown2label").classList.remove("required")
 	}
 }
 

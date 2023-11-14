@@ -1,5 +1,11 @@
 /**
  * Checks if dotnet is installed in the system path
+ *
+ * **rejects**:
+ *
+ * `emptyField` -> One or more required field(s) are not filled in.
+ *
+ * `noDotnet` -> `dotnet` has not been found in the path.
  * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
 function preDownloadCheck() {
@@ -13,6 +19,12 @@ function preDownloadCheck() {
 			input.parentElement.classList.toggle("errored", isInvalid) // toggle the 'errored' class depending on if isInvalid is true or false.
 			if (isInvalid) unfilledFields++
 		}
+		// If the selected OS is Linux, and the terminal selection is the default (11), error.
+		if (document.getElementById("osdropdown").selectedIndex === 2 && document.getElementById("osdropdown2").selectedIndex === 11) {
+			document.getElementById("osdropdown2label").classList.add("errored")
+			unfilledFields++
+		} else document.getElementById("osdropdown2label").classList.remove("errored")
+
 		if (unfilledFields > 0) {
 			reject("emptyField")
 			return
@@ -174,6 +186,7 @@ const createCommand = () => {
 	[8] - Tilix
 	[9] - Deepin Terminal
 	[10] - cool-retro-term
+	[11] (default, hidden) - Choose your terminal emulator
 	 */
 
 	// if either the username or password fields are empty, anonymous login is used
