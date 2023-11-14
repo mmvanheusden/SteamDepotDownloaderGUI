@@ -34,9 +34,6 @@
 
 ## Download
 
-> **Note:**
-> No support will be provided for downloads distributed by unofficial mirrors like softpedia.
-
 ### Windows:
 * If you haven't already, install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) on your computer.
   Then, download the [latest Windows build](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest)
