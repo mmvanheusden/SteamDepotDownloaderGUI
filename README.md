@@ -41,13 +41,13 @@
 #### Arch Linux:
 * An official [AUR package](https://aur.archlinux.org/packages/steamdepotdownloadergui-appimage) has been made. this can be installed using `yay -S steamdepotdownloadergui-appimage`.
 #### Other Linux distros:
-* **You'll need `unzip`, .NET runtime 6.0 and .NET sdk 6.0.**
+* **You'll need `unzip`, .NET SDK 6.0.**
 * **Ubuntu:**
   
-  `sudo apt install unzip dotnet-runtime-6.0 dotnet-sdk-6.0`
+  `sudo apt install unzip dotnet-sdk-6.0`
 * **Fedora:**
   
-  `sudo dnf install unzip dotnet-sdk-6.0 dotnet-runtime-6.0`
+  `sudo dnf install unzip dotnet-sdk-6.0`
 
   
 * There are several options, AppImage, and a `.zip`, for both x64 and arm64.
