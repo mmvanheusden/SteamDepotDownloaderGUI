@@ -44,10 +44,10 @@
 * **You'll need `unzip`, .NET runtime 6.0 and .NET sdk 6.0.**
 * **Ubuntu:**
   
-  `sudo apt install unzip dotnet-runtime-6.0 dotnet-sdk-6.0`
+  `sudo apt install unzip dotnet-sdk-6.0`
 * **Fedora:**
   
-  `sudo dnf install unzip dotnet-sdk-6.0 dotnet-runtime-6.0`
+  `sudo dnf install unzip dotnet-sdk-6.0`
 
   
 * There are several options, AppImage, and a `.zip`, for both x64 and arm64.
