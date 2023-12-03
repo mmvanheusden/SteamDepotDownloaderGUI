@@ -1,6 +1,6 @@
 {
   "name": "steamdepotdownloadergui",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "DepotDownloader Electron frontend",
   "main": "main.js",
   "scripts": {
@@ -30,9 +30,9 @@
   },
   "homepage": "https://github.com/mmvanheusden/SteamDepotDownloaderGUI#readme",
   "devDependencies": {
-    "electron": "^27.0.4",
-    "electron-builder": "^24.6.4",
-    "eslint": "^8.53.0"
+    "electron": "^27.1.3",
+    "electron-builder": "^24.9.1",
+    "eslint": "^8.54.0"
   },
   "dependencies": {
     "elecron": "^0.0.1-security",

@@ -1,5 +1,11 @@
 /**
  * Checks if dotnet is installed in the system path
+ *
+ * **rejects**:
+ *
+ * `emptyField` -> One or more required field(s) are not filled in.
+ *
+ * `noDotnet` -> `dotnet` has not been found in the path.
  * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
 function preDownloadCheck() {
@@ -13,6 +19,12 @@ function preDownloadCheck() {
 			input.parentElement.classList.toggle("errored", isInvalid) // toggle the 'errored' class depending on if isInvalid is true or false.
 			if (isInvalid) unfilledFields++
 		}
+		// If the selected OS is Linux, and the terminal selection is the default (11), error.
+		if (document.getElementById("osdropdown").selectedIndex === 2 && document.getElementById("osdropdown2").selectedIndex === 11) {
+			document.getElementById("osdropdown2label").classList.add("errored")
+			unfilledFields++
+		} else document.getElementById("osdropdown2label").classList.remove("errored")
+
 		if (unfilledFields > 0) {
 			reject("emptyField")
 			return
@@ -174,6 +186,7 @@ const createCommand = () => {
 	[8] - Tilix
 	[9] - Deepin Terminal
 	[10] - cool-retro-term
+	[11] (default, hidden) - Choose your terminal emulator
 	 */
 
 	// if either the username or password fields are empty, anonymous login is used
@@ -242,20 +255,27 @@ function runCommand(command) {
 
 /**
  * Returns the path where the actual program is being run from, depending on the operating system.
- * Because __dirname is inconsistent across operating systems, this function is used to get the correct path
+ * Because __dirname is inconsistent across operating systems, this function is used to get the correct path.
+ *
+ * Windows .exe -> process.env.PORTABLE_EXECUTABLE_DIR
+ * Linux .appimage -> process.cwd()
+ * Linux .zip -> process.cwd()
  * @returns {string} The absolute path
  */
 const platformpath = () => {
 	if ((__dirname.includes("AppData") || __dirname.includes("Temp")) && process.platform.toString().includes("win")) {
 		// Windows portable exe
 		return process.env.PORTABLE_EXECUTABLE_DIR
-	} else if (__dirname.includes("/tmp/") && process.platform.toString().includes("linux")) {
-		// Linux AppImage
+	} else if (/*__dirname.includes("/tmp/") && */process.platform.toString().includes("linux")) {
+		// in a .zip, __dirname seems to return a broken path, ending with app.asar.
+		// using process.cwd() fixes that, but might not work on all distros as this has been an issue in the past.
+		// see commit 894197e75e774f4a17cced00d9862ab3942a8a5a
+
+		// Linux AppImage / .zip
 		return process.cwd()
-	} else {
-		// .zip binary TODO needs to be looked into, does weird stuff
+	} /*else {
 		return __dirname
-	}
+	}*/
 }
 
 

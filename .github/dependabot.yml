@@ -3,7 +3,4 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
-    # ignore small updates
-    ignore:
-      update-types: ["version-update:semver-patch"]
+      interval: "weekly"
