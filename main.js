@@ -1,5 +1,5 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
-const {platformpath, forceTerminals} = require("./utils")
+const {platformpath} = require("./utils")
 
 
 
