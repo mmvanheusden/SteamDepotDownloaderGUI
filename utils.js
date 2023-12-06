@@ -308,12 +308,10 @@ const forceTerminals = async () => {
 		console.log("--------")
 		console.log(availableTerminals.toString())
 		if (availableTerminals.length > 0) {
-			return availableTerminals
-		}
-	} else if (process.platform === "darwin") {
-		//TODO
-	}
-
+			return [true, availableTerminals]
+			//return false
+		} else return false
+	} else return false
 }
 
 module.exports = {

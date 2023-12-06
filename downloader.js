@@ -129,21 +129,19 @@ function disableForm(disable) {
 	document.getElementById("depotid").disabled = disable
 	document.getElementById("manifestid").disabled = disable
 	document.getElementById("osdropdown").disabled = disable
-	document.getElementById("osdropdown2").disabled = disable
+	document.getElementById("osdropdown2").disabled = (((document.getElementById("osdropdown").selectedIndex === 2) ? false : true))
 	document.getElementById("pickpath").ariaDisabled = disable
 	document.getElementById("pickpath").disabled = disable
 	document.getElementById("downloadbtn").ariaDisabled = disable
 	document.getElementById("downloadbtn").disabled = disable
 	document.getElementById("downloadbtn").classList.replace(((disable) ? "btn-primary" : "btn-disabled"), ((!disable) ? "btn-primary" : "btn-disabled"))
-
 }
 
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
 	if (ready) { // because for some reason this event is triggered twice, make sure it only happens once
-		document.getElementById("loader").hidden = false
 		await disableForm(true)
-		await checkSelection() // force check the selection so the terminal dropdown can be unhidden.
+		document.getElementById("loader").hidden = false
 		await (async () => {
 			let r = await fetch("https://api.github.com/zen")
 			console.debug(await r.text())
@@ -159,14 +157,18 @@ ipcRenderer.on("ready", async () => {
 		} else if (process.platform.toString().includes("darwin")) {
 			osdropdown.selectedIndex = 1
 		}
+
+		await checkSelection() // Set the default values based on OS
+
 		let terminal_dropdown = document.getElementById("osdropdown2")
-		const cmds = await forceTerminals()
-		if (cmds.length < 0) {
-			console.log("empty")
+		const terminals = await forceTerminals()
+		if (terminals[0]) {
+			console.log(`${terminals[1].length} available terminals found`)
+			terminal_dropdown.selectedIndex = terminals[1][0]
 		} else {
-			console.log("not empty" + cmds)
-			terminal_dropdown.selectedIndex = cmds[1]
+			console.log("no terminals found. continuing with default values")
 		}
+
 		await disableForm(false)
 		document.getElementById("loader").hidden = true
 	}
