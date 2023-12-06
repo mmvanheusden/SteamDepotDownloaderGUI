@@ -57,7 +57,15 @@
 
 ## How to use
 
-Enter everything you normally would in the DepotDownloader console and select your OS/terminal and click download
+### **Tutorial video for downloading older versions of Subnautica:**
+
+https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/e7f9c1ca-091d-4cd4-8df3-ae0fe6e3be86
+
+applicable to any Steam game
+
+---
+
+**Enter everything you normally would in the DepotDownloader console and select your OS/terminal and click download**
 
 
 ## Credits
