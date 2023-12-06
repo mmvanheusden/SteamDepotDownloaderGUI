@@ -279,30 +279,51 @@ const platformpath = () => {
 }
 
 
-async function forceTerminals() {
+const forceTerminals = async () => {
 	const commands = [
-		"gnome-terminal --version",
-		"konsole --version",
-		"xfce4-terminal --version",
-		"terminator --version",
-		"terminology --version",
-		"xterm -v",
-		"kitty --version",
-		"lxterminal --version",
-		"tilix --version",
-		"deepin-terminal --version",
-		"cool-retro-term --version",
-		"hregreger"
+		["gnome-terminal", "--version", 0],
+		["konsole", "--version", 1],
+		["xfce4-terminal", "--version", 2],
+		["terminator", "--version", 3],
+		["terminology","--version", 4],
+		["xterm","-v", 5],
+		["kitty","--version", 6],
+		["lxterminal","--version", 7],
+		["tilix","--version", 8],
+		["deepin-terminal","--version", 9],
+		["cool-retro-term","--version", 10],
+		["hregreger","--version", 11]
 	]
+	let availableTerminals = []
 	if (process.platform === "linux") {
-		for (let cmd in commands) {
-			runCommand(commands[cmd]).then(() => {
-				console.log("hit " + cmd.toString())
+		for (let i = 0; i < commands.length; i++) {
+			console.log(`------\nCommand trying: ${commands[i][0]} ${commands[i][1]}`)
+			await runCommand(`${commands[i][0]} ${commands[i][1]}`).then(() => {
+				console.log(`Found ${commands[i][0]}`)
+				availableTerminals.push(commands[i][2])
 			}).catch(() => {
-				console.log("oh no " + cmd.toString())
+				console.log(`${commands[i][0]} not found`)
 			})
 		}
+		console.log("--------")
+		console.log(availableTerminals.toString())
+		if (availableTerminals.length > 0) {
+			return availableTerminals
+		}
+	} else if (process.platform === "darwin") {
+		//TODO
 	}
+
 }
 
-module.exports = {preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath, forceTerminals}
+module.exports = {
+	preDownloadCheck,
+	download,
+	createCommand,
+	runCommand,
+	removeDir,
+	removeFile,
+	unzip,
+	platformpath,
+	forceTerminals
+}

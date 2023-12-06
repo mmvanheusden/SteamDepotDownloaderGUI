@@ -44,7 +44,6 @@ app.whenReady().then(() => {
 app.on("web-contents-created", (event, contents) => {
 	contents.on("dom-ready", () => {
 		contents.send("ready")
-		forceTerminals()
 	})
 })
 

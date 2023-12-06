@@ -88,9 +88,13 @@
 			</div>
 
 			<div aria-label="Check the location that has been selected."
-			     class="form-control btn btn-sm ml-2 tooltipped tooltipped-ne" id="checkpath" aria-disabled="true">
+			     class="form-control btn btn-sm ml-2 tooltipped tooltipped-ne" id="checkpath" aria-disabled="false">
 				Open location
 			</div>
+			<span class="Label mt-1 ml-3 Label--warning" id="loader">
+				<span aria-label="Loading" class="tooltipped tooltipped-n">Loading</span>
+				<span class="AnimatedEllipsis"></span>
+			</span>
 		</div>
 
 		<div class="form-group mx-3 mt-3 required">
@@ -173,7 +177,8 @@
 		Donate
 	</div>
 
-	<div aria-label="View the instructions on how to use SteamDepotDownloaderGUI." class="btn btn-sm ml-2 tooltipped tooltipped-nw mb-1"
+	<div aria-label="View the instructions on how to use SteamDepotDownloaderGUI."
+	     class="btn btn-sm ml-2 tooltipped tooltipped-nw mb-1"
 	     id="smbtn4">
 		<svg fill="#8B949E" width="16" height="16" viewBox="0 0 16 16"
 		     style="display: inline-block; vertical-align: text-bottom;">

@@ -2,16 +2,13 @@
 // License can be found at https://github.com/SteamRE/DepotDownloader/blob/master/LICENSE
 const {ipcRenderer, shell} = require("electron")
 const {
-	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip
+	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, forceTerminals
 } = require("./utils")
 
 // Initializes the variable that holds the path to the specified download location
 let exportedFile
+let ready = true
 
-(async () => {
-	let r = await fetch("https://api.github.com/zen")
-	console.debug(await r.text())
-})()
 
 function submitForm() {
 	// Check if the form is filled in and if dotnet is installed
@@ -96,6 +93,7 @@ function openRelevantPage(target) {
 
 // Opens the chosen location where the game will be downloaded to
 function checkPath() {
+	disableForm(false)
 	shell.openPath(exportedFile).then(() => {
 		console.log("Opened " + exportedFile + " in file explorer.")
 	})
@@ -123,20 +121,56 @@ function checkSelection() {
 }
 
 
+function disableForm(disable) {
+	document.getElementById("username").disabled = disable
+	document.getElementById("theform").disabled = disable
+	document.getElementById("password").disabled = disable
+	document.getElementById("appid").disabled = disable
+	document.getElementById("depotid").disabled = disable
+	document.getElementById("manifestid").disabled = disable
+	document.getElementById("osdropdown").disabled = disable
+	document.getElementById("osdropdown2").disabled = disable
+	document.getElementById("pickpath").ariaDisabled = disable
+	document.getElementById("pickpath").disabled = disable
+	document.getElementById("downloadbtn").ariaDisabled = disable
+	document.getElementById("downloadbtn").disabled = disable
+	document.getElementById("downloadbtn").classList.replace(((disable) ? "btn-primary" : "btn-disabled"), ((!disable) ? "btn-primary" : "btn-disabled"))
+
+}
+
 // main.js sends a ready message if the page is loaded in. This will be received here.
-// process.platform -> 'linux' -> selectedIndex = 2 (Linux)
-// process.platform -> 'win32' -> selectedIndex = 0 (Windows)
-// process.platform -> 'darwin' -> selectedIndex = 1 (macOS)
-ipcRenderer.on("ready", () => {
-	const osdropdown = document.getElementById("osdropdown")
-	if (process.platform.toString().includes("linux")) {
-		osdropdown.selectedIndex = 2
-	} else if (process.platform.toString().includes("win")) {
-		osdropdown.selectedIndex = 0
-	} else if (process.platform.toString().includes("darwin")) {
-		osdropdown.selectedIndex = 1
+ipcRenderer.on("ready", async () => {
+	if (ready) { // because for some reason this event is triggered twice, make sure it only happens once
+		document.getElementById("loader").hidden = false
+		await disableForm(true)
+		await checkSelection() // force check the selection so the terminal dropdown can be unhidden.
+		await (async () => {
+			let r = await fetch("https://api.github.com/zen")
+			console.debug(await r.text())
+		})()
+		// process.platform -> 'linux' -> selectedIndex = 2 (Linux)
+		// process.platform -> 'win32' -> selectedIndex = 0 (Windows)
+		// process.platform -> 'darwin' -> selectedIndex = 1 (macOS)
+		const osdropdown = document.getElementById("osdropdown")
+		if (process.platform.toString().includes("linux")) {
+			osdropdown.selectedIndex = 2
+		} else if (process.platform.toString().includes("win")) {
+			osdropdown.selectedIndex = 0
+		} else if (process.platform.toString().includes("darwin")) {
+			osdropdown.selectedIndex = 1
+		}
+		let terminal_dropdown = document.getElementById("osdropdown2")
+		const cmds = await forceTerminals()
+		if (cmds.length < 0) {
+			console.log("empty")
+		} else {
+			console.log("not empty" + cmds)
+			terminal_dropdown.selectedIndex = cmds[1]
+		}
+		await disableForm(false)
+		document.getElementById("loader").hidden = true
 	}
-	checkSelection() // force check the selection so the terminal dropdown can be unhidden.
+	ready = false
 })
 
 // Add event listeners to the buttons
@@ -146,10 +180,14 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("smbtn2").addEventListener("click", () => openRelevantPage("steamdb"))
 	document.getElementById("smbtn3").addEventListener("click", () => openRelevantPage("donate"))
 	document.getElementById("smbtn4").addEventListener("click", () => openRelevantPage("instructions"))
-	document.getElementById("pickpath").addEventListener("click", () => ipcRenderer.send("selectpath"))
+	document.getElementById("pickpath").addEventListener("click", () => {
+		if (document.getElementById("pickpath").disabled === false) ipcRenderer.send("selectpath")
+	})
 	document.getElementById("checkpath").addEventListener("click", checkPath)
 	document.getElementById("osdropdown").addEventListener("input", checkSelection)
-	document.getElementById("downloadbtn").addEventListener("click", submitForm)
+	document.getElementById("downloadbtn").addEventListener("click", () => {
+		if (document.getElementById("downloadbtn").disabled === false) submitForm()
+	})
 })
 
 ipcRenderer.on("file", (event, file) => {
