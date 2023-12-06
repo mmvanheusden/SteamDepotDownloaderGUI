@@ -1,12 +1,12 @@
 /**
- * Checks if dotnet is installed in the system path
+ * Checks if all required fields are filled and if dotnet is installed in the system path.
+ * It returns a promise that resolves to true if dotnet is installed and all required fields are filled, false otherwise.
+ *
+ * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed and all required fields are filled, false otherwise.
  *
  * **rejects**:
- *
  * `emptyField` -> One or more required field(s) are not filled in.
- *
  * `noDotnet` -> `dotnet` has not been found in the path.
- * @returns {Promise<unknown>} A promise that resolves to true if dotnet is installed, false otherwise
  */
 function preDownloadCheck() {
 	return new Promise((resolve, reject) => {
@@ -58,10 +58,14 @@ function preDownloadCheck() {
 	})
 }
 
+
 /**
- * Download a file from a url, saving it to the current directory (__dirname)
- * @param url The url to download from
- * @returns {Promise<unknown>} A promise that resolves when the download is finished, or rejects if something fails
+ * Downloads a file from a given URL and saves it to the current directory.
+ *
+ * @param {string} url - The URL of the file to download.
+ * @returns {Promise<void>} A promise that resolves when the download is finished, or rejects if an error occurs.
+ *
+ * @throws {Error} If an error occurs during the download or file writing process, the promise is rejected with the error.
  */
 function download(url) {
 	return new Promise((resolve, reject) => {
@@ -84,9 +88,12 @@ function download(url) {
 }
 
 /**
- * Removes a file from the current directory
- * @param file The filename to remove
- * @returns {Promise<unknown>} A promise that resolves when the file is removed, or rejects if something fails
+ * Removes a file from the current directory.
+ *
+ * @param {string} file - The name of the file to be removed.
+ * @returns {Promise<void>} A promise that resolves when the file is successfully removed, or rejects if an error occurs.
+ *
+ * @throws {Error} If an error occurs during the file removal process, the promise is rejected with the error.
  */
 function removeFile(file) {
 	return new Promise((resolve, reject) => {
@@ -102,9 +109,12 @@ function removeFile(file) {
 }
 
 /**
- * Removes a directory from the current directory
- * @param dir The directory to remove
- * @returns {Promise<unknown>} A promise that resolves when the directory is removed, or rejects if something fails
+ * Removes a directory from the current directory.
+ *
+ * @param {string} dir - The name of the directory to be removed.
+ * @returns {Promise<void>} A promise that resolves when the directory is successfully removed, or rejects if an error occurs.
+ *
+ * @throws {Error} If an error occurs during the directory removal process, the promise is rejected with the error.
  */
 function removeDir(dir,) {
 	return new Promise((resolve, reject) => {
@@ -120,10 +130,13 @@ function removeDir(dir,) {
 }
 
 /**
- * Unzip a file to the current directory
- * @param file The zip file to unzip.
- * @param target The target directory to unzip to
- * @returns {Promise<unknown>} A promise that resolves when the unzip is complete, or rejects if something fails
+ * Unzips a file to a specified target directory.
+ *
+ * @param {string} file - The name of the zip file to be unzipped.
+ * @param {string} target - The target directory where the file will be unzipped to.
+ * @returns {Promise<void>} A promise that resolves when the unzip operation is complete, or rejects if an error occurs.
+ *
+ * @throws {Error} If an error occurs during the unzip operation, the promise is rejected with the error.
  */
 function unzip(file, target) {
 	const {exec} = require("child_process")
@@ -238,9 +251,12 @@ const createCommand = () => {
 }
 
 /**
- * Runs a command in a separate process, printing errors and debugging info to the console
- * @param command The command to run
- * @returns {Promise<unknown>} A promise that resolves when the command is complete or rejects if something fails
+ * Executes a given command in a separate process.
+ *
+ * @param {string} command - The command to be executed.
+ * @returns {Promise<void>} A promise that resolves when the command execution is successful, or rejects if an error occurs.
+ *
+ * @throws {Error} If an error occurs during the command execution, the promise is rejected with an error message.
  */
 function runCommand(command) {
 	return new Promise((resolve, reject) => {
