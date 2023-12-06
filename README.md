@@ -3,7 +3,7 @@
 
 <h4 align="center">A graphical wrapper of DepotDownloader, designed to make downloading Steam depots easy. built on top of <a href="https://www.electronjs.org" target="_blank">Electron</a>.
 <br><br>
-→<a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/e7f9c1ca-091d-4cd4-8df3-ae0fe6e3be86" target="_blank"><b>Tutorial</b></a>←</h4>
+→<a href="https://www.youtube-nocookie.com/embed/ogiDAuH3VdY?si=HSPrFBF8rxYL28eV" target="_blank"><b>Tutorial</b></a>←</h4>
 
 
 
