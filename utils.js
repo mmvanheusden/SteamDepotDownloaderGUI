@@ -279,7 +279,16 @@ const platformpath = () => {
 	}*/
 }
 
-
+/**
+ * Checks for the availbility of terminal emulators on Linux.
+ * It runs the '--version' command on each terminal emulator and checks if the command is successful.
+ * If the command is successful, it means the terminal emulator is installed and available.
+ * The function returns an array of the indices of the available terminal emulators.
+ * If no terminal emulator is available, it returns false.
+ * If the operating system is not Linux, it also returns false.
+ *
+ * @returns {string[]|boolean} An array of the indices of the available terminal emulators, or false if none are available or the OS is not Linux.
+ */
 const forceTerminals = async () => {
 	const commands = [["gnome-terminal", "--version", 0], ["konsole", "--version", 1], ["xfce4-terminal", "--version", 2], ["terminator", "--version", 3], ["terminology", "--version", 4], ["xterm", "-v", 5], ["kitty", "--version", 6], ["lxterminal", "--version", 7], ["tilix", "--version", 8], ["deepin-terminal", "--version", 9], ["cool-retro-term", "--version", 10]]
 	let availableTerminals = []

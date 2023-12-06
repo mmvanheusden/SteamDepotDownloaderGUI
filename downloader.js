@@ -9,6 +9,9 @@ const {
 let exportedFile
 let ready = true
 
+const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip" // the url to the depotdownloader zip
+const DOTNET_DIR = "depotdownloader" // folder where zip is extracted
+const DOTNET_ZIP_FILE = DOTNET_DOWNLOAD_URL.split("/").pop() // the file that is being downloaded.
 
 function submitForm() {
 	// Check if the form is filled in and if dotnet is installed
@@ -21,13 +24,13 @@ function submitForm() {
 		await removeDir("depotdownloader")
 
 		// Download a prebuild DepotDownloader binary, so it doesn't have to be included in the source code
-		await download("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip")
+		await download(DOTNET_DOWNLOAD_URL)
 
 		// Unzip the DepotDownloader binary
-		await unzip("depotdownloader-2.5.0.zip", "depotdownloader")
+		await unzip(DOTNET_ZIP_FILE, DOTNET_DIR)
 
 		// Clean up the old files
-		await removeFile("depotdownloader-2.5.0.zip")
+		await removeFile(DOTNET_ZIP_FILE)
 
 		// Run the final command
 		if (document.getElementById("osdropdown").selectedIndex !== 3) await console.debug("Command issued: " + createCommand())
@@ -93,7 +96,7 @@ function openRelevantPage(target) {
 
 // Opens the chosen location where the game will be downloaded to
 function checkPath() {
-	disableForm(false)
+	toggleFormAccessibility(false)
 	shell.openPath(exportedFile).then(() => {
 		console.log("Opened " + exportedFile + " in file explorer.")
 	})
@@ -144,7 +147,7 @@ function validateChoice() {
  *
  * * false => enable everything
  */
-function disableForm(disable) {
+function toggleFormAccessibility(disable) {
 	document.getElementById("username").disabled = disable
 	document.getElementById("theform").disabled = disable
 	document.getElementById("password").disabled = disable
@@ -165,36 +168,35 @@ function disableForm(disable) {
 
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
-	if (ready) { // because for some reason this event is triggered twice, make sure it only happens once
-		let terminal_dropdown = document.getElementById("osdropdown2")
-		await disableForm(true) // disables the form, while loading
-		document.getElementById("loader").hidden = false
+	if (!ready) return
 
-		await (async () => {
-			let r = await fetch("https://api.github.com/zen")
-			console.debug(await r.text())
-		})()
+	let terminal_dropdown = document.getElementById("osdropdown2")
+	await toggleFormAccessibility(true) // disables the form, while loading
+	document.getElementById("loader").hidden = false
 
-		await fillDefaultValues() // Set the default values based on OS
 
-		const terminals = await forceTerminals()
-		/* forceTerminals() returns two values:
-		[1,2]
-		1: true/false. if true, there are terminals found. if false none are, or not on linux
-		2: a list of availible terminals with their associated number in the terminal dropdown index.
-		 */
-		if (terminals[0]) {
-			console.log(`${terminals[1].length} terminals found in PATH.`)
-			terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
-		} else {
-			console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
-		}
+	let r = await fetch("https://api.github.com/zen")
+	console.debug(await r.text())
 
-		await disableForm(false) //enable the form again
+	await fillDefaultValues() // Set the default values based on OS
 
-		await validateChoice() // updates the 'enabled/disabled' html value of the terminal dropdown.
-		document.getElementById("loader").hidden = true
+	const terminals = await forceTerminals()
+	/* forceTerminals() returns two values:
+	[1,2]
+	1: true/false. if true, there are terminals found. if false none are, or not on linux
+	2: a list of availible terminals with their associated number in the terminal dropdown index.
+	 */
+	if (terminals[0]) {
+		console.log(`${terminals[1].length} terminals found in PATH.`)
+		terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
+	} else {
+		console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
 	}
+
+	await toggleFormAccessibility(false) //enable the form again
+
+	await validateChoice() // updates the 'enabled/disabled' html value of the terminal dropdown.
+	document.getElementById("loader").hidden = true
 	ready = false
 })
 
