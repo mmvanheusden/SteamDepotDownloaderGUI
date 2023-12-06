@@ -50,8 +50,8 @@ function openRelevantPage(target) {
 	const electron = require("electron")
 	const os = process.platform.toString()
 	switch (target) {
-	// why are you not indenting nicely eslint?
-	/* eslint-disable indent */
+/* eslint-disable indent */
+		// why are you not indenting nicely eslint?
 	case "dotnet":
 		document.getElementById("dotnetwarning").hidden = true
 		if (os.includes("win")) {
@@ -99,16 +99,32 @@ function checkPath() {
 	})
 }
 
-// If Linux is selected in the dropdown menu, enable the second dropdown so the user can choose their terminal emulator.
-function checkSelection() {
-	/*
-	[0] - Windows
-	[1] - macOS
-	[2] - Linux
-	[3] - manual
-	 */
-	let os_dropdown = document.getElementById("osdropdown")
-	let terminal_dropdown = document.getElementById("osdropdown2")
+/**
+ * Automatically fills The OS dropdown with the OS detected.
+ * Runs when the app is fully loaded
+ */
+function fillDefaultValues() {
+	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
+	const os_dropdown = document.getElementById("osdropdown")
+	if (process.platform.toString().includes("linux")) {
+		os_dropdown.selectedIndex = 2
+	} else if (process.platform.toString().includes("win")) {
+		os_dropdown.selectedIndex = 0
+	} else if (process.platform.toString().includes("darwin")) {
+		os_dropdown.selectedIndex = 1
+	}
+}
+
+
+/**
+ * Checks if the selected index = 2 (Linux), and based on that enables or disables the terminal dropdown.
+ * Runs when the app is fully loaded,
+ * and when the user changes the OS dropdown selection.
+ */
+function validateChoice() {
+	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
+	const os_dropdown = document.getElementById("osdropdown")
+	const terminal_dropdown = document.getElementById("osdropdown2")
 	// if the choice = 2, enable the terminal selection dropdown.
 	if (os_dropdown.selectedIndex === 2) {
 		terminal_dropdown.disabled = false
@@ -120,7 +136,14 @@ function checkSelection() {
 	}
 }
 
-
+/**
+ * Enable or disable the form.
+ * @param disable Enable or disable the form.
+ *
+ * * true => disable everything
+ *
+ * * false => enable everything
+ */
 function disableForm(disable) {
 	document.getElementById("username").disabled = disable
 	document.getElementById("theform").disabled = disable
@@ -129,7 +152,10 @@ function disableForm(disable) {
 	document.getElementById("depotid").disabled = disable
 	document.getElementById("manifestid").disabled = disable
 	document.getElementById("osdropdown").disabled = disable
-	document.getElementById("osdropdown2").disabled = (((document.getElementById("osdropdown").selectedIndex === 2) ? false : true))
+
+	// if the OS dropdown value was 2 (Linux), don't disable the Terminal dropdown.
+	document.getElementById("osdropdown2").disabled = (((document.getElementById("osdropdown").selectedIndex !== 2)))
+
 	document.getElementById("pickpath").ariaDisabled = disable
 	document.getElementById("pickpath").disabled = disable
 	document.getElementById("downloadbtn").ariaDisabled = disable
@@ -140,36 +166,33 @@ function disableForm(disable) {
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
 	if (ready) { // because for some reason this event is triggered twice, make sure it only happens once
-		await disableForm(true)
+		let terminal_dropdown = document.getElementById("osdropdown2")
+		await disableForm(true) // disables the form, while loading
 		document.getElementById("loader").hidden = false
+
 		await (async () => {
 			let r = await fetch("https://api.github.com/zen")
 			console.debug(await r.text())
 		})()
-		// process.platform -> 'linux' -> selectedIndex = 2 (Linux)
-		// process.platform -> 'win32' -> selectedIndex = 0 (Windows)
-		// process.platform -> 'darwin' -> selectedIndex = 1 (macOS)
-		const osdropdown = document.getElementById("osdropdown")
-		if (process.platform.toString().includes("linux")) {
-			osdropdown.selectedIndex = 2
-		} else if (process.platform.toString().includes("win")) {
-			osdropdown.selectedIndex = 0
-		} else if (process.platform.toString().includes("darwin")) {
-			osdropdown.selectedIndex = 1
-		}
 
-		await checkSelection() // Set the default values based on OS
+		await fillDefaultValues() // Set the default values based on OS
 
-		let terminal_dropdown = document.getElementById("osdropdown2")
 		const terminals = await forceTerminals()
+		/* forceTerminals() returns two values:
+		[1,2]
+		1: true/false. if true, there are terminals found. if false none are, or not on linux
+		2: a list of availible terminals with their associated number in the terminal dropdown index.
+		 */
 		if (terminals[0]) {
-			console.log(`${terminals[1].length} available terminals found`)
-			terminal_dropdown.selectedIndex = terminals[1][0]
+			console.log(`${terminals[1].length} terminals found in PATH.`)
+			terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
 		} else {
-			console.log("no terminals found. continuing with default values")
+			console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
 		}
 
-		await disableForm(false)
+		await disableForm(false) //enable the form again
+
+		await validateChoice() // updates the 'enabled/disabled' html value of the terminal dropdown.
 		document.getElementById("loader").hidden = true
 	}
 	ready = false
@@ -186,7 +209,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (document.getElementById("pickpath").disabled === false) ipcRenderer.send("selectpath")
 	})
 	document.getElementById("checkpath").addEventListener("click", checkPath)
-	document.getElementById("osdropdown").addEventListener("input", checkSelection)
+	document.getElementById("osdropdown").addEventListener("input", validateChoice)
 	document.getElementById("downloadbtn").addEventListener("click", () => {
 		if (document.getElementById("downloadbtn").disabled === false) submitForm()
 	})

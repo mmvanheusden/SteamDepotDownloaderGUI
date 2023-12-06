@@ -155,6 +155,7 @@ function unzip(file, target) {
  * @returns {string} The final command to run
  */
 const createCommand = () => {
+	// TODO: create a builder, so the different terminals can be put in one variable and more can be added easily.
 	// Import path so \ can be put in a string
 	const path = require("path")
 
@@ -280,33 +281,17 @@ const platformpath = () => {
 
 
 const forceTerminals = async () => {
-	const commands = [
-		["gnome-terminal", "--version", 0],
-		["konsole", "--version", 1],
-		["xfce4-terminal", "--version", 2],
-		["terminator", "--version", 3],
-		["terminology","--version", 4],
-		["xterm","-v", 5],
-		["kitty","--version", 6],
-		["lxterminal","--version", 7],
-		["tilix","--version", 8],
-		["deepin-terminal","--version", 9],
-		["cool-retro-term","--version", 10],
-		["hregreger","--version", 11]
-	]
+	const commands = [["gnome-terminal", "--version", 0], ["konsole", "--version", 1], ["xfce4-terminal", "--version", 2], ["terminator", "--version", 3], ["terminology", "--version", 4], ["xterm", "-v", 5], ["kitty", "--version", 6], ["lxterminal", "--version", 7], ["tilix", "--version", 8], ["deepin-terminal", "--version", 9], ["cool-retro-term", "--version", 10]]
 	let availableTerminals = []
 	if (process.platform === "linux") {
 		for (let i = 0; i < commands.length; i++) {
-			console.log(`------\nCommand trying: ${commands[i][0]} ${commands[i][1]}`)
 			await runCommand(`${commands[i][0]} ${commands[i][1]}`).then(() => {
 				console.log(`Found ${commands[i][0]}`)
 				availableTerminals.push(commands[i][2])
 			}).catch(() => {
-				console.log(`${commands[i][0]} not found`)
+				console.log(`${commands[i][0]} not found on system.`)
 			})
 		}
-		console.log("--------")
-		console.log(availableTerminals.toString())
 		if (availableTerminals.length > 0) {
 			return [true, availableTerminals]
 			//return false
@@ -315,13 +300,5 @@ const forceTerminals = async () => {
 }
 
 module.exports = {
-	preDownloadCheck,
-	download,
-	createCommand,
-	runCommand,
-	removeDir,
-	removeFile,
-	unzip,
-	platformpath,
-	forceTerminals
+	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath, forceTerminals
 }
