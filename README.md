@@ -1,9 +1,11 @@
 
 <h1 align="center">SteamDepotDownloaderGUI
 
-<h4 align="center">A graphical wrapper of DepotDownloader, designed to make downloading Steam depots easy. built on top of <a href="https://www.electronjs.org" target="_blank">Electron</a>.
+<h4 align="center">A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy. built using <a href="https://www.electronjs.org" target="_blank">Electron</a>.
 <br><br>
-→<a href="https://www.youtube-nocookie.com/embed/ogiDAuH3VdY?si=HSPrFBF8rxYL28eV" target="_blank"><b>Tutorial</b></a>←</h4>
+→<a href="https://www.youtube.com/watch?v=H2COwT5OUOo" target="_blank"><b>Tutorial</b></a> ~ 
+<a href="https://www.youtube.com/watch?v=ogiDAuH3VdY" target="_blank"><b>Subnautica</b></a>←
+</h4>
 
 
 
@@ -61,12 +63,9 @@
 
 ## How to use
 
-### **Tutorial video for downloading older versions of Subnautica:**
-
-https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/e7f9c1ca-091d-4cd4-8df3-ae0fe6e3be86
-
-applicable to any Steam game
-
+#### Tutorials:
+* https://www.youtube.com/watch?v=H2COwT5OUOo How to download older versions of Steam games. rollback steam games tutorial
+* https://www.youtube.com/watch?v=ogiDAuH3VdY How to download older versions of Subnautica tutorial
 ---
 
 **Enter everything you normally would in the DepotDownloader console and select your OS/terminal and click download**
