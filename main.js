@@ -20,10 +20,12 @@ const createWindow = () => {
 	// and load the index.html of the app.
 	mainWindow.loadFile("index.html")
 
-	// Open the DevTools for debugging, only if not in production.
-	if (!app.isPackaged) {
-		mainWindow.webContents.openDevTools({mode: "detach"})
-	}
+	// @formatter:off
+	// Open the DevTools for debugging, only if not in production. This is removed for release by the build script (package.sh) because it's unreliable.
+	// disable formatting so the line always stays the same so sed can find it
+	// eslint-disable-next-line no-undef
+	if (!app.isPackaged) mainWindow.webContents.openDevTools({mode: "detach"})
+	// @formatter:on
 }
 
 // This method will be called when Electron has finished
