@@ -210,7 +210,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("pickpath").addEventListener("click", () => {
 		if (document.getElementById("pickpath").disabled === false) ipcRenderer.send("selectpath")
 	})
-	document.getElementById("checkpath").addEventListener("click", checkPath)
+	document.getElementById("checkpath").addEventListener("click", () => {
+		if (document.getElementById("checkpath").disabled === false) checkPath()
+	})
 	document.getElementById("osdropdown").addEventListener("input", validateChoice)
 	document.getElementById("downloadbtn").addEventListener("click", () => {
 		if (document.getElementById("downloadbtn").disabled === false) submitForm()
