@@ -97,7 +97,7 @@
 			</span>
 		</div>
 
-		<div class="form-group mx-3 mt-3 required">
+		<!--<div class="form-group mx-3 mt-3 required">
 			<div class="form-group-header ">
 				<label for="osdropdown">Operating system</label>
 			</div>
@@ -133,7 +133,7 @@
 					<option selected hidden disabled>Choose your terminal emulator</option>
 				</select>
 			</div>
-		</div>
+		</div>-->
 	</form>
 
 
@@ -227,7 +227,7 @@
 				</div>
 				<div class="form-group-body">
 					<div class="mb-2">
-						<select class="form-select">
+						<select id="terminal-dropdown" class="form-select">
 							<option>Gnome Terminal</option>
 							<option>KDE Konsole</option>
 							<option>Xfce Terminal</option>
@@ -240,7 +240,27 @@
 							<option>Deepin Terminal</option>
 							<option>cool-retro-term</option>
 							<option selected="selected">Default</option>
-						</select> found: <span class="Counter"><code id="terminals-found" style="color: black;">none</code></span>
+						</select>
+						found: <span class="Counter"><code id="terminals-found" style="color: black;">none</code></span>
+						<br>default: <span class="Counter"><code id="default-terminal" style="color: black;">none</code></span>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<div class="form-group-header">
+					<label>Override OS selection</label>
+				</div>
+				<div class="form-group-body">
+					<div class="mb-2">
+						<select id="os-dropdown" class="form-select">
+							<option>Windows</option>
+							<option disabled>macOS (NOT YET IMPLEMENTED)</option>
+							<option>Linux</option>
+							<option>Print command in console (CTRL-SHIFT-I)</option>
+							<option selected="selected">Default</option>
+						</select>
+						default: <span class="Counter"><code id="default-os" style="color: black;">none</code></span>
 					</div>
 				</div>
 			</div>

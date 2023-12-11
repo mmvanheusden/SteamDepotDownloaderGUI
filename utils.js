@@ -1,3 +1,4 @@
+var defaultTerminal = ""
 /**
  * Checks if all required fields are filled and if dotnet is installed in the system path.
  * It returns a promise that resolves to true if dotnet is installed and all required fields are filled, false otherwise.
@@ -20,10 +21,10 @@ function preDownloadCheck() {
 			if (isInvalid) unfilledFields++
 		}
 		// If the selected OS is Linux, and the terminal selection is the default (11), error.
-		if (document.getElementById("osdropdown").selectedIndex === 2 && document.getElementById("osdropdown2").selectedIndex === 11) {
-			document.getElementById("osdropdown2label").classList.add("errored")
-			unfilledFields++
-		} else document.getElementById("osdropdown2label").classList.remove("errored")
+		// if (document.getElementById("osdropdown").selectedIndex === 2 && document.getElementById("osdropdown2").selectedIndex === 11) {
+		// 	document.getElementById("osdropdown2label").classList.add("errored")
+		// 	unfilledFields++
+		// } else document.getElementById("osdropdown2label").classList.remove("errored")
 
 		if (unfilledFields > 0) {
 			reject("emptyField")
@@ -166,11 +167,25 @@ function unzip(file, target) {
 /**
  * Creates a command based on the operating system/terminal being selected and the form values
  * @returns {string} The final command to run
+ * TODO: create a builder, so the different terminals can be put in one variable and more can be added easily.
  */
-const createCommand = () => {
-	// TODO: create a builder, so the different terminals can be put in one variable and more can be added easily.
+const createCommand = (terminal, os) => {
+	if (terminal === "default") {
+		terminal = defaultTerminal[0]
+	} else console.log("terminal is manually chosen.")
+
 	// Import path so \ can be put in a string
 	const path = require("path")
+	if (os === "default") {
+		if (process.platform.toString().includes("win")) {
+			os = 0
+		} else if (process.platform.toString().includes("linux")) {
+			os = 2
+		}
+	} else console.log("os is manually chosen")
+
+	console.log("terminal: " + terminal.toString())
+
 
 	// The values inputted by the user in the form
 	let username = document.forms["theform"]["username"].value
@@ -178,8 +193,6 @@ const createCommand = () => {
 	let appid = document.forms["theform"]["appid"].value
 	let depotid = document.forms["theform"]["depotid"].value
 	let manifestid = document.forms["theform"]["manifestid"].value
-	let os = document.getElementById("osdropdown").selectedIndex
-	let terminal = document.getElementById("osdropdown2").selectedIndex
 
 	/* OS dropdown choices
 	[0] - Windows
@@ -217,6 +230,7 @@ const createCommand = () => {
 	const finalPath = (exportedFile + path.sep + appid).replaceAll(" ", "\\ ")
 	// The final command to run, returned by this function
 	if (os === 0) {
+		console.log("win")
 		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
 	} else if (os === 1) {
 		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
@@ -308,17 +322,20 @@ const platformpath = () => {
 const forceTerminals = async () => {
 	const commands = [["gnome-terminal", "--version", 0], ["konsole", "--version", 1], ["xfce4-terminal", "--version", 2], ["terminator", "--version", 3], ["terminology", "--version", 4], ["xterm", "-v", 5], ["kitty", "--version", 6], ["lxterminal", "--version", 7], ["tilix", "--version", 8], ["deepin-terminal", "--version", 9], ["cool-retro-term", "--version", 10]]
 	let availableTerminals = []
+	let availableNames = []
 	if (process.platform === "linux") {
 		for (let i = 0; i < commands.length; i++) {
 			await runCommand(`${commands[i][0]} ${commands[i][1]}`).then(() => {
 				console.log(`Found ${commands[i][0]}`)
 				availableTerminals.push(commands[i][2])
+				availableNames.push(commands[i][0])
 			}).catch(() => {
 				console.log(`${commands[i][0]} not found on system.`)
 			})
 		}
 		if (availableTerminals.length > 0) {
-			return [true, availableTerminals]
+			defaultTerminal = availableTerminals
+			return [true, availableTerminals, availableNames]
 			//return false
 		} else return false
 	} else return false

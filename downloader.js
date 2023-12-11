@@ -8,14 +8,17 @@ const {
 // Initializes the variable that holds the path to the specified download location
 let exportedFile
 let ready = true
+let os
 
 const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip" // the url to the depotdownloader zip
 const DOTNET_DIR = "depotdownloader" // folder where zip is extracted
 const DOTNET_ZIP_FILE = DOTNET_DOWNLOAD_URL.split("/").pop() // the file that is being downloaded.
 
 function submitForm() {
+	///console.log(terminal[1][0])
 	// Check if the form is filled in and if dotnet is installed
 	preDownloadCheck().then(async function () {
+		//console.log(terminal[1][0])
 		document.getElementById("dotnetwarning").hidden = true
 		document.getElementById("emptywarning").hidden = true
 		console.info("dotnet found in PATH")
@@ -25,16 +28,30 @@ function submitForm() {
 
 		// Download a prebuild DepotDownloader binary, so it doesn't have to be included in the source code
 		await download(DOTNET_DOWNLOAD_URL)
+		console.log("downld")
 
 		// Unzip the DepotDownloader binary
 		await unzip(DOTNET_ZIP_FILE, DOTNET_DIR)
+		console.log("unzip")
 
 		// Clean up the old files
 		await removeFile(DOTNET_ZIP_FILE)
+		console.log("removeFile")
 
 		// Run the final command
-		if (document.getElementById("osdropdown").selectedIndex !== 3) await console.debug("Command issued: " + createCommand())
-		await runCommand(createCommand())
+
+		let terminal
+		if (document.getElementById("terminal-dropdown").selectedIndex !== 11) {
+			terminal = document.getElementById("terminal-dropdown").selectedIndex
+		} else terminal = "default"
+		if (document.getElementById("os-dropdown").selectedIndex !== 4) {
+			os = document.getElementById("os-dropdown").selectedIndex
+		} else os = "default"
+		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued: " + createCommand(terminal,os))
+
+		await runCommand(createCommand(terminal,os))
+
+		console.log("runCommand")
 	}).catch(function (error) {
 		if (error === "noDotnet") {
 			console.error("Dotnet not found in PATH")
@@ -108,13 +125,16 @@ function checkPath() {
  */
 function fillDefaultValues() {
 	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
-	const os_dropdown = document.getElementById("osdropdown")
+	//const os_dropdown = document.getElementById("os-dropdown")
 	if (process.platform.toString().includes("linux")) {
-		os_dropdown.selectedIndex = 2
+		//os_dropdown.selectedIndex = 2
+		document.getElementById("default-os").innerText = "Linux"
 	} else if (process.platform.toString().includes("win")) {
-		os_dropdown.selectedIndex = 0
+		//os_dropdown.selectedIndex = 0
+		document.getElementById("default-os").innerText = "Windows"
 	} else if (process.platform.toString().includes("darwin")) {
-		os_dropdown.selectedIndex = 1
+		//os_dropdown.selectedIndex = 1
+		document.getElementById("default-os").innerText = "macOS"
 	}
 }
 
@@ -126,17 +146,16 @@ function fillDefaultValues() {
  */
 function validateChoice() {
 	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
-	const os_dropdown = document.getElementById("osdropdown")
-	const terminal_dropdown = document.getElementById("osdropdown2")
+	const os_dropdown = document.getElementById("os-dropdown")
+	const terminal_dropdown = document.getElementById("terminal-dropdown")
 	// if the choice = 2, enable the terminal selection dropdown.
-	if (os_dropdown.selectedIndex === 2) {
+	if (os_dropdown.selectedIndex === (2 || 3)) {
 		terminal_dropdown.disabled = false
-		document.getElementById("osdropdown2label").classList.add("required")
 	} else {
 		terminal_dropdown.disabled = true
 		terminal_dropdown.selectedIndex = 11
-		document.getElementById("osdropdown2label").classList.remove("required")
 	}
+	if (os_dropdown.selectedIndex === 4) if (process.platform.includes("linux")) terminal_dropdown.disabled = false
 }
 
 /**
@@ -154,10 +173,10 @@ function toggleFormAccessibility(disable) {
 	document.getElementById("appid").disabled = disable
 	document.getElementById("depotid").disabled = disable
 	document.getElementById("manifestid").disabled = disable
-	document.getElementById("osdropdown").disabled = disable
+	document.getElementById("os-dropdown").disabled = disable
 
 	// if the OS dropdown value was 2 (Linux), don't disable the Terminal dropdown.
-	document.getElementById("osdropdown2").disabled = (((document.getElementById("osdropdown").selectedIndex !== 2)))
+	document.getElementById("terminal-dropdown").disabled = (((document.getElementById("os-dropdown").selectedIndex !== 2)))
 
 	document.getElementById("pickpath").ariaDisabled = disable
 	document.getElementById("pickpath").disabled = disable
@@ -175,9 +194,10 @@ function setTheme(theme) {
 
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
+
 	if (!ready) return
 
-	let terminal_dropdown = document.getElementById("osdropdown2")
+	//let terminal_dropdown = document.getElementById("terminal-dropdown")
 	await toggleFormAccessibility(true) // disables the form, while loading
 	document.getElementById("loader").hidden = false
 
@@ -191,12 +211,15 @@ ipcRenderer.on("ready", async () => {
 	/* forceTerminals() returns two values:
 	[1,2]
 	1: true/false. if true, there are terminals found. if false none are, or not on linux
-	2: a list of availible terminals with their associated number in the terminal dropdown index.
+	2: a list of available terminals with their associated number in the terminal dropdown index.
 	 */
 	if (terminals[0]) {
 		console.log(`${terminals[1].length} terminals found in PATH.`)
 		document.getElementById("terminals-found").innerText = terminals[1].length.toString()
-		terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
+		document.getElementById("default-terminal").innerText = terminals[2][0]
+		//terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
+		console.log(terminals[1][0])
+
 	} else {
 		console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
 	}
@@ -221,7 +244,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("checkpath").addEventListener("click", () => {
 		if (document.getElementById("checkpath").disabled === false) checkPath()
 	})
-	document.getElementById("osdropdown").addEventListener("input", validateChoice)
+	document.getElementById("os-dropdown").addEventListener("input", validateChoice)
 	document.getElementById("downloadbtn").addEventListener("click", () => {
 		if (document.getElementById("downloadbtn").disabled === false) submitForm()
 	})
