@@ -28,37 +28,38 @@ function submitForm() {
 
 		// Download a prebuild DepotDownloader binary, so it doesn't have to be included in the source code
 		await download(DOTNET_DOWNLOAD_URL)
-		console.log("downld")
 
 		// Unzip the DepotDownloader binary
 		await unzip(DOTNET_ZIP_FILE, DOTNET_DIR)
-		console.log("unzip")
 
 		// Clean up the old files
 		await removeFile(DOTNET_ZIP_FILE)
-		console.log("removeFile")
 
 		// Run the final command
 
 		let terminal
+		// if the terminal dropdown is not set to 'auto', set the terminal variable to the selected index.
 		if (document.getElementById("terminal-dropdown").selectedIndex !== 11) {
 			terminal = document.getElementById("terminal-dropdown").selectedIndex
-		} else terminal = "default"
+		} else terminal = "auto"
+		// if the OS dropdown is not set to 'auto', set the os variable to the selected index.
 		if (document.getElementById("os-dropdown").selectedIndex !== 4) {
 			os = document.getElementById("os-dropdown").selectedIndex
-		} else os = "default"
-		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued: " + createCommand(terminal,os))
+		} else os = "auto"
 
-		await runCommand(createCommand(terminal,os))
+		// create the command
+		let command = createCommand(terminal, os)
 
-		console.log("runCommand")
+		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued: " + command)
+
+		await runCommand(command)
 	}).catch(function (error) {
 		if (error === "noDotnet") {
-			console.error("Dotnet not found in PATH")
+			// if dotnet is not found, show the dotnet warning
 			document.getElementById("emptywarning").hidden = true
 			document.getElementById("dotnetwarning").hidden = false
 		} else if (error === "emptyField") {
-			console.error("Fill in all required fields")
+			// if a required field is empty, show the empty field warning
 			document.getElementById("dotnetwarning").hidden = true
 			document.getElementById("emptywarning").hidden = false
 		}
@@ -69,9 +70,9 @@ function submitForm() {
 function openRelevantPage(target) {
 	const electron = require("electron")
 	const os = process.platform.toString()
+	/* eslint-disable indent */
+	// why are you not indenting nicely eslint?
 	switch (target) {
-/* eslint-disable indent */
-		// why are you not indenting nicely eslint?
 	case "dotnet":
 		document.getElementById("dotnetwarning").hidden = true
 		if (os.includes("win")) {
@@ -120,29 +121,27 @@ function checkPath() {
 }
 
 /**
- * Automatically fills The OS dropdown with the OS detected.
- * Runs when the app is fully loaded
+ * Fills the values for default os
+ * Runs when the app is fully loaded.
  */
 function fillDefaultValues() {
 	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
-	//const os_dropdown = document.getElementById("os-dropdown")
 	if (process.platform.toString().includes("linux")) {
-		//os_dropdown.selectedIndex = 2
 		document.getElementById("default-os").innerText = "Linux"
 	} else if (process.platform.toString().includes("win")) {
-		//os_dropdown.selectedIndex = 0
 		document.getElementById("default-os").innerText = "Windows"
 	} else if (process.platform.toString().includes("darwin")) {
-		//os_dropdown.selectedIndex = 1
 		document.getElementById("default-os").innerText = "macOS"
 	}
 }
 
 
 /**
- * Checks if the selected index = 2 (Linux), and based on that enables or disables the terminal dropdown.
- * Runs when the app is fully loaded,
- * and when the user changes the OS dropdown selection.
+ * Validates the choice of the OS dropdown.
+ * If the choice is 2 (Linux), enable the terminal selection dropdown.
+ * If the choice is not 2 (Linux), disable the terminal selection dropdown.
+ * If the choice is 4 (manual), enable the terminal selection dropdown.
+ * If the choice is not 4 (manual), disable the terminal selection dropdown.
  */
 function validateChoice() {
 	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
@@ -182,6 +181,7 @@ function toggleFormAccessibility(disable) {
 	document.getElementById("pickpath").disabled = disable
 	document.getElementById("downloadbtn").ariaDisabled = disable
 	document.getElementById("downloadbtn").disabled = disable
+	document.getElementById("settings-button").disabled = disable
 	document.getElementById("downloadbtn").classList.replace(((disable) ? "btn-primary" : "btn-disabled"), ((!disable) ? "btn-primary" : "btn-disabled"))
 }
 
@@ -194,10 +194,9 @@ function setTheme(theme) {
 
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
-
 	if (!ready) return
 
-	//let terminal_dropdown = document.getElementById("terminal-dropdown")
+
 	await toggleFormAccessibility(true) // disables the form, while loading
 	document.getElementById("loader").hidden = false
 
@@ -205,20 +204,20 @@ ipcRenderer.on("ready", async () => {
 	let r = await fetch("https://api.github.com/zen")
 	console.debug(await r.text())
 
+
 	await fillDefaultValues() // Set the default values based on OS
 
 	const terminals = await forceTerminals()
 	/* forceTerminals() returns two values:
-	[1,2]
+	[bol, list, list]
 	1: true/false. if true, there are terminals found. if false none are, or not on linux
 	2: a list of available terminals with their associated number in the terminal dropdown index.
+	3: a list of available terminals with their associated name in the terminal dropdown.
 	 */
 	if (terminals[0]) {
 		console.log(`${terminals[1].length} terminals found in PATH.`)
-		document.getElementById("terminals-found").innerText = terminals[1].length.toString()
+		document.getElementById("terminals-found").innerText = `${terminals[1].length.toString()} / ${document.getElementById("terminal-dropdown").length - 1}`
 		document.getElementById("default-terminal").innerText = terminals[2][0]
-		//terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
-		console.log(terminals[1][0])
 
 	} else {
 		console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
@@ -249,10 +248,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (document.getElementById("downloadbtn").disabled === false) submitForm()
 	})
 	document.getElementById("settings-button").addEventListener("click", () => {
-		console.log("Settings button clicked")
+		if (document.getElementById("settings-button").disabled === false) {
+			console.log("Settings button clicked")
 
-		// show the modal. This is done by setting the display to block.
-		document.getElementById("settings-surrounding").style.display = "block"
+			// show the modal. This is done by setting the display to block.
+			document.getElementById("settings-surrounding").style.display = "block"
+		}
 	})
 	document.getElementById("settings-surrounding").addEventListener("click", (event) => {
 		if (event.target === document.getElementById("settings-surrounding")) {
@@ -276,5 +277,6 @@ window.addEventListener("DOMContentLoaded", () => {
 ipcRenderer.on("file", (event, file) => {
 	console.log("path selected by user: " + file)
 	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
+	document.getElementById("checkpath").disabled = false // Makes the check button active
 	exportedFile = file.toString()
 })

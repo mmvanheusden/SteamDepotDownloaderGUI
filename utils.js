@@ -1,4 +1,5 @@
 var defaultTerminal = ""
+
 /**
  * Checks if all required fields are filled and if dotnet is installed in the system path.
  * It returns a promise that resolves to true if dotnet is installed and all required fields are filled, false otherwise.
@@ -20,18 +21,12 @@ function preDownloadCheck() {
 			input.parentElement.classList.toggle("errored", isInvalid) // toggle the 'errored' class depending on if isInvalid is true or false.
 			if (isInvalid) unfilledFields++
 		}
-		// If the selected OS is Linux, and the terminal selection is the default (11), error.
-		// if (document.getElementById("osdropdown").selectedIndex === 2 && document.getElementById("osdropdown2").selectedIndex === 11) {
-		// 	document.getElementById("osdropdown2label").classList.add("errored")
-		// 	unfilledFields++
-		// } else document.getElementById("osdropdown2label").classList.remove("errored")
-
 		if (unfilledFields > 0) {
 			reject("emptyField")
 			return
 		}
 
-		// Check if dotnet is installed, depending on the platform
+		// Check if dotnet is found, depending on the platform
 		if (process.platform.toString().includes("win")) {
 			// Windows
 			const {exec} = require("child_process")
@@ -170,13 +165,16 @@ function unzip(file, target) {
  * TODO: create a builder, so the different terminals can be put in one variable and more can be added easily.
  */
 const createCommand = (terminal, os) => {
-	if (terminal === "default") {
+	// if "auto" is given, take the first found terminal and use it.
+	if (terminal === "auto") {
 		terminal = defaultTerminal[0]
 	} else console.log("terminal is manually chosen.")
 
 	// Import path so \ can be put in a string
 	const path = require("path")
-	if (os === "default") {
+
+	// if os is auto, choose the os for us.
+	if (os === "auto") {
 		if (process.platform.toString().includes("win")) {
 			os = 0
 		} else if (process.platform.toString().includes("linux")) {
@@ -184,7 +182,6 @@ const createCommand = (terminal, os) => {
 		}
 	} else console.log("os is manually chosen")
 
-	console.log("terminal: " + terminal.toString())
 
 
 	// The values inputted by the user in the form
@@ -321,8 +318,8 @@ const platformpath = () => {
  */
 const forceTerminals = async () => {
 	const commands = [["gnome-terminal", "--version", 0], ["konsole", "--version", 1], ["xfce4-terminal", "--version", 2], ["terminator", "--version", 3], ["terminology", "--version", 4], ["xterm", "-v", 5], ["kitty", "--version", 6], ["lxterminal", "--version", 7], ["tilix", "--version", 8], ["deepin-terminal", "--version", 9], ["cool-retro-term", "--version", 10]]
-	let availableTerminals = []
-	let availableNames = []
+	let availableTerminals = [] // list of IDs of terminals, corrospending to their index in the dropdown menu
+	let availableNames = [] // list of names of found terminals
 	if (process.platform === "linux") {
 		for (let i = 0; i < commands.length; i++) {
 			await runCommand(`${commands[i][0]} ${commands[i][1]}`).then(() => {
@@ -335,8 +332,7 @@ const forceTerminals = async () => {
 		}
 		if (availableTerminals.length > 0) {
 			defaultTerminal = availableTerminals
-			return [true, availableTerminals, availableNames]
-			//return false
+			return [true, availableTerminals, availableNames] // [true, "2,4,7", "twox,fourterm,sevenemulator"] (example)
 		} else return false
 	} else return false
 }

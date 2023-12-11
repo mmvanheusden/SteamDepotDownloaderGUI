@@ -14,7 +14,7 @@
 
 /* The grey part */
 .settings-surrounding {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -35,6 +35,7 @@
     border: 1px black solid;
     width: 90vw; /* 90vw -> 90% */
     color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .hide {
