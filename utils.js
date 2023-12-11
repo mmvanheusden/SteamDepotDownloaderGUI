@@ -227,7 +227,6 @@ const createCommand = (terminal, os) => {
 	const finalPath = (exportedFile + path.sep + appid).replaceAll(" ", "\\ ")
 	// The final command to run, returned by this function
 	if (os === 0) {
-		console.log("win")
 		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
 	} else if (os === 1) {
 		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
