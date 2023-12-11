@@ -1,8 +1,6 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
 const {platformpath} = require("./utils")
 
-
-
 const createWindow = () => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({

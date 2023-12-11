@@ -166,6 +166,13 @@ function toggleFormAccessibility(disable) {
 	document.getElementById("downloadbtn").classList.replace(((disable) ? "btn-primary" : "btn-disabled"), ((!disable) ? "btn-primary" : "btn-disabled"))
 }
 
+
+function setTheme(theme) {
+	document.getElementById("theme-auto").ariaSelected = (theme === "auto").toString()
+	document.getElementById("theme-light").ariaSelected = (theme === "light").toString()
+	document.getElementById("theme-dark").ariaSelected = (theme === "dark").toString()
+}
+
 // main.js sends a ready message if the page is loaded in. This will be received here.
 ipcRenderer.on("ready", async () => {
 	if (!ready) return
@@ -188,6 +195,7 @@ ipcRenderer.on("ready", async () => {
 	 */
 	if (terminals[0]) {
 		console.log(`${terminals[1].length} terminals found in PATH.`)
+		document.getElementById("terminals-found").innerText = terminals[1].length.toString()
 		terminal_dropdown.selectedIndex = terminals[1][0] // set the terminal dropdown to the first available terminal found.
 	} else {
 		console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
@@ -216,6 +224,29 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("osdropdown").addEventListener("input", validateChoice)
 	document.getElementById("downloadbtn").addEventListener("click", () => {
 		if (document.getElementById("downloadbtn").disabled === false) submitForm()
+	})
+	document.getElementById("settings-button").addEventListener("click", () => {
+		console.log("Settings button clicked")
+
+		// show the modal. This is done by setting the display to block.
+		document.getElementById("settings-surrounding").style.display = "block"
+	})
+	document.getElementById("settings-surrounding").addEventListener("click", (event) => {
+		if (event.target === document.getElementById("settings-surrounding")) {
+			document.getElementById("settings-surrounding").style.display = "none"
+		}
+	})
+	document.getElementById("theme-auto").addEventListener("click", () => {
+		setTheme("auto")
+		document.getElementById("theme").setAttribute("data-color-mode", "auto")
+	})
+	document.getElementById("theme-light").addEventListener("click", () => {
+		setTheme("light")
+		document.getElementById("theme").setAttribute("data-color-mode", "light")
+	})
+	document.getElementById("theme-dark").addEventListener("click", () => {
+		setTheme("dark")
+		document.getElementById("theme").setAttribute("data-color-mode", "dark")
 	})
 })
 

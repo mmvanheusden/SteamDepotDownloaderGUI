@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--  automatic dark mode :) -->
-<html class="anim-fade-in" data-color-mode="auto" data-dark-theme="dark" data-light-theme="light" lang="en">
+<html data-color-mode="auto" data-dark-theme="dark" data-light-theme="light" lang="en" id="theme">
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -136,15 +136,25 @@
 		</div>
 	</form>
 
+
 	<div class="form-group mt-3 ml-3 mr-3">
-		<button class="btn btn-block btn-primary" id="downloadbtn">
-			<svg class="octicon filter-red" height="16" viewBox="0 0 16 16" width="16"
-			     xmlns="http://www.w3.org/2000/svg">
-				<path d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"
-				      fill-rule="evenodd"></path>
-			</svg>
-			Download
-		</button>
+		<div class="BtnGroup d-block">
+			<button class="BtnGroup-item btn btn-block btn-primary" style="width: calc(100% - 50px);" id="downloadbtn">
+				<svg class="octicon filter-red" height="16" viewBox="0 0 16 16" width="16"
+				     xmlns="http://www.w3.org/2000/svg"
+				     style="display: inline-block; user-select: none; vertical-align: text-bottom;">
+					<path d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"
+					      fill-rule="evenodd"></path>
+				</svg>
+				Download
+			</button>
+			<button class="BtnGroup-item btn" id="settings-button">
+				<svg fill="#8B949E" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"
+				     style="display: inline-block; user-select: none; vertical-align: text-bottom;">
+					<path d="M8 0a8.2 8.2 0 0 1 .701.031C9.444.095 9.99.645 10.16 1.29l.288 1.107c.018.066.079.158.212.224.231.114.454.243.668.386.123.082.233.09.299.071l1.103-.303c.644-.176 1.392.021 1.82.63.27.385.506.792.704 1.218.315.675.111 1.422-.364 1.891l-.814.806c-.049.048-.098.147-.088.294.016.257.016.515 0 .772-.01.147.038.246.088.294l.814.806c.475.469.679 1.216.364 1.891a7.977 7.977 0 0 1-.704 1.217c-.428.61-1.176.807-1.82.63l-1.102-.302c-.067-.019-.177-.011-.3.071a5.909 5.909 0 0 1-.668.386c-.133.066-.194.158-.211.224l-.29 1.106c-.168.646-.715 1.196-1.458 1.26a8.006 8.006 0 0 1-1.402 0c-.743-.064-1.289-.614-1.458-1.26l-.289-1.106c-.018-.066-.079-.158-.212-.224a5.738 5.738 0 0 1-.668-.386c-.123-.082-.233-.09-.299-.071l-1.103.303c-.644.176-1.392-.021-1.82-.63a8.12 8.12 0 0 1-.704-1.218c-.315-.675-.111-1.422.363-1.891l.815-.806c.05-.048.098-.147.088-.294a6.214 6.214 0 0 1 0-.772c.01-.147-.038-.246-.088-.294l-.815-.806C.635 6.045.431 5.298.746 4.623a7.92 7.92 0 0 1 .704-1.217c.428-.61 1.176-.807 1.82-.63l1.102.302c.067.019.177.011.3-.071.214-.143.437-.272.668-.386.133-.066.194-.158.211-.224l.29-1.106C6.009.645 6.556.095 7.299.03 7.53.01 7.764 0 8 0Zm-.571 1.525c-.036.003-.108.036-.137.146l-.289 1.105c-.147.561-.549.967-.998 1.189-.173.086-.34.183-.5.29-.417.278-.97.423-1.529.27l-1.103-.303c-.109-.03-.175.016-.195.045-.22.312-.412.644-.573.99-.014.031-.021.11.059.19l.815.806c.411.406.562.957.53 1.456a4.709 4.709 0 0 0 0 .582c.032.499-.119 1.05-.53 1.456l-.815.806c-.081.08-.073.159-.059.19.162.346.353.677.573.989.02.03.085.076.195.046l1.102-.303c.56-.153 1.113-.008 1.53.27.161.107.328.204.501.29.447.222.85.629.997 1.189l.289 1.105c.029.109.101.143.137.146a6.6 6.6 0 0 0 1.142 0c.036-.003.108-.036.137-.146l.289-1.105c.147-.561.549-.967.998-1.189.173-.086.34-.183.5-.29.417-.278.97-.423 1.529-.27l1.103.303c.109.029.175-.016.195-.045.22-.313.411-.644.573-.99.014-.031.021-.11-.059-.19l-.815-.806c-.411-.406-.562-.957-.53-1.456a4.709 4.709 0 0 0 0-.582c-.032-.499.119-1.05.53-1.456l.815-.806c.081-.08.073-.159.059-.19a6.464 6.464 0 0 0-.573-.989c-.02-.03-.085-.076-.195-.046l-1.102.303c-.56.153-1.113.008-1.53-.27a4.44 4.44 0 0 0-.501-.29c-.447-.222-.85-.629-.997-1.189l-.289-1.105c-.029-.11-.101-.143-.137-.146a6.6 6.6 0 0 0-1.142 0ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM9.5 8a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 9.5 8Z"></path>
+				</svg>
+			</button>
+		</div>
 	</div>
 
 	<div aria-label="Visit the GitHub issues website." class="btn btn-sm ml-3 tooltipped tooltipped-ne mb-1"
@@ -159,7 +169,7 @@
 
 	<div aria-label="Visit the SteamDB instant search website." class="btn btn-sm ml-2 tooltipped tooltipped-n mb-1"
 	     id="smbtn2">
-		<svg aria-hidden="true" class="octicon" height="14" viewBox="0 0 128 128" width="14"
+		<svg fill="#8B949E" aria-hidden="true" class="octicon" height="16" viewBox="0 0 128 128" width="16"
 		     xmlns="http://www.w3.org/2000/svg">
 			<path d="M63.9 0C30.5 0 3.1 11.9.1 27.1l35.6 6.7c2.9-.9 6.2-1.3 9.6-1.3l16.7-10c-.2-2.5 1.3-5.1 4.7-7.2 4.8-3.1 12.3-4.8 19.9-4.8 5.2-.1 10.5.7 15 2.2 11.2 3.8 13.7 11.1 5.7 16.3-5.1 3.3-13.3 5-21.4 4.8l-22 7.9c-.2 1.6-1.3 3.1-3.4 4.5-5.9 3.8-17.4 4.7-25.6 1.9-3.6-1.2-6-3-7-4.8L2.5 38.4c2.3 3.6 6 6.9 10.8 9.8C5 53 0 59 0 65.5c0 6.4 4.8 12.3 12.9 17.1C4.8 87.3 0 93.2 0 99.6 0 115.3 28.6 128 64 128c35.3 0 64-12.7 64-28.4 0-6.4-4.8-12.3-12.9-17 8.1-4.8 12.9-10.7 12.9-17.1 0-6.5-5-12.6-13.4-17.4 8.3-5.1 13.3-11.4 13.3-18.2 0-16.5-28.7-29.9-64-29.9zm22.8 14.2c-5.2.1-10.2 1.2-13.4 3.3-5.5 3.6-3.8 8.5 3.8 11.1 7.6 2.6 18.1 1.8 23.6-1.8s3.8-8.5-3.8-11c-3.1-1-6.7-1.5-10.2-1.5zm.3 1.7c7.4 0 13.3 2.8 13.3 6.2 0 3.4-5.9 6.2-13.3 6.2s-13.3-2.8-13.3-6.2c0-3.4 5.9-6.2 13.3-6.2zM45.3 34.4c-1.6.1-3.1.2-4.6.4l9.1 1.7a10.8 5 0 1 1-8.1 9.3l-8.9-1.7c1 .9 2.4 1.7 4.3 2.4 6.4 2.2 15.4 1.5 20-1.5s3.2-7.2-3.2-9.3c-2.6-.9-5.7-1.3-8.6-1.3zM109 51v9.3c0 11-20.2 19.9-45 19.9-24.9 0-45-8.9-45-19.9v-9.2c11.5 5.3 27.4 8.6 44.9 8.6 17.6 0 33.6-3.3 45.2-8.7zm0 34.6v8.8c0 11-20.2 19.9-45 19.9-24.9 0-45-8.9-45-19.9v-8.8c11.6 5.1 27.4 8.2 45 8.2s33.5-3.1 45-8.2z"
 			      fill-rule="evenodd"></path>
@@ -185,6 +195,57 @@
 			<path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
 		</svg>
 		Instructions
+	</div>
+</div>
+<div class="settings-surrounding" id="settings-surrounding">
+	<div class="settings-content mx-auto" id="settings-content">
+		<h3><b>Settings</b></h3>
+		<hr>
+		<form>
+			<div class="form-group">
+				<div class="form-group-header">
+					<label>Theme</label>
+				</div>
+				<div class="form-group-body">
+					<div class="BtnGroup">
+						<button class="BtnGroup-item btn btn-sm" type="button" id="theme-auto" aria-selected="true">
+							Auto
+						</button>
+						<button class="BtnGroup-item btn btn-sm" type="button" id="theme-light">
+							Light
+						</button>
+						<button class="BtnGroup-item btn btn-sm" type="button" id="theme-dark">
+							Dark
+						</button>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<div class="form-group-header">
+					<label>Override terminal selection</label>
+				</div>
+				<div class="form-group-body">
+					<div class="mb-2">
+						<select class="form-select">
+							<option>Gnome Terminal</option>
+							<option>KDE Konsole</option>
+							<option>Xfce Terminal</option>
+							<option>Terminator</option>
+							<option>Terminology</option>
+							<option>xterm</option>
+							<option>Kitty</option>
+							<option>LXTerminal</option>
+							<option>Tilix</option>
+							<option>Deepin Terminal</option>
+							<option>cool-retro-term</option>
+							<option selected="selected">Default</option>
+						</select> found: <span class="Counter"><code id="terminals-found" style="color: black;">none</code></span>
+					</div>
+				</div>
+			</div>
+			<hr>
+		</form>
 	</div>
 </div>
 </body>

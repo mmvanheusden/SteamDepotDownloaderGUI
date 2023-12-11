@@ -3,11 +3,40 @@
     src:
             url('Hubot-Sans.woff2') format('woff2 supports variations'),
             url('Hubot-Sans.woff2') format('woff2-variations');
-    font-weight: 770;
+    font-weight: 700;
     font-stretch: expanded;
 }
 .f1-light {
     font-family: 'Hubot Sans', sans-serif;
     overflow: hidden;
     white-space: nowrap;
+}
+
+/* The grey part */
+.settings-surrounding {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.33);
+
+}
+
+.settings-content {
+    border-radius: 10px;
+    overflow: auto;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px black solid;
+    width: 90vw; /* 90vw -> 90% */
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.hide {
+    display: none;
 }
