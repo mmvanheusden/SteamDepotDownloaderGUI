@@ -1,13 +1,13 @@
 # How to download older versions of Steam games using Steam Depot Downloader GUI?
-Please watch this video: https://www.youtube.com/watch?v=H2COwT5OUOo
+Please watch this video: [https://www.youtube.com/watch?v=H2COwT5OUOo](https://www.youtube.com/watch?v=H2COwT5OUOo)
 I'll write it down here too, but it's better to watch the video.
 This is a guide on how to download older versions of Steam games using Steam Depot Downloader GUI.
 ## Step 1: Download Steam Depot Downloader GUI
 You can download it from here:  
-https://github.com/mmvanheusden/SteamDepotDownloaderGUI
+[https://github.com/mmvanheusden/SteamDepotDownloaderGUI](https://github.com/mmvanheusden/SteamDepotDownloaderGUI)
 ## Step 2: Find the game's AppID  
 You can find the game's AppID by searching for it on SteamDB:
- * https://steamdb.info/instantsearch/
+ * [https://steamdb.info/instantsearch/](https://steamdb.info/instantsearch/)
 
 ### Step 2.1: Find the game's DepotID
 After you found the game's AppID, you need to find the game's DepotID.  
