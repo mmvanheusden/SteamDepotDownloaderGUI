@@ -183,7 +183,6 @@ const createCommand = (terminal, os) => {
 	} else console.log("os is manually chosen")
 
 
-
 	// The values inputted by the user in the form
 	let username = document.forms["theform"]["username"].value
 	let password = document.forms["theform"]["password"].value
