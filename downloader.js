@@ -15,7 +15,6 @@ const DOTNET_DIR = "depotdownloader" // folder where zip is extracted
 const DOTNET_ZIP_FILE = DOTNET_DOWNLOAD_URL.split("/").pop() // the file that is being downloaded.
 
 function submitForm() {
-	///console.log(terminal[1][0])
 	// Check if the form is filled in and if dotnet is installed
 	preDownloadCheck().then(async function () {
 		//console.log(terminal[1][0])
