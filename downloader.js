@@ -4,11 +4,13 @@ const {ipcRenderer, shell} = require("electron")
 const {
 	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, forceTerminals
 } = require("./utils")
+const electron = require("electron")
 
 // Initializes the variable that holds the path to the specified download location
 let exportedFile
 let ready = true
 let os
+let app_version
 
 const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip" // the url to the depotdownloader zip
 const DOTNET_DIR = "depotdownloader" // folder where zip is extracted
@@ -280,6 +282,10 @@ window.addEventListener("DOMContentLoaded", () => {
 		document.getElementById("folder-name-custom").ariaSelected = true
 		document.getElementById("folder-name-custom-input").hidden = false
 	})
+	document.getElementById("version-info").addEventListener("click", () => {
+		//todo: update checker
+		electron.shell.openExternal(`https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/v${app_version}`)
+	})
 })
 
 ipcRenderer.on("file", (event, file) => {
@@ -287,4 +293,11 @@ ipcRenderer.on("file", (event, file) => {
 	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
 	document.getElementById("checkpath").disabled = false // Makes the check button active
 	exportedFile = file.toString()
+})
+
+// receive the version from main.js
+ipcRenderer.on("version", (event, version) => {
+	console.log("version: " + version)
+	document.getElementById("version-info").innerText = `v${version}`
+	app_version = version.toString()
 })

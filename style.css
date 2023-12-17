@@ -21,21 +21,21 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.33);
-
 }
 
 .settings-content {
+    position: relative;
     border-radius: 10px;
     overflow: auto;
-    background-color: #fefefe;
+    background-color: white;
     margin: 15% auto;
-    padding: 20px;
-    border: 1px black solid;
+    padding: 25px;
+    border: 1px solid #b4dede;
     width: 90vw; /* 90vw -> 90% */
-    color: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #333;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .hide {
@@ -46,4 +46,13 @@ hr {
     border: 0;
     height: 1px;
     background: #ccc linear-gradient(to right, #ccc, #000000, #ccc);
+}
+
+.version-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.8em;
+    padding: 5px 10px; /* space around text */
+    font-family: monospace;
 }

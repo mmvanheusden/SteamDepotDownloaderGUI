@@ -6,8 +6,8 @@ const createWindow = () => {
 	const mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
 		resizable: false,
-		width: 440,
-		height: 730,
+		width: 445,
+		height: 650,
 		useContentSize: true,
 		maximizable: false,
 		webPreferences: {
@@ -44,6 +44,7 @@ app.whenReady().then(() => {
 app.on("web-contents-created", (event, contents) => {
 	contents.on("dom-ready", () => {
 		contents.send("ready")
+		contents.send("version", app.getVersion()) // send the version to the renderer
 	})
 })
 
