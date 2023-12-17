@@ -190,6 +190,8 @@ const createCommand = (terminal, os) => {
 	let appid = document.forms["theform"]["appid"].value
 	let depotid = document.forms["theform"]["depotid"].value
 	let manifestid = document.forms["theform"]["manifestid"].value
+	let folderinput = document.getElementById("folder-name-custom-input")
+	let foldername = ""
 
 	/* OS dropdown choices
 	[0] - Windows
@@ -222,9 +224,11 @@ const createCommand = (terminal, os) => {
 	// build the username and password flags into one string, allowing for anonymous login
 	let userpass = anonymous ? "" : `-username ${username} -password "${password}"`
 
+	foldername = folderinput.value === "" ? appid : folderinput.value
+
 	// for some reason exportedFile doesn't have to be imported or exported
 	// eslint-disable-next-line no-undef
-	const finalPath = (exportedFile + path.sep + appid).replaceAll(" ", "\\ ")
+	const finalPath = (exportedFile + path.sep + foldername).replaceAll(" ", "\\ ")
 	// The final command to run, returned by this function
 	if (os === 0) {
 		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`

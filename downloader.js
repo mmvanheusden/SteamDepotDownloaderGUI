@@ -248,8 +248,6 @@ window.addEventListener("DOMContentLoaded", () => {
 	})
 	document.getElementById("settings-button").addEventListener("click", () => {
 		if (document.getElementById("settings-button").disabled === false) {
-			console.log("Settings button clicked")
-
 			// show the modal. This is done by setting the display to block.
 			document.getElementById("settings-surrounding").style.display = "block"
 		}
@@ -270,6 +268,17 @@ window.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("theme-dark").addEventListener("click", () => {
 		setTheme("dark")
 		document.getElementById("theme").setAttribute("data-color-mode", "dark")
+	})
+	document.getElementById("folder-name-appid").addEventListener("click", () => {
+		document.getElementById("folder-name-custom").ariaSelected = false
+		document.getElementById("folder-name-appid").ariaSelected = true
+		document.getElementById("folder-name-custom-input").hidden = true
+		document.getElementById("folder-name-custom-input").value = ""
+	})
+	document.getElementById("folder-name-custom").addEventListener("click", () => {
+		document.getElementById("folder-name-appid").ariaSelected = false
+		document.getElementById("folder-name-custom").ariaSelected = true
+		document.getElementById("folder-name-custom-input").hidden = false
 	})
 })
 
