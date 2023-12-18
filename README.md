@@ -91,6 +91,10 @@ Donations can be made through Liberapay :)
     alt="Donation badge">
 </a>
 
+## On Electron
+Computer resources are not an all-you-can-eat buffet. The executables weigh on average 103 MB.  
+That's why in the future, this project is fully switching to a [different](https://tauri.app/) (multi-platform) toolset. Nothing will change for the user.
+
 ## Contribute
 
 If you would like to contribute to SteamDepotDownloaderGUI, please make sure to follow
