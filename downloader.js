@@ -44,19 +44,30 @@ function submitForm() {
 
 		// Clean up the old files
 		await removeFile(DOTNET_ZIP_FILE)
-		// username,     password,     appid,     depotid,     manifestid,     folderinput,     chosenPath,     hold):
 
 		// Generate the run script (run.sh for linux, or run.bat for windows).
 		await generateRunScript(document.getElementById("username").value, document.getElementById("password").value, document.getElementById("appid").value, document.getElementById("depotid").value, document.getElementById("manifestid").value, document.getElementById("folder-name-custom-input"), exportedFile)
 
+		let terminal
+		let os
+		if (document.getElementById("terminal-dropdown").selectedIndex === 11) {
+			terminal = "auto"
+		} else {
+			terminal = document.getElementById("terminal-dropdown").selectedIndex
+		}
+		if (document.getElementById("os-dropdown").selectedIndex === 4) {
+			os = "auto"
+		} else {
+			os = document.getElementById("os-dropdown").selectedIndex
+		}
 		let command
 		if (process.platform.includes("linux")) {
 			// if the OS is linux, run the sh file with the chosen terminal
-			command = await executeCommandWithTerminal(`sh \`${platformpath()}${sep}run.sh\``, document.getElementById("terminal-dropdown").selectedIndex, document.getElementById("os-dropdown").selectedIndex)
+			command = await executeCommandWithTerminal(`sh ${platformpath().replaceAll(" ", "\\ ")}${sep}run.sh`, terminal, os)
 		} else if (process.platform.includes("win")) {
 			// if the OS is windows, run the batch file
 			console.log(document.getElementById("os-dropdown").selectedIndex)
-			command = await executeCommandWithTerminal(`${platformpath()}${sep}run.bat`, 0, document.getElementById("os-dropdown").selectedIndex)
+			command = await executeCommandWithTerminal(`${platformpath()}${sep}run.bat`, terminal, os)
 		} else if (process.platform.includes("darwin")) {
 			//macOS
 		}

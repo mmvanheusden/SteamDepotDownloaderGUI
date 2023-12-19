@@ -1,4 +1,3 @@
-
 var defaultTerminal = ""
 
 /**
@@ -267,12 +266,25 @@ const createCommand = (terminal, os) => {
 
 async function executeCommandWithTerminal(command, terminal, os) {
 	let cmd = ""
-	/* eslint-disable */
-	if (process.platform.includes("win")) {
-		cmd = `start cmd.exe /k "${command}"`
-	} else if (document.getElementById("os").value === "macos") {
-	}
 
+	console.log(`terminal: ${terminal}`)
+	if (terminal === "auto") {
+		console.log("terminal is auto")
+		terminal = defaultTerminal[0]
+	}
+	// if os is auto, choose the os for us.
+	console.log(`os: ${os}`)
+	if (os === "auto") {
+		if (process.platform.toString().includes("win")) {
+			os = 0
+		} else if (process.platform.toString().includes("linux")) {
+			os = 2
+		}
+	} else console.log("os is manually chosen")
+	/* eslint-disable */
+	console.log(`terminal: ${terminal}`)
+	console.log(`os: ${os}`)
+	console.log(`command: ${command}`)
 	if (os === 0) {
 		cmd = `start cmd.exe /k '${command}'`
 	} else if (os === 1) {
@@ -318,11 +330,11 @@ async function executeCommandWithTerminal(command, terminal, os) {
 	} else if (os === 3) {
 		if (process.platform.toString().includes("win")) {
 			console.log(`COPY-PASTE THE FOLLOWING INTO THE TERMINAL:\n\n${command}`)
-		} else console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL:\n\nsh ${command}`)
+		} else console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL:\n\n${command}`)
 		cmd = ""
 	}
 
-	console.log(cmd)
+	console.log("cmd is " + cmd)
 	return cmd
 	/* eslint-enable */
 }
@@ -355,13 +367,18 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 
 	let finalPath = (chosenPath + path.sep + foldername)
 	if (process.platform.includes("win")) {
+		console.log("win")
 		if (finalPath.includes(" ")) {
 			console.log("path contains spaces")
-			//finalPath.replaceAll(" ", "\\ ")
 			finalPath = `"${finalPath}"`
 			console.log(finalPath)
 		}
-	} else finalPath = finalPath.replaceAll(" ", "\\ ")
+	} else {
+		console.log("not win")
+		console.log("finalPath: " + finalPath)
+		finalPath = finalPath.replaceAll(" ", "\\ ")
+		console.log("finalPath after: " + finalPath)
+	}
 
 	/* 										/ or \         if nothing is inputted its appid  replaces " " with "\ ", so whitespaces can be in path names.
 	finalpath: ((the path the user chose) + (seperator) + (the folder name the user chose)).replaceAll()
@@ -375,9 +392,10 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 	 */
 
 	if (process.platform.includes("linux")) {
+		await console.log("modified platformpath: " + platformpath().replaceAll(" ", "\\ "))
 		// if linux, write a bash script.
 		let content = `#!/usr/bin/env bash
-		dotnet ${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
+dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
 		`
 		await fs.writeFileSync(`${platformpath()}${sep}run.sh`, content)
 		await fs.chmodSync(`${platformpath()}${sep}run.sh`, "755") // make it executable
