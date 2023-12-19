@@ -135,7 +135,9 @@ dist
 # IntelliJ
 .idea/
 
-# SteamDepotDownloaderGUI specific directories
-/depotdownloader/
-/games/
+# SteamDepotDownloaderGUI specific
+depotdownloader
+games
 *.zip
+run.bat
+run.sh

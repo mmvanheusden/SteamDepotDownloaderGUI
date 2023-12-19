@@ -1,3 +1,4 @@
+
 var defaultTerminal = ""
 
 /**
@@ -263,6 +264,131 @@ const createCommand = (terminal, os) => {
 	}
 }
 
+
+async function executeCommandWithTerminal(command, terminal, os) {
+	let cmd = ""
+	/* eslint-disable */
+	if (process.platform.includes("win")) {
+		cmd = `start cmd.exe /k "${command}"`
+	} else if (document.getElementById("os").value === "macos") {
+	}
+
+	if (os === 0) {
+		cmd = `start cmd.exe /k '${command}'`
+	} else if (os === 1) {
+		cmd = `osascript -c 'tell application "Terminal" to do script '${command}'`
+	} else if (os === 2) {
+		switch (terminal) {
+		case 0:
+			cmd = `gnome-terminal -e 'bash -c "${command};$SHELL"'`
+			break
+		case 1:
+			cmd = `konsole --hold -e "${command}"`
+			break
+		case 2:
+			cmd = `xfce4-terminal -H -e "${command}"`
+			break
+		case 3:
+			cmd = `terminator -e 'bash -c "${command};$SHELL"'`
+			break
+		case 4:
+			cmd = `terminology -H -e "${command}"`
+			break
+		case 5:
+			cmd = `xterm -hold -T "Downloading Depot..." -e "${command}"`
+			break
+		case 6:
+			cmd = `kitty --hold sh -c "${command}"`
+			break
+		case 7:
+			cmd = `lxterminal -e "${command};$SHELL"`
+			break
+		case 8:
+			cmd = `tilix -e sh -c "${command};$SHELL"`
+			break
+		case 9:
+			cmd = `deepin-terminal -e 'sh -c "${command};$SHELL"'`
+			break
+		case 10:
+			cmd = `cool-retro-term -e sh -c "${command}"`
+			break
+		default:
+			console.log("terminal not found")
+		}
+	} else if (os === 3) {
+		if (process.platform.toString().includes("win")) {
+			console.log(`COPY-PASTE THE FOLLOWING INTO THE TERMINAL:\n\n${command}`)
+		} else console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL:\n\nsh ${command}`)
+		cmd = ""
+	}
+
+	console.log(cmd)
+	return cmd
+	/* eslint-enable */
+}
+
+async function generateRunScript(username, password, appid, depotid, manifestid, folderinput, chosenPath) {
+	const path = require("path")
+	const fs = require("fs")
+	const sep = path.sep
+	let foldername = ""
+
+	// allow enormous strings like &$§"&$="§$/"(§NJUIDW>;!%?aQ52V?*['YsDnRy|(+Q 1h6BmnDQp,(Xr& being used as password.
+	// NOT TESTED
+	password = password.replace(/"/g, "\"\"")
+
+	// if either the username or password fields is empty, anonymous login is used
+	let anonymous = username === "" || password === ""
+
+
+	/* put the username and password flags into one string, allowing for anonymous login.
+						if anonymous:  false  true
+									   |       |
+	 */
+	let userpass = anonymous ? "" : `-username ${username} -password "${password}"`
+
+	/* if nothing is inputted by the user in the folder input, it will be defaulted to the appid. else to the value */
+	foldername = folderinput.value === "" ? appid : folderinput.value
+
+	/* if the path isn't selected by the user, go for the path the app is located in. else use the path the user chose. */
+	chosenPath = chosenPath === "" ? platformpath() : chosenPath
+
+	let finalPath = (chosenPath + path.sep + foldername)
+	if (process.platform.includes("win")) {
+		if (finalPath.includes(" ")) {
+			console.log("path contains spaces")
+			//finalPath.replaceAll(" ", "\\ ")
+			finalPath = `"${finalPath}"`
+			console.log(finalPath)
+		}
+	} else finalPath = finalPath.replaceAll(" ", "\\ ")
+
+	/* 										/ or \         if nothing is inputted its appid  replaces " " with "\ ", so whitespaces can be in path names.
+	finalpath: ((the path the user chose) + (seperator) + (the folder name the user chose)).replaceAll()
+	 */
+
+
+	/* The structure of a DepotDownloader command:
+	.NET CLI    Path to the DepotDownloader dll.		Username/pass combination app id		 depot id			manifest id		the dir chosen by user or app path	 controls how much download servers and threads are used. Needs benchmark TODO
+	  |						|									|					|				|					|				|											|																				|
+	dotnet (path)(sep)depotdownloader(sep)DepotDownloader.dll (userpass)	-app (appid)  -depot (depotid) -manifest (manifestid) -dir (path)(sep)				-max-servers 50 -max-downloads 16
+	 */
+
+	if (process.platform.includes("linux")) {
+		// if linux, write a bash script.
+		let content = `#!/usr/bin/env bash
+		dotnet ${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
+		`
+		await fs.writeFileSync(`${platformpath()}${sep}run.sh`, content)
+		await fs.chmodSync(`${platformpath()}${sep}run.sh`, "755") // make it executable
+	} else if (process.platform.includes("win")) {
+		// if windows, write a batch script
+		let content = `dotnet ${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`
+		await fs.writeFileSync(`${platformpath()}${sep}run.bat`, content)
+	} else { /* macos */
+	}
+}
+
 /**
  * Executes a given command in a separate process.
  *
@@ -293,23 +419,22 @@ function runCommand(command) {
  * @returns {string} The absolute path
  */
 const platformpath = () => {
-	if ((__dirname.includes("AppData") || __dirname.includes("Temp")) && process.platform.toString().includes("win")) {
-		// Windows portable exe
-		return process.env.PORTABLE_EXECUTABLE_DIR
-	} else if (/*__dirname.includes("/tmp/") && */process.platform.toString().includes("linux")) {
-		// in a .zip, __dirname seems to return a broken path, ending with app.asar.
-		// using process.cwd() fixes that, but might not work on all distros as this has been an issue in the past.
-		// see commit 894197e75e774f4a17cced00d9862ab3942a8a5a
+	// On linux, it must return process.cwd(). On windows, it must return process.env.PORTABLE_EXECUTABLE_DIR, but only if the program is running from a portable exe.
+	// On linux, __dirname returns the correct path, but on windows, it returns the path to the app.asar file, which is not what we want.
 
-		// Linux AppImage / .zip
+	if (process.platform.includes("win")) {
+		if (process.env.PORTABLE_EXECUTABLE_DIR !== undefined) {
+			return process.env.PORTABLE_EXECUTABLE_DIR
+		} else {
+			return __dirname
+		}
+	} else {
 		return process.cwd()
-	} /*else {
-		return __dirname
-	}*/
+	}
 }
 
 /**
- * Checks for the availbility of terminal emulators on Linux.
+ * Checks for the availability of terminal emulators on Linux.
  * It runs the '--version' command on each terminal emulator and checks if the command is successful.
  * If the command is successful, it means the terminal emulator is installed and available.
  * The function returns an array of the indices of the available terminal emulators.
@@ -340,5 +465,15 @@ const forceTerminals = async () => {
 }
 
 module.exports = {
-	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, platformpath, forceTerminals
+	preDownloadCheck,
+	download,
+	createCommand,
+	runCommand,
+	removeDir,
+	removeFile,
+	unzip,
+	platformpath,
+	forceTerminals,
+	generateRunScript,
+	executeCommandWithTerminal
 }

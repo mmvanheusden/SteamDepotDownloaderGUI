@@ -2,14 +2,23 @@
 // License can be found at https://github.com/SteamRE/DepotDownloader/blob/master/LICENSE
 const {ipcRenderer, shell} = require("electron")
 const {
-	preDownloadCheck, download, createCommand, runCommand, removeDir, removeFile, unzip, forceTerminals
+	preDownloadCheck,
+	download,
+	runCommand,
+	removeDir,
+	removeFile,
+	unzip,
+	forceTerminals,
+	generateRunScript,
+	executeCommandWithTerminal,
+	platformpath
 } = require("./utils")
 const electron = require("electron")
+const {sep} = require("path")
 
 // Initializes the variable that holds the path to the specified download location
-let exportedFile
+let exportedFile = ""
 let ready = true
-let os
 let app_version
 
 const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip" // the url to the depotdownloader zip
@@ -35,24 +44,25 @@ function submitForm() {
 
 		// Clean up the old files
 		await removeFile(DOTNET_ZIP_FILE)
+		// username,     password,     appid,     depotid,     manifestid,     folderinput,     chosenPath,     hold):
+
+		// Generate the run script (run.sh for linux, or run.bat for windows).
+		await generateRunScript(document.getElementById("username").value, document.getElementById("password").value, document.getElementById("appid").value, document.getElementById("depotid").value, document.getElementById("manifestid").value, document.getElementById("folder-name-custom-input"), exportedFile)
+
+		let command
+		if (process.platform.includes("linux")) {
+			// if the OS is linux, run the sh file with the chosen terminal
+			command = await executeCommandWithTerminal(`sh \`${platformpath()}${sep}run.sh\``, document.getElementById("terminal-dropdown").selectedIndex, document.getElementById("os-dropdown").selectedIndex)
+		} else if (process.platform.includes("win")) {
+			// if the OS is windows, run the batch file
+			console.log(document.getElementById("os-dropdown").selectedIndex)
+			command = await executeCommandWithTerminal(`${platformpath()}${sep}run.bat`, 0, document.getElementById("os-dropdown").selectedIndex)
+		} else if (process.platform.includes("darwin")) {
+			//macOS
+		}
 
 		// Run the final command
-
-		let terminal
-		// if the terminal dropdown is not set to 'auto', set the terminal variable to the selected index.
-		if (document.getElementById("terminal-dropdown").selectedIndex !== 11) {
-			terminal = document.getElementById("terminal-dropdown").selectedIndex
-		} else terminal = "auto"
-		// if the OS dropdown is not set to 'auto', set the os variable to the selected index.
-		if (document.getElementById("os-dropdown").selectedIndex !== 4) {
-			os = document.getElementById("os-dropdown").selectedIndex
-		} else os = "auto"
-
-		// create the command
-		let command = createCommand(terminal, os)
-
 		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued: " + command)
-
 		await runCommand(command)
 	}).catch(function (error) {
 		if (error === "noDotnet") {
@@ -300,4 +310,8 @@ ipcRenderer.on("version", (event, version) => {
 	console.log("version: " + version)
 	document.getElementById("version-info").innerText = `v${version}`
 	app_version = version.toString()
+})
+
+ipcRenderer.on("print", (event, message) => {
+	console.log(message)
 })
