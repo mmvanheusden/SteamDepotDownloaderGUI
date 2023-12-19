@@ -67,7 +67,7 @@ function submitForm() {
 		} else if (process.platform.includes("win")) {
 			// if the OS is windows, run the batch file
 			console.log(document.getElementById("os-dropdown").selectedIndex)
-			command = await executeCommandWithTerminal(`${platformpath()}${sep}run.bat`, terminal, os)
+			command = await executeCommandWithTerminal(`"${platformpath()}${sep}run.bat"`, terminal, os)
 		} else if (process.platform.includes("darwin")) {
 			//macOS
 		}

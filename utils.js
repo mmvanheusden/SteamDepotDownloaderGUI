@@ -137,10 +137,11 @@ function removeDir(dir,) {
 function unzip(file, target) {
 	const {exec} = require("child_process")
 	const path = require("path")
+	let finalPath = platformpath() + path.sep
 
 	return new Promise((resolve, reject) => {
 		if (process.platform.toString().includes("win")) {
-			const command = "powershell.exe -Command Expand-Archive -Path " + platformpath() + path.sep + file + " -Destination " + platformpath() + path.sep + target
+			const command = `powershell.exe -Command Expand-Archive -Path '${finalPath + file}' -Destination '${finalPath + target}'`
 			exec(command, function (error) {
 				if (error) {
 					reject(error)
@@ -148,7 +149,7 @@ function unzip(file, target) {
 				} else resolve()
 			})
 		} else {
-			const command = "unzip -o " + file + " -d ./" + target + "/"
+			const command = `unzip -o ${platformpath().replaceAll(" ", "\\ ") + path.sep + file} -d ${platformpath().replaceAll(" ", "\\ ") + path.sep + target}${path.sep}`
 			exec(command, function (error) {
 				if (error) {
 					reject(error)
@@ -286,7 +287,7 @@ async function executeCommandWithTerminal(command, terminal, os) {
 	console.log(`os: ${os}`)
 	console.log(`command: ${command}`)
 	if (os === 0) {
-		cmd = `start cmd.exe /k '${command}'`
+		cmd = `start cmd.exe /k ${command}`
 	} else if (os === 1) {
 		cmd = `osascript -c 'tell application "Terminal" to do script '${command}'`
 	} else if (os === 2) {
@@ -401,7 +402,7 @@ dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotD
 		await fs.chmodSync(`${platformpath()}${sep}run.sh`, "755") // make it executable
 	} else if (process.platform.includes("win")) {
 		// if windows, write a batch script
-		let content = `dotnet ${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`
+		let content = `dotnet "${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll" ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`
 		await fs.writeFileSync(`${platformpath()}${sep}run.bat`, content)
 	} else { /* macos */
 	}
