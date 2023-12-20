@@ -232,8 +232,7 @@ ipcRenderer.on("ready", async () => {
 	document.getElementById("loader").hidden = false
 
 
-	let r = await fetch("https://api.github.com/zen")
-	console.debug(await r.text())
+	console.debug("🐰🐰🐰🐰")
 
 
 	await fillDefaultValues() // Set the default values based on OS
