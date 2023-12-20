@@ -160,132 +160,21 @@ function unzip(file, target) {
 	})
 }
 
-/**
- * Creates a command based on the operating system/terminal being selected and the form values
- * @returns {string} The final command to run
- * TODO: create a builder, so the different terminals can be put in one variable and more can be added easily.
- */
-const createCommand = (terminal, os) => {
-	// if "auto" is given, take the first found terminal and use it.
-	if (terminal === "auto") {
-		terminal = defaultTerminal[0]
-	} else console.log("terminal is manually chosen.")
-
-	// Import path so \ can be put in a string
-	const path = require("path")
-
-	// if os is auto, choose the os for us.
-	if (os === "auto") {
-		if (process.platform.toString().includes("win")) {
-			os = 0
-		} else if (process.platform.toString().includes("linux")) {
-			os = 2
-		}
-	} else console.log("os is manually chosen")
-
-
-	// The values inputted by the user in the form
-	let username = document.forms["theform"]["username"].value
-	let password = document.forms["theform"]["password"].value
-	let appid = document.forms["theform"]["appid"].value
-	let depotid = document.forms["theform"]["depotid"].value
-	let manifestid = document.forms["theform"]["manifestid"].value
-	let folderinput = document.getElementById("folder-name-custom-input")
-	let foldername = ""
-
-	/* OS dropdown choices
-	[0] - Windows
-	[1] - macOS
-	[2] - Linux
-	[3] - manual
-	 */
-
-	/* Terminal dropdown choices
-	[0] - Gnome Terminal
-	[1] - KDE Konsole
-	[2] - Xfce terminal
-	[3] - terminator
-	[4] - Terminology
-	[5] - xterm
-	[6] - Kitty
-	[7] - LXTerminal
-	[8] - Tilix
-	[9] - Deepin Terminal
-	[10] - cool-retro-term
-	[11] (default, hidden) - Choose your terminal emulator
-	 */
-
-	// if either the username or password fields are empty, anonymous login is used
-	let anonymous = username === "" || password === ""
-
-	// allow enormous strings like &$§"&$="§$/"(§NJUIDW>;!%?aQ52V?*['YsDnRy|(+Q 1h6BmnDQp,(Xr&Th _fMMm|*1T5a^HBuJr)EYKdA$~V*9N~74zg3hf9ZH(!HR"§RH§"H(R being used as password
-	password = password.replace(/"/g, "\"\"")
-
-	// build the username and password flags into one string, allowing for anonymous login
-	let userpass = anonymous ? "" : `-username ${username} -password "${password}"`
-
-	foldername = folderinput.value === "" ? appid : folderinput.value
-
-	// for some reason exportedFile doesn't have to be imported or exported
-	// eslint-disable-next-line no-undef
-	const finalPath = (exportedFile + path.sep + foldername).replaceAll(" ", "\\ ")
-	// The final command to run, returned by this function
-	if (os === 0) {
-		return `start cmd.exe /k dotnet ${platformpath()}${path.sep}depotdownloader${path.sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16`
-	} else if (os === 1) {
-		return `osascript -c 'tell application "Terminal" to do script 'dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16'`
-	} else if (os === 2) {
-		if (terminal === 0) {
-			return `gnome-terminal -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";$SHELL'`
-		} else if (terminal === 1) {
-			return `konsole --hold -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
-		} else if (terminal === 2) {
-			return `xfce4-terminal -H -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
-		} else if (terminal === 3) {
-			return `terminator -e 'bash -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16";$SHELL'`
-		} else if (terminal === 4) {
-			return `terminology -H -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
-		} else if (terminal === 5) {
-			return `xterm -hold -T "Downloading Depot..." -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
-		} else if (terminal === 6) {
-			return `kitty --hold sh -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16"`
-		} else if (terminal === 7) {
-			return `lxterminal -e "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"`
-		} else if (terminal === 8) {
-			return `tilix -e sh -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"`
-		} else if (terminal === 9) {
-			return `deepin-terminal -e 'sh -c "dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"'`
-		} else if (terminal === 10) {
-			return `cool-retro-term -e sh -c "cd ${platformpath()} && dotnet ./depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}/ -max-servers 50 -max-downloads 16;$SHELL"`
-		}
-	} else if (os === 3) {
-		console.log(`COPY-PASTE THE FOLLOWING INTO YOUR TERMINAL OF CHOICE:\n\ndotnet ${platformpath()}/depotdownloader/DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`)
-		return "echo hi"
-	}
-}
-
-
-async function executeCommandWithTerminal(command, terminal, os) {
+async function createCommandWithTerminal(command, terminal, os) {
 	let cmd = ""
 
-	console.log(`terminal: ${terminal}`)
 	if (terminal === "auto") {
-		console.log("terminal is auto")
 		terminal = defaultTerminal[0]
 	}
 	// if os is auto, choose the os for us.
-	console.log(`os: ${os}`)
 	if (os === "auto") {
 		if (process.platform.toString().includes("win")) {
 			os = 0
 		} else if (process.platform.toString().includes("linux")) {
 			os = 2
 		}
-	} else console.log("os is manually chosen")
+	} else console.log("OS is manually chosen")
 	/* eslint-disable */
-	console.log(`terminal: ${terminal}`)
-	console.log(`os: ${os}`)
-	console.log(`command: ${command}`)
 	if (os === 0) {
 		cmd = `start cmd.exe /k ${command}`
 	} else if (os === 1) {
@@ -326,7 +215,7 @@ async function executeCommandWithTerminal(command, terminal, os) {
 			cmd = `cool-retro-term -e sh -c "${command}"`
 			break
 		default:
-			console.log("terminal not found")
+			console.log("NO TERMINAL. PANIC.")
 		}
 	} else if (os === 3) {
 		if (process.platform.toString().includes("win")) {
@@ -335,7 +224,6 @@ async function executeCommandWithTerminal(command, terminal, os) {
 		cmd = ""
 	}
 
-	console.log("cmd is " + cmd)
 	return cmd
 	/* eslint-enable */
 }
@@ -368,17 +256,13 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 
 	let finalPath = (chosenPath + path.sep + foldername)
 	if (process.platform.includes("win")) {
-		console.log("win")
 		if (finalPath.includes(" ")) {
-			console.log("path contains spaces")
+			console.log("path contains spaces. adding quotes")
 			finalPath = `"${finalPath}"`
-			console.log(finalPath)
+			console.log("Result: " + finalPath)
 		}
 	} else {
-		console.log("not win")
-		console.log("finalPath: " + finalPath)
 		finalPath = finalPath.replaceAll(" ", "\\ ")
-		console.log("finalPath after: " + finalPath)
 	}
 
 	/* 										/ or \         if nothing is inputted its appid  replaces " " with "\ ", so whitespaces can be in path names.
@@ -393,17 +277,28 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 	 */
 
 	if (process.platform.includes("linux")) {
-		await console.log("modified platformpath: " + platformpath().replaceAll(" ", "\\ "))
 		// if linux, write a bash script.
 		let content = `#!/usr/bin/env bash
 dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
 		`
 		await fs.writeFileSync(`${platformpath()}${sep}run.sh`, content)
 		await fs.chmodSync(`${platformpath()}${sep}run.sh`, "755") // make it executable
+		console.log(`Writing:
+--------
+dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
+
+to ${platformpath()}${sep}run.sh.
+`)
 	} else if (process.platform.includes("win")) {
 		// if windows, write a batch script
 		let content = `dotnet "${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll" ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16`
 		await fs.writeFileSync(`${platformpath()}${sep}run.bat`, content)
+		console.log(`Writing:
+--------
+dotnet "${platformpath()}${sep}depotdownloader${sep}DepotDownloader.dll" ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath} -max-servers 50 -max-downloads 16
+
+to ${platformpath()}${sep}run.bat.
+`)
 	} else { /* macos */
 	}
 }
@@ -432,14 +327,13 @@ function runCommand(command) {
  * Returns the path where the actual program is being run from, depending on the operating system.
  * Because __dirname is inconsistent across operating systems, this function is used to get the correct path.
  *
- * Windows .exe -> process.env.PORTABLE_EXECUTABLE_DIR
- * Linux .appimage -> process.cwd()
- * Linux .zip -> process.cwd()
+ * Windows -> Dev env: __dirname, Portable: process.env.PORTABLE_EXECUTABLE_DIR
+ * Linux -> process.cwd()
  * @returns {string} The absolute path
  */
 const platformpath = () => {
 	// On linux, it must return process.cwd(). On windows, it must return process.env.PORTABLE_EXECUTABLE_DIR, but only if the program is running from a portable exe.
-	// On linux, __dirname returns the correct path, but on windows, it returns the path to the app.asar file, which is not what we want.
+	// On linux, __dirname returns the correct path, but on windows, it returns the path to the app.asar file, which is not what we want. Only in dev environment it returns the correct path.
 
 	if (process.platform.includes("win")) {
 		if (process.env.PORTABLE_EXECUTABLE_DIR !== undefined) {
@@ -486,7 +380,6 @@ const forceTerminals = async () => {
 module.exports = {
 	preDownloadCheck,
 	download,
-	createCommand,
 	runCommand,
 	removeDir,
 	removeFile,
@@ -494,5 +387,5 @@ module.exports = {
 	platformpath,
 	forceTerminals,
 	generateRunScript,
-	executeCommandWithTerminal
+	createCommandWithTerminal
 }

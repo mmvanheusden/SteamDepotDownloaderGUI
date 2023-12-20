@@ -74,8 +74,3 @@ ipcMain.on("selectpath", (event) => {
 		console.log(err)
 	})
 })
-
-
-ipcMain.on("print", (event, args) => {
-	console.log(args)
-})
