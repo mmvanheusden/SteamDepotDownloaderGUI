@@ -10,7 +10,7 @@ const {
 	unzip,
 	forceTerminals,
 	generateRunScript,
-	executeCommandWithTerminal,
+	createCommandWithTerminal,
 	platformpath
 } = require("./utils")
 const electron = require("electron")
@@ -32,6 +32,16 @@ function submitForm() {
 		document.getElementById("dotnetwarning").hidden = true
 		document.getElementById("emptywarning").hidden = true
 		console.info("dotnet found in PATH")
+		// create variables for the form values
+		const username = document.getElementById("username").value
+		const password = document.getElementById("password").value
+		const appid = document.getElementById("appid").value
+		const depotid = document.getElementById("depotid").value
+		const manifestid = document.getElementById("manifestid").value
+		const terminal_dropdown = document.getElementById("terminal-dropdown").selectedIndex
+		const os_dropdown = document.getElementById("os-dropdown").selectedIndex
+		const foldername_element = document.getElementById("folder-name-custom-input")
+
 
 		// Remove the old depotdownloader directory if there are any
 		await removeDir("depotdownloader")
@@ -46,34 +56,33 @@ function submitForm() {
 		await removeFile(DOTNET_ZIP_FILE)
 
 		// Generate the run script (run.sh for linux, or run.bat for windows).
-		await generateRunScript(document.getElementById("username").value, document.getElementById("password").value, document.getElementById("appid").value, document.getElementById("depotid").value, document.getElementById("manifestid").value, document.getElementById("folder-name-custom-input"), exportedFile)
+		await generateRunScript(username, password, appid, depotid, manifestid, foldername_element, exportedFile)
 
 		let terminal
 		let os
-		if (document.getElementById("terminal-dropdown").selectedIndex === 11) {
+		if (terminal_dropdown === 11) {
 			terminal = "auto"
 		} else {
-			terminal = document.getElementById("terminal-dropdown").selectedIndex
+			terminal = terminal_dropdown
 		}
-		if (document.getElementById("os-dropdown").selectedIndex === 4) {
+		if (os_dropdown === 4) {
 			os = "auto"
 		} else {
-			os = document.getElementById("os-dropdown").selectedIndex
+			os = os_dropdown
 		}
 		let command
 		if (process.platform.includes("linux")) {
 			// if the OS is linux, run the sh file with the chosen terminal
-			command = await executeCommandWithTerminal(`sh ${platformpath().replaceAll(" ", "\\ ")}${sep}run.sh`, terminal, os)
+			command = await createCommandWithTerminal(`sh ${platformpath().replaceAll(" ", "\\ ")}${sep}run.sh`, terminal, os)
 		} else if (process.platform.includes("win")) {
-			// if the OS is windows, run the batch file
-			console.log(document.getElementById("os-dropdown").selectedIndex)
-			command = await executeCommandWithTerminal(`"${platformpath()}${sep}run.bat"`, terminal, os)
+			// if the OS is windows, just run the batch file
+			command = await createCommandWithTerminal(`"${platformpath()}${sep}run.bat"`, terminal, os)
 		} else if (process.platform.includes("darwin")) {
 			//macOS
 		}
 
 		// Run the final command
-		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued: " + command)
+		if (document.getElementById("os-dropdown").selectedIndex !== 3) await console.debug("Command issued:\n--------\n" + command)
 		await runCommand(command)
 	}).catch(function (error) {
 		if (error === "noDotnet") {
