@@ -257,6 +257,20 @@ ipcRenderer.on("ready", async () => {
 	await toggleFormAccessibility(false) //enable the form again
 
 	await validateChoice() // updates the 'enabled/disabled' html value of the terminal dropdown.
+
+	console.debug(`DEBUGGING INFORMATION:
+--
+OS: ${process.platform}
+Version: ${app_version}
+--
+Working directory locating methods:
+process.cwd(): ${process.cwd()}
+__dirname: ${__dirname}
+PORTABLE_EXECUTABLE_DIR: ${process.env.PORTABLE_EXECUTABLE_DIR}
+--
+platformpath(): ${platformpath()}
+
+`)
 	document.getElementById("loader").hidden = true
 	ready = false
 })
@@ -330,8 +344,4 @@ ipcRenderer.on("version", (event, version) => {
 	console.log("version: " + version)
 	document.getElementById("version-info").innerText = `v${version}`
 	app_version = version.toString()
-})
-
-ipcRenderer.on("print", (event, message) => {
-	console.log(message)
 })
