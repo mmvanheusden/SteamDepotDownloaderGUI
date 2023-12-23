@@ -333,8 +333,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // make sure devtools open in external window.
 window.addEventListener("keydown", (e) => {
-	e.preventDefault()
 	if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+		e.preventDefault()
 		ipcRenderer.send("open-devtools")
 	}
 })
