@@ -76,3 +76,7 @@ ipcMain.on("selectpath", (event) => {
 		console.log(err)
 	})
 })
+
+ipcMain.on("open-devtools", () => {
+	mainWindow.webContents.openDevTools({mode: "detach"})
+})

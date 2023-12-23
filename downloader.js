@@ -331,6 +331,14 @@ window.addEventListener("DOMContentLoaded", () => {
 	})
 })
 
+// make sure devtools open in external window.
+window.addEventListener("keydown", (e) => {
+	e.preventDefault()
+	if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+		ipcRenderer.send("open-devtools")
+	}
+})
+
 ipcRenderer.on("file", (event, file) => {
 	console.log("path selected by user: " + file)
 	document.getElementById("checkpath").ariaDisabled = false // Makes the check button active
