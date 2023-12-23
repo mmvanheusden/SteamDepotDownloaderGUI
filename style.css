@@ -29,6 +29,7 @@
     position: relative;
     border-radius: 10px;
     overflow: auto;
+    /*noinspection CssUnresolvedCustomProperty*/
     background-color: var(--bgColor-default, var(--color-canvas-default));
     margin: 15% auto;
     padding: 25px;
@@ -49,6 +50,12 @@ hr {
 [data-color-mode="light"] hr {
     filter: invert(1);
 }
+@media (prefers-color-scheme: light) {
+	[data-color-mode="auto"] hr {
+		filter: invert(1);
+	}
+}
+
 
 .version-info {
     position: absolute;
