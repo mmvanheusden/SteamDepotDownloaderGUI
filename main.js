@@ -1,9 +1,10 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
 const {platformpath} = require("./utils")
 
+let mainWindow
 const createWindow = () => {
 	// Create the browser window.
-	const mainWindow = new BrowserWindow({
+	mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
 		resizable: false,
 		width: 445,
@@ -57,7 +58,7 @@ app.on("window-all-closed", () => {
 
 
 ipcMain.on("selectpath", (event) => {
-	dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
+	dialog.showOpenDialog(mainWindow, {
 		// Specifying the Directory Selector Property
 		properties: ["openDirectory"],
 		title: "Select the path where the game will be downloaded",
