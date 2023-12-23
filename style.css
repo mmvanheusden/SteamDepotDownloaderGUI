@@ -29,12 +29,11 @@
     position: relative;
     border-radius: 10px;
     overflow: auto;
-    background-color: white;
+    background-color: var(--bgColor-default, var(--color-canvas-default));
     margin: 15% auto;
     padding: 25px;
     border: 1px solid #b4dede;
     width: 90vw; /* 90vw -> 90% */
-    color: #333;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,7 +44,10 @@
 hr {
     border: 0;
     height: 1px;
-    background: #ccc linear-gradient(to right, #ccc, #000000, #ccc);
+    background: #000000 linear-gradient(to right, #000000, #ccc, #000000);
+}
+[data-color-mode="light"] hr {
+    filter: invert(1);
 }
 
 .version-info {
