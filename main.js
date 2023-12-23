@@ -1,5 +1,6 @@
 const {app, BrowserWindow, dialog, ipcMain} = require("electron")
 const {platformpath} = require("./utils")
+require("v8-compile-cache")
 
 let mainWindow
 const createWindow = () => {
