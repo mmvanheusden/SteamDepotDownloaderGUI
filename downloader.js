@@ -11,7 +11,8 @@ const {
 	forceTerminals,
 	generateRunScript,
 	createCommandWithTerminal,
-	platformpath
+	platformpath,
+	findDotnet
 } = require("./utils")
 const electron = require("electron")
 const {sep} = require("path")
@@ -257,6 +258,14 @@ ipcRenderer.on("ready", async () => {
 		console.log("No terminals found in PATH. Continuing with default values") // when no terminals are found on the system, or when linux is not used.
 	}
 
+	if (await findDotnet()) {
+		console.log("dotnet found in PATH!")
+		document.getElementById("dotnet-found").innerText = "Yes"
+	} else {
+		console.log("dotnet not found in PATH!")
+		document.getElementById("dotnet-found").innerText = "No"
+	}
+
 	await toggleFormAccessibility(false) //enable the form again
 
 	await validateChoice() // updates the 'enabled/disabled' html value of the terminal dropdown.
@@ -278,9 +287,16 @@ platformpath(): ${platformpath()}
 	ready = false
 })
 
+async function steamDeck() {
+	await download("https://download.visualstudio.microsoft.com/download/pr/5226a5fa-8c0b-474f-b79a-8984ad7c5beb/3113ccbf789c9fd29972835f0f334b7a/dotnet-sdk-8.0.100-linux-x64.tar.gz")
+	await runCommand("tar -xvf dotnet-sdk-8.0.100-linux-x64.tar.gz -C dotnet")
+	await runCommand("./dotnet/dotnet --info")
+}
+
 // Add event listeners to the buttons
 window.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("dotnetalertbtn").addEventListener("click", () => openRelevantPage("dotnet"))
+	document.getElementById("dotnetalertbtn").addEventListener("click", steamDeck)
+	document.getElementById("down-dotnet").addEventListener("click", () => openRelevantPage("dotnet"))
 	document.getElementById("smbtn1").addEventListener("click", () => openRelevantPage("issues"))
 	document.getElementById("smbtn2").addEventListener("click", () => openRelevantPage("steamdb"))
 	document.getElementById("smbtn3").addEventListener("click", () => openRelevantPage("donate"))

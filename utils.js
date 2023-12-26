@@ -377,6 +377,30 @@ const forceTerminals = async () => {
 	} else return false
 }
 
+async function findDotnet() {
+	// Check if dotnet is found, depending on the platform
+	if (process.platform.toString().includes("win")) {
+		// Windows
+		const {exec} = require("child_process")
+		const command = "dotnet.exe --version"
+		await exec(command, function (error) {
+			return !error
+		})
+	} else {
+		// Others
+		// macOS seems to be broken.
+		const {exec} = require("child_process")
+		const command = "dotnet --version"
+		await exec(command, function (error) {
+			if (error) {
+				exec("./dotnet/dotnet --version", function (error) {
+					return !error
+				})
+			}
+		})
+	}
+}
+
 module.exports = {
 	preDownloadCheck,
 	download,
@@ -387,5 +411,6 @@ module.exports = {
 	platformpath,
 	forceTerminals,
 	generateRunScript,
-	createCommandWithTerminal
+	createCommandWithTerminal,
+	findDotnet
 }
