@@ -31,10 +31,11 @@
     overflow: auto;
     /*noinspection CssUnresolvedCustomProperty*/
     background-color: var(--bgColor-default, var(--color-canvas-default));
-    margin: 15% auto;
+    margin: 5%;
     padding: 25px;
     border: 1px solid #b4dede;
     width: 90vw; /* 90vw -> 90% */
+    height: 90vh; /* 90vh -> 90% */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
