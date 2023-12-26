@@ -69,13 +69,13 @@ function download(url) {
 		const fs = require("fs")
 		const path = require("path")
 		const file = fs.createWriteStream(platformpath() + path.sep + url.split("/").pop())
-		https.get(url, function (response) {
+		https.get(url, (response) => {
 			response.pipe(file)
-			file.on("finish", function () {
+			file.on("finish", () => {
 				file.close()
 				resolve()
 			})
-			file.on("error", function (error) {
+			file.on("error", (error) => {
 				console.error(error)
 				reject(error)
 			})
