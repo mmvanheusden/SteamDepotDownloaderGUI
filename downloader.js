@@ -30,6 +30,7 @@ function submitForm() {
 	preDownloadCheck().then(async function () {
 		//console.log(terminal[1][0])
 		document.getElementById("dotnetwarning").hidden = true
+		document.getElementById("dotnetwarning2").hidden = true
 		document.getElementById("emptywarning").hidden = true
 		console.info("dotnet found in PATH")
 		// create variables for the form values
@@ -87,10 +88,12 @@ function submitForm() {
 	}).catch(function (error) {
 		if (error === "noDotnet") {
 			// if dotnet is not found, show the dotnet warning
+			document.getElementById("dotnetwarning2").hidden = true
 			document.getElementById("emptywarning").hidden = true
 			document.getElementById("dotnetwarning").hidden = false
 		} else if (error === "emptyField") {
 			// if a required field is empty, show the empty field warning
+			document.getElementById("dotnetwarning2").hidden = true
 			document.getElementById("dotnetwarning").hidden = true
 			document.getElementById("emptywarning").hidden = false
 		}
@@ -106,6 +109,7 @@ function openRelevantPage(target) {
 	switch (target) {
 	case "dotnet":
 		document.getElementById("dotnetwarning").hidden = true
+		document.getElementById("dotnetwarning2").hidden = false
 		if (os.includes("win")) {
 			console.debug("Opened .NET download page for " + os.charAt(0).toUpperCase() + os.slice(1))
 			void electron.shell.openExternal("https://aka.ms/dotnet/6.0/dotnet-sdk-win-x64.exe")
