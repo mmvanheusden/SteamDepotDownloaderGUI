@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Windows';
+    src: url(./fonts/windows_regular-webfont.woff) format('woff'), url(./fonts/windows_regular-webfont.woff2) format('woff2'), url(./fonts/Windows-Regular.ttf) format('truetype');
+}
+
 .instructions-link {
     animation: highlight 2s infinite;
     text-decoration: none;
@@ -14,4 +19,24 @@
 
 .hero {
     box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.knopje {
+    border: 1px solid #000;
+    background: linear-gradient(180deg, #8C8C8C 25%, #434343 75%);
+    display: inline-block;
+    font: 19px "Windows", monospace;
+    padding: 0 5px;
+    font-size: 13px;
+    color: darkred;
+    text-decoration: none;
+
+}
+
+.knopje:hover {
+    text-decoration: none;
+}
+
+.knopje:active {
+    background: linear-gradient(180deg, #b0b0b0 25%, #504f4f 75%);
 }
