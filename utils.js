@@ -1,4 +1,7 @@
+const {exec} = require("child_process");
+const {existsSync} = require("fs");
 var defaultTerminal = ""
+let dotnetPath = ""
 
 /**
  * Checks if all required fields are filled and if dotnet is installed in the system path.
@@ -27,30 +30,16 @@ function preDownloadCheck() {
 		}
 
 		// Check if dotnet is found, depending on the platform
-		if (process.platform.toString().includes("win")) {
-			// Windows
-			const {exec} = require("child_process")
-			const command = "dotnet.exe --version"
-			exec(command, function (error) {
-				if (error) {
-					reject("noDotnet")
-				} else {
-					resolve(true)
-				}
-			})
-		} else {
-			// Others
-			// macOS seems to be broken.
-			const {exec} = require("child_process")
-			const command = "dotnet --version"
-			exec(command, function (error) {
-				if (error) {
-					reject("noDotnet")
-				} else {
-					resolve(true)
-				}
-			})
-		}
+		// uses dotnetPath, which was populated by findDotnet().
+		// dotnet / dotnet.exe -> installed in system path
+		// ./dotnet/dotnet -> installed in local path. (for steam deck)
+		exec(`${dotnetPath} --version`, function (error) {
+			if (error) {
+				reject("noDotnet")
+			} else {
+				resolve(true)
+			}
+		})
 	})
 }
 
@@ -279,13 +268,13 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 	if (process.platform.includes("linux")) {
 		// if linux, write a bash script.
 		let content = `#!/usr/bin/env bash
-dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
+${dotnetPath} ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
 		`
 		await fs.writeFileSync(`${platformpath()}${sep}run.sh`, content)
 		await fs.chmodSync(`${platformpath()}${sep}run.sh`, "755") // make it executable
 		console.log(`Writing:
 --------
-dotnet ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
+${dotnetPath} ${platformpath().replaceAll(" ", "\\ ")}${sep}depotdownloader${sep}DepotDownloader.dll ${userpass} -app ${appid} -depot ${depotid} -manifest ${manifestid} -dir ${finalPath}${sep} -max-servers 50 -max-downloads 16
 
 to ${platformpath()}${sep}run.sh.
 `)
@@ -377,28 +366,40 @@ const forceTerminals = async () => {
 	} else return false
 }
 
-async function findDotnet() {
-	// Check if dotnet is found, depending on the platform
-	if (process.platform.toString().includes("win")) {
-		// Windows
-		const {exec} = require("child_process")
-		const command = "dotnet.exe --version"
-		await exec(command, function (error) {
-			return !error
-		})
-	} else {
-		// Others
-		// macOS seems to be broken.
-		const {exec} = require("child_process")
-		const command = "dotnet --version"
-		await exec(command, function (error) {
-			if (error) {
-				exec("./dotnet/dotnet --version", function (error) {
-					return !error
-				})
+// checks if dotnet is found in either system path, or for linux in local path. (for steam deck)
+function findDotnet() {
+	return new Promise((resolve, reject) => {
+		let command
+		if (process.platform.toString().includes("win")) {
+			command = "dotnet.exe"
+		} else {
+			command = "dotnet"
+		}
+		console.log(`Command is ${command}`)
+		exec(`${command} --version`, (error) => {
+			console.log(error)
+			if (error !== null) { // if there was an error
+				console.log("Error, trying local dotnet installation")
+				if (process.platform.toString().includes("linux") && existsSync(`${platformpath()}/dotnet/dotnet`)) {
+					console.log("Linux, trying local dotnet installation")
+					exec(`${platformpath()}/dotnet/dotnet --version`, (error) => {
+						if (error !== null) { // if there was an error
+							reject("noDotnet")
+						} else { // if there was no error
+							dotnetPath = `${platformpath()}/dotnet/dotnet`
+							resolve(true)
+						}
+					})
+				} else {
+					console.log("no dotnet found at all")
+					reject("noDotnet")
+				}
+			} else {
+				dotnetPath = command
+				resolve(true)
 			}
 		})
-	}
+	})
 }
 
 module.exports = {
