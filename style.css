@@ -46,7 +46,7 @@
 hr {
     border: 0;
     height: 1px;
-    background: #000000 linear-gradient(to right, #000000, #ccc, #000000);
+    background: #0d1117 linear-gradient(to right, #0d1117, #ccc, #0d1117);
 }
 [data-color-mode="light"] hr {
     filter: invert(1);
