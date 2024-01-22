@@ -264,15 +264,17 @@
 				</div>
 			</div>
 			<hr>
+			<h4><b>Experimental settings</b></h4>
 			<div class="form-group">
 				<div class="form-group-header">
-					<label for="os-dropdown">Steam Deck</label>
+					<label for="os-dropdown">Automatically download dotnet binary</label><br>Linux only. Works for Steam Deck<br>system-wide dotnet has priority over local dotnet.
 				</div>
-				Found: <span class="Counter"><code id="dotnet-found" >none</code></span>
-				<div class="form-group-body">
-					<div class="btn" type="button" id="down-dotnet">
-						Download .NET
+
+				<div class="form-group-body" >
+					<div aria-disabled="true" class="btn" type="button" id="down-dotnet">
+						Auto Download .NET
 					</div>
+					Found: <span class="Counter"><code id="dotnet-found" >none</code></span>
 				</div>
 			</div>
 		</form>

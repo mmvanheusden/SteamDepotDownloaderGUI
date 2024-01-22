@@ -33,7 +33,7 @@ function submitForm() {
 		document.getElementById("dotnetwarning").hidden = true
 		document.getElementById("dotnetwarning2").hidden = true
 		document.getElementById("emptywarning").hidden = true
-		console.info("dotnet found in PATH")
+		console.info("dotnet is installed and the form is filled in. 🙌")
 		// create variables for the form values
 		const username = document.getElementById("username").value
 		const password = document.getElementById("password").value
@@ -127,19 +127,19 @@ function openRelevantPage(target) {
 		}
 		break
 	case "issues":
-		console.debug("Opened GitHub issues page")
+		console.debug("Opened GitHub issues page 🐞")
 		void electron.shell.openExternal("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/issues/new")
 		break
 	case "steamdb":
-		console.debug("Opened SteamDB instant search page")
+		console.debug("Opened SteamDB instant search page 🔍")
 		void electron.shell.openExternal("https://steamdb.info/instantsearch/")
 		break
 	case "donate":
-		console.debug("Opened donation page")
+		console.debug("Opened donation page 💰")
 		void electron.shell.openExternal("https://liberapay.com/barbapapa/")
 		break
 	case "instructions":
-		console.debug("Opened instructions page")
+		console.debug("Opened instructions page 📚")
 		void electron.shell.openExternal("https://github.com/mmvanheusden/SteamDepotDownloaderGUI/#how-to-use")
 		break
 	default:
@@ -164,6 +164,7 @@ function fillDefaultValues() {
 	// [0]: Windows, [1]: macOS [2]: Linux [3]: manual
 	if (process.platform.toString().includes("linux")) {
 		document.getElementById("default-os").innerText = "Linux"
+		document.getElementById("down-dotnet").ariaDisabled = "false"
 	} else if (process.platform.toString().includes("win")) {
 		document.getElementById("default-os").innerText = "Windows"
 	} else if (process.platform.toString().includes("darwin")) {
@@ -259,7 +260,7 @@ ipcRenderer.on("ready", async () => {
 	}
 
 	await findDotnet().then(() => {
-		console.log("dotnet found in PATH!")
+		console.log("dotnet found in PATH/local directory!")
 		document.getElementById("dotnet-found").innerText = "Yes"
 	}).catch((error) => {
 		console.log(error)
@@ -288,19 +289,22 @@ platformpath(): ${platformpath()}
 	ready = false
 })
 
-async function steamDeck() {
+async function downloadDotnetAuto() {
+	document.getElementById("down-dotnet").ariaDisabled = "true"
 	await download("https://download.visualstudio.microsoft.com/download/pr/5226a5fa-8c0b-474f-b79a-8984ad7c5beb/3113ccbf789c9fd29972835f0f334b7a/dotnet-sdk-8.0.100-linux-x64.tar.gz")
-	console.log("finish download")
+	console.log("Finished downloading dotnet tarball")
 	await runCommand(`mkdir -p ${platformpath()}/dotnet`)
 	await runCommand(`tar -xvf ${platformpath()}/dotnet-sdk-8.0.100-linux-x64.tar.gz -C dotnet`)
-	console.log("extracted")
-	await runCommand("./dotnet/dotnet --info")
-	ipcRenderer.send("ready")
+	console.log("Finished extracting dotnet tarball")
+	await findDotnet() // to make it use the newly downloaded dotnet
+	document.getElementById("down-dotnet").ariaDisabled = "false" // so the button can be pressed again for whatever reason
 }
 
 // Add event listeners to the buttons
 window.addEventListener("DOMContentLoaded", () => {
-	document.getElementById("down-dotnet").addEventListener("click", steamDeck)
+	document.getElementById("down-dotnet").addEventListener("click", () => {
+		if (document.getElementById("down-dotnet").ariaDisabled === "false") downloadDotnetAuto()
+	})
 	document.getElementById("dotnetalertbtn").addEventListener("click", () => openRelevantPage("dotnet"))
 	document.getElementById("smbtn1").addEventListener("click", () => openRelevantPage("issues"))
 	document.getElementById("smbtn2").addEventListener("click", () => openRelevantPage("steamdb"))

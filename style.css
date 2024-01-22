@@ -14,7 +14,7 @@
 
 /* The grey part */
 .settings-surrounding {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -31,12 +31,19 @@
     overflow: auto;
     /*noinspection CssUnresolvedCustomProperty*/
     background-color: var(--bgColor-default, var(--color-canvas-default));
-    margin: 5%;
-    padding: 25px;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 13px 20px 13px;
     border: 1px solid #b4dede;
     width: 90vw; /* 90vw -> 90% */
-    height: 90vh; /* 90vh -> 90% */
+    height: 97vh; /* 90vh -> 90% */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+/*  Hide the stupid scrollbar  */
+.settings-content::-webkit-scrollbar {
+    display: none;
+
 }
 
 .hide {
@@ -44,6 +51,8 @@
 }
 
 hr {
+    margin-top: 6px;
+    margin-bottom: 6px;
     border: 0;
     height: 1px;
     background: #0d1117 linear-gradient(to right, #0d1117, #ccc, #0d1117);

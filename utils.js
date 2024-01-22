@@ -1,5 +1,3 @@
-const {exec} = require("child_process");
-const {existsSync} = require("fs");
 var defaultTerminal = ""
 let dotnetPath = ""
 
@@ -14,6 +12,7 @@ let dotnetPath = ""
  * `noDotnet` -> `dotnet` has not been found in the path.
  */
 function preDownloadCheck() {
+	const {exec} = require("child_process")
 	return new Promise((resolve, reject) => {
 		// Check if all fields are filled
 		const formInputs = document.forms["theform"]
@@ -368,6 +367,8 @@ const forceTerminals = async () => {
 
 // checks if dotnet is found in either system path, or for linux in local path. (for steam deck)
 function findDotnet() {
+	const {exec} = require("child_process")
+	const {existsSync} = require("fs")
 	return new Promise((resolve, reject) => {
 		let command
 		if (process.platform.toString().includes("win")) {
@@ -375,18 +376,18 @@ function findDotnet() {
 		} else {
 			command = "dotnet"
 		}
-		console.log(`Command is ${command}`)
 		exec(`${command} --version`, (error) => {
 			console.log(error)
 			if (error !== null) { // if there was an error
-				console.log("Error, trying local dotnet installation")
+				if (process.platform.toString().includes("linux")) console.log("Dotnet not found in system, trying to detect local dotnet installation..")
 				if (process.platform.toString().includes("linux") && existsSync(`${platformpath()}/dotnet/dotnet`)) {
-					console.log("Linux, trying local dotnet installation")
 					exec(`${platformpath()}/dotnet/dotnet --version`, (error) => {
 						if (error !== null) { // if there was an error
+							console.log("no dotnet found at all 🙀")
 							reject("noDotnet")
 						} else { // if there was no error
 							dotnetPath = `${platformpath()}/dotnet/dotnet`
+							console.log("Local dotnet installation found. path: " + dotnetPath)
 							resolve(true)
 						}
 					})
