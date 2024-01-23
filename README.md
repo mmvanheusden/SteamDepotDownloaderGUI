@@ -4,6 +4,7 @@
 <h4 align="center">A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy. built using <a href="https://www.electronjs.org" target="_blank">Electron</a>.
 <br><br>
 →<a href="https://www.youtube.com/watch?v=H2COwT5OUOo" target="_blank"><b>Tutorial</b></a> ~ 
+<a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/tree/steamdeck-dotnet#steamdepotdownloadergui-for-steam-deck" target="_blank"><b>Steam Deck</b></a> ~ 
 <a href="https://www.youtube.com/watch?v=ogiDAuH3VdY" target="_blank"><b>Subnautica</b></a>←
 </h4>
 
@@ -23,6 +24,7 @@
   - Windows
   - <s>macOS</s> (in development™)
   - Linux
+  - [Steam Deck](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/tree/steamdeck-dotnet#steamdepotdownloadergui-for-steam-deck)
 * **Cross terminal**
   - Gnome Terminal
   - Konsole
