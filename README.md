@@ -47,7 +47,8 @@
   Then, download the [latest Windows build](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest)
 ### **Linux:**
 #### Arch Linux:
-* An official [AUR package](https://aur.archlinux.org/packages/steamdepotdownloadergui-appimage) has been made. this can be installed using `yay -S steamdepotdownloadergui-appimage`.
+* There is an [AUR package](https://aur.archlinux.org/packages/steamdepotdownloadergui-bin) made. this can be installed using `yay -S steamdepotdownloadergui-bin`.
+  **This is not maintained by me!!**
 #### Other Linux distros:
 * **You'll need `unzip`, .NET SDK 6.0.**
 * **Ubuntu:**
