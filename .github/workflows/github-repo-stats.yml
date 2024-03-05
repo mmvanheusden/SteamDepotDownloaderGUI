@@ -14,6 +14,6 @@ jobs:
     steps:
       - name: run-ghrs
         # Use latest release.
-        uses: jgehrcke/github-repo-stats@v1.4.1 # Don't use latest release for security reasons (what if the workflow gets taken over by a malicious party)
+        uses: jgehrcke/github-repo-stats@v1.4.2
         with:
           ghtoken: ${{ secrets.ghrs_github_api_token }}
