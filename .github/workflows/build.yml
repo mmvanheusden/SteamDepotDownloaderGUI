@@ -13,6 +13,7 @@ jobs:
       - name: Set up nodejs
         uses: actions/setup-node@v4
         with:
+          cache: 'npm'
           node-version: 20
 
       - name: Set up npm project
