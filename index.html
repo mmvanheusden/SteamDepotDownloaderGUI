@@ -8,42 +8,36 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"
           rel="stylesheet"/>
     <script type='text/javascript'>
-        //some default pre init
-        var Countly = Countly || {};
-        Countly.q = Countly.q || [];
-
-        //provide countly initialization parameters
-        Countly.app_key = '62520c72fa160abc9939c68509109538d457f20f';
-        Countly.url = 'https://analytics.00pium.net';
-
-        Countly.q.push(['track_sessions']);
-        Countly.q.push(['track_pageview']);
-        Countly.q.push(['track_clicks']);
-        Countly.q.push(['track_scrolls']);
-        Countly.q.push(['track_errors']);
-        Countly.q.push(['track_links']);
-        Countly.q.push(['track_forms']);
-        Countly.q.push(['collect_from_forms']);
-
-        //load countly script asynchronously
-        (function () {
-            var cly = document.createElement('script');
-            cly.type = 'text/javascript';
-            cly.async = true;
-            //enter url of script here
-            cly.src = 'https://analytics.00pium.net/sdk/web/countly.min.js';
-            cly.onload = function () {
-                Countly.init()
-            };
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(cly, s);
-        })();
+    //some default pre init
+    var Countly = Countly || {};
+    Countly.q = Countly.q || [];
+    
+    //provide countly initialization parameters
+    Countly.app_key = '839c5f1c75f10abbfe4786cb6b0d4aaf91ef7bf9';
+    Countly.url = 'https://mentos.00pium.net';
+    
+    Countly.q.push(['track_sessions']);
+    Countly.q.push(['track_pageview']);
+    Countly.q.push(['track_clicks']);
+    Countly.q.push(['track_scrolls']);
+    Countly.q.push(['track_errors']);
+    Countly.q.push(['track_links']);
+    
+    //load countly script asynchronously
+    (function() {
+       var cly = document.createElement('script'); cly.type = 'text/javascript';
+       cly.async = true;
+       //enter url of script here
+       cly.src = 'https://mentos.00pium.net/sdk/web/countly.min.js';
+       cly.onload = function(){Countly.init()};
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cly, s);
+    })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <noscript><img
-        src='https://analytics.00pium.net/pixel.png?app_key=62520c72fa160abc9939c68509109538d457f20f&begin_session=1'/>
+              src='https://mentos.00pium.net/pixel.png?app_key=839c5f1c75f10abbfe4786cb6b0d4aaf91ef7bf9&begin_session=1'/>
 </noscript>
 <header class="bg-gray-dark text-white p-4 text-center">
     <h1 class="mb-2">SteamDepotDownloaderGUI</h1>
