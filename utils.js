@@ -235,8 +235,12 @@ async function generateRunScript(username, password, appid, depotid, manifestid,
 	let foldername = ""
 
 	// allow enormous strings like &$§"&$="§$/"(§NJUIDW>;!%?aQ52V?*['YsDnRy|(+Q 1h6BmnDQp,(Xr& being used as password.
-	// NOT TESTED
+	// This is very janky and will be replaced with a better solution in the upcoming rewrite.
 	password = password.replace(/"/g, "\"\"")
+	if (process.platform.includes("win")) {
+		// Replace all % with %% because batch scripts use % as a special character. This is not an elegant solution, but it should work.
+		password = password.replace(/%/g, "%%")
+	}
 
 	// if either the username or password fields is empty, anonymous login is used
 	let anonymous = username === "" || password === ""
