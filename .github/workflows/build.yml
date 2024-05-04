@@ -1,11 +1,9 @@
 on:
-  push:
-  pull_request:
-  workflow_dispatch:
+  workflow_dispatch
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repositoty
         uses: actions/checkout@v4
@@ -20,7 +18,7 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run buildall
+        run: npm run build
 
       - name: Move x64 exe
         run: cp ./dist/SteamDepotDownloaderGUI*.exe ./SteamDepotDownloaderGUI-${{ github.run_number }}.exe
