@@ -135,7 +135,7 @@ function openRelevantPage(target) {
 		break
 	case "donate":
 		console.debug("Opened donation page")
-		void electron.shell.openExternal("https://liberapay.com/barbapapa/")
+		void electron.shell.openExternal("https://my.fsf.org/donate")
 		break
 	case "instructions":
 		console.debug("Opened instructions page")
