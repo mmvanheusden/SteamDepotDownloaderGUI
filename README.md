@@ -40,6 +40,12 @@
   - Manual: produce a script that can be copy pasted into a terminal of choice
 * **Support for anonymous downloads**
 
+## Rewrite
+Computer resources are not an all-you-can-eat buffet. The executables weigh on average 103 MB.  
+That's why in the future, this project is fully switching to a different toolset, probably [gtk-rs](https://gtk-rs.org/).
+This framework is more suited as we don't need a whole browser engine just to download files.
+
+
 ## Download
 
 ### Windows:
@@ -86,25 +92,15 @@ This software makes use of the following projects:
 
 
 ## Donate
+I prefer not to receive any donations. If you want to make me happy open an issue and say thanks ;)  
+Please donate to the [Free Software Foundation](https://my.fsf.org/donate) instead.
 
-Donations can be made through Liberapay :)
-
-<a href="https://liberapay.com/barbapapa">
-    <img src="https://img.shields.io/badge/Donate-black?logo=liberapay&style=for-the-badge"
-    alt="Donation badge">
-</a>
-
-## On Electron
-Computer resources are not an all-you-can-eat buffet. The executables weigh on average 103 MB.  
-That's why in the future, this project is fully switching to a [different](https://tauri.app/) (multi-platform) toolset. Nothing will change for the user.
 
 ## Contribute
-
 If you would like to contribute to SteamDepotDownloaderGUI, please make sure to follow
-the [contributing instructions and guidelines](contributing.md).
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
+the [contributing instructions and guidelines](contributing.md).  
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.  
 Please make sure to keep code clean and cross-platform compatible.
+
 
 ![forthebadge](https://forthebadge.com/images/featured/featured-built-with-love.svg)
