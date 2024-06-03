@@ -32,7 +32,7 @@
   "devDependencies": {
     "electron": "^30.0.8",
     "electron-builder": "^24.13.3",
-    "eslint": "^9.3.0"
+    "eslint": "^9.4.0"
   },
   "dependencies": {
     "follow-redirects": "^1.15.6",
