@@ -42,14 +42,17 @@
 
 ## Rewrite
 Computer resources are not an all-you-can-eat buffet. The executables weigh on average 103 MB.  
-That's why in the future, this project is fully switching to a different toolset, probably [gtk-rs](https://gtk-rs.org/).
-This framework is more suited as we don't need a whole browser engine just to download files.
+That's why in the future, this project is fully switching to a different toolset. With a preference to something that uses Rust as its language.
+A lighter, more low-level framework would be more suited than Electron.
 
 
 ## Download
 
 ### Windows:
-* If you haven't already, install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) on your computer.
+> [!NOTE]  
+> In the future, SteamDepotDownloaderGUI will use the newer, OS-specific builds of DepotDownloader, which no longer needs .NET to be installed before-hand.
+
+* If you haven't already, install [.NET Runtime 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) on your computer.
   Then, download the [latest Windows build](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest)
 ### **Linux:**
 #### Arch Linux:
