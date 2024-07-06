@@ -14,7 +14,7 @@
 
 
 <p align="center">
-  <img alt="Screenshot of the downloader interface" src="screenshot.png"  
+  <img alt="Screenshot of the downloader interface" src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/f6ca6558-d4a7-4417-a4c1-e9f5c9435450"  
      style="max-width: 60%;"/>
 </p>
 
