@@ -1,0 +1,145 @@
+@font-face {
+    font-family: 'Hubot Sans';
+    src: url('../assets/Hubot-Sans.woff2') format('woff2 supports variations'),
+    url('../assets/Hubot-Sans.woff2') format('woff2-variations');
+    font-weight: 700;
+    font-stretch: expanded;
+}
+
+@font-face {
+    font-family: 'Windows';
+    src: url('../assets/Windows.woff') format('woff2 supports variations'),
+    url('../assets/Windows.woff') format('woff2-variations');
+    font-weight: 700;
+    font-stretch: expanded;
+}
+
+.f1-light {
+    font-family: 'Hubot Sans', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* The grey part */
+.settings-surrounding {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.settings-content {
+    position: relative;
+    border-radius: 10px;
+    overflow: auto;
+    /*noinspection CssUnresolvedCustomProperty*/
+    background-color: var(--bgColor-default, var(--color-canvas-default));
+    margin: 5%;
+    padding: 25px;
+    border: 1.5px solid white;
+    width: 90vw; /* 90vw -> 90% */
+    height: 90vh; /* 90vh -> 90% */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-color-mode="light"] .settings-content {
+    border: 1.5px solid black;
+}
+
+@media (prefers-color-scheme: light) {
+    [data-color-mode="auto"] .settings-content {
+        border: 1.5px solid black;
+    }
+}
+
+.hide {
+    display: none;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: black linear-gradient(to right, #0c1016, #ccc, #0c1016);
+}
+
+[data-color-mode="light"] hr {
+    filter: invert(1);
+}
+
+@media (prefers-color-scheme: light) {
+    [data-color-mode="auto"] hr {
+        filter: invert(1);
+    }
+}
+
+.version-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.opium-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.AnimatedEllipsis {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom
+}
+
+.AnimatedEllipsis::after {
+    display: inline-block;
+    content: "...";
+    animation: AnimatedEllipsis-keyframes 1s steps(4, jump-none) infinite
+}
+
+@keyframes AnimatedEllipsis-keyframes {
+    0% {
+        transform: translateX(-100%)
+    }
+}
+
+.knopje {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-bottom: 4px;
+
+    border: 1px solid #000;
+    background: linear-gradient(180deg, #8C8C8C 25%, #434343 75%);
+    display: inline-block;
+    font: 16px "Windows", monospace;
+    padding: 2px 5px;
+    color: darkred;
+    text-decoration: none;
+
+}
+
+.knopje:hover {
+    cursor: zoom-in;
+    background: linear-gradient(180deg, #b0b0b0 25%, #504f4f 75%);
+}
+
+.knopje:active {
+    cursor: crosshair;
+    border: 1px inset black;
+    background: linear-gradient(180deg, #333232 25%, #504f4f 75%);
+}

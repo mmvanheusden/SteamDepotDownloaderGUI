@@ -1,17 +1,21 @@
 {
   "productName": "SteamDepotDownloaderGUI",
-  "version": "3.0.0",
-  "identifier": "net.00pium.depotdownloader",
+  "version": "3.0.0-alpha.1",
+  "identifier": "net.oopium.depotdownloader",
   "build": {
-    "frontendDist": "../src"
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "steamdepotdownloadergui",
-        "width": 800,
-        "height": 600
+        "title": "SteamDepotDownloaderGUI",
+        "width": 445,
+        "height": 650,
+        "resizable": false
       }
     ],
     "security": {

@@ -23,5 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# SteamDepotDownloaderGUI files
-# TODO
+# Vectum files
+src-tauri/depotdownloader
+src-tauri/*.zip
+src-tauri/*.exe
+**/DepotDownloader
+**/DepotDownloader.xml
