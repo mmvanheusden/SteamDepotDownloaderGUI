@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::io;
-use std::path::{Path};
+use std::path::Path;
 use std::sync::OnceLock;
 use std::time::Duration;
 
@@ -40,10 +40,10 @@ async fn start_download(steam_download: steam::SteamDownload) {
 
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
 
-    println!("\n\n---------------------HELLO FROM RUST!---------------------");
-    println!("We received these values from frontend:");
+    println!("-------------------------DEBUG INFO------------------------");
+    println!("received these values from frontend:");
     println!("\t- Username: {}", steam_download.username().as_ref().unwrap_or(&String::from("Not provided")));
-    println!("\t- Password: {}", steam_download.password().as_ref().unwrap_or(&String::from("Not provided")));
+    // println!("\t- Password: {}", steam_download.password().as_ref().unwrap_or(&String::from("Not provided"))); Don't log in prod lol
     println!("\t- App ID: {}", steam_download.app_id());
     println!("\t- Depot ID: {}", steam_download.depot_id());
     println!("\t- Manifest ID: {}", steam_download.manifest_id());

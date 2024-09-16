@@ -144,7 +144,7 @@ $(async () => {
 			options: vectumOptions
 		};
 
-		console.log(steamDownload);
+		// console.debug(steamDownload);
 		await invoke("download_depotdownloader");
 
 		$("#downloadingnotice").prop("hidden", true);
@@ -153,7 +153,7 @@ $(async () => {
 		console.debug("DepotDownloader download process completed. Starting game download...");
 
 		await invoke("start_download", {steamDownload: steamDownload});
-		console.log("All done. Ready for next game");
+		console.log("Send frontend data over to backend. Ready for next download.");
 	});
 
 	$("#settings-button").on("click", async () => {

@@ -44,6 +44,3 @@ function setTheme(theme: string) {
 	$("#theme-dark").attr("aria-selected", String(theme === "dark"));
 	$("#theme").attr("data-color-mode", theme);
 }
-
-
-
