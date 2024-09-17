@@ -3,4 +3,9 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+  
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri/"
+    schedule:
+      interval: "monthly"
