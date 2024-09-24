@@ -12,7 +12,7 @@
 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest"><img src="https://img.shields.io/badge/Download -ffbd03?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABd0lEQVRoge2XwUrDQBCGPz3Ee++2UBSvdsGbeLHeFX0lPQhei+8g2AfwSVREK+LJ1oqHUGjRQ7Z0laRJNtldKPPBwoTM7D9/sks2IAiCsKrsAK/AC7DtSmTd1cTAKbAJtIAzVyIuDURGvOFKxKUBL4iB0IiB0IiB0IiB0IiB0IiB0IiB0IgBoA08Ak+AKpCvdO6AGn416zBwDGyRGLljuQmlc9pAEzipKl6HgVtgpOMGSYOdlLyOvtfQ1yPgpgb9WlDAEPjRYwj0jet+yv0iy80ru8AHiyazxiewF6jHXPJMeG3+CoiBy5J1/5dTlWVzAXwD5yXrAJho4YlFbdqesFnzsa6PLWr/PD0bFPAA3GO/YXN7WMspLpLnktweVvooMTPiKDPLHabmLCtpmYF3I96v3E55Doz4zWaCaxYb6Bno4udNRMCR1pzr92wmagFfZH+UfI0xycHPim5gE2Pg0Lb5OU2SVzgAph6anmqtHhWevCAIgh9+AdLMtu/CZhHJAAAAAElFTkSuQmCC" alt="Download latest release badge"></a>
 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest"><img src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads" alt="Download count badge"></a>
 
-<img src="https://github.com/user-attachments/assets/2e1b1b8e-9560-4dde-86c0-b70384a54fbb" alt="Steam downgrader interface" style="max-width: 35%;">
+<img src="https://github.com/user-attachments/assets/2e1b1b8e-9560-4dde-86c0-b70384a54fbb" alt="Steam downgrader interface" width="40%">
 </div>
 
 
@@ -96,7 +96,7 @@ Hacktoberfest tags are added :)
   <a href="https://00pium.net" target="_blank">
     <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/83f5f3b2-2bf9-41aa-ab87-880466f785fe" height="40px">
   </a>
-  <a href="https://https://hacktoberfest.com" target="_blank">
+  <a href="https://hacktoberfest.com" target="_blank">
     <img height="40px" alt="Hacktoberfest 2024 logo" src="https://github.com/user-attachments/assets/4f6d752b-cf36-45d6-848c-15f23c818db0">
   </a>
 </p>
