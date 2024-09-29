@@ -13,3 +13,4 @@ downloads/
 .DepotDownloader/
 Games/
 Depots/
+**/*.sh

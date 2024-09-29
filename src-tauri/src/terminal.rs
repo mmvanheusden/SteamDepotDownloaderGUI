@@ -1,8 +1,12 @@
 use crate::steam::SteamDownload;
 use async_process::Command;
 use serde::Serialize;
+use std::{env, fs};
+use std::fs::File;
+use std::os::unix::fs::PermissionsExt;
+use crate::get_os;
 
-/// Represents a terminal that can be used to run commands.  
+/// Represents a terminal that can be used to run commands.
 /// **Should be in sync with the terminal dropdown in the frontend.**
 #[derive(Debug, Serialize, PartialEq)]
 pub enum Terminal {
@@ -20,6 +24,7 @@ pub enum Terminal {
     CoolRetroTerm,
     XTerm,
     CMD,
+    Terminal
 }
 
 
@@ -29,7 +34,7 @@ impl Terminal {
         use self::Terminal::*;
 
         vec![
-            GNOMETerminal, Alacritty, Konsole, GNOMEConsole, Xfce4Terminal, DeepinTerminal, Terminator, Terminology, Kitty, LXTerminal, Tilix, CoolRetroTerm, XTerm, CMD,
+            GNOMETerminal, Alacritty, Konsole, GNOMEConsole, Xfce4Terminal, DeepinTerminal, Terminator, Terminology, Kitty, LXTerminal, Tilix, CoolRetroTerm, XTerm, CMD, Terminal
         ].into_iter()
     }
 
@@ -47,7 +52,7 @@ impl Terminal {
 
     /// Get total number of terminals **possible** depending on the OS
     pub fn total() -> u8 {
-        if cfg!(windows) {
+        if get_os() != "windows" || get_os() == "macos" {
             return 1;
         }
 
@@ -70,7 +75,8 @@ impl Terminal {
             Terminal::DeepinTerminal => "Deepin Terminal",
             Terminal::CoolRetroTerm => "cool-retro-term",
             Terminal::Alacritty => "Alacritty",
-            Terminal::CMD => "CMD",
+            Terminal::CMD => "cmd",
+            Terminal::Terminal => "Terminal"
         }
     }
 
@@ -80,10 +86,7 @@ impl Terminal {
     /// **See:** [`get_installed_terminals`]
     pub async fn installed(&self) -> bool {
         match self {
-            Terminal::CMD => {
-                let mut cmd = Command::new("cmd");
-                cmd.arg("/?").output().await.is_ok()
-            }
+            Terminal::CMD => { get_os() == "windows" }
             Terminal::GNOMETerminal => {
                 let mut cmd = Command::new("gnome-terminal");
                 cmd.arg("--version").output().await.is_ok()
@@ -136,6 +139,7 @@ impl Terminal {
                 let mut cmd = Command::new("alacritty");
                 cmd.arg("--version").output().await.is_ok()
             }
+            Terminal::Terminal => { get_os() == "macos" }
         }
     }
     //endregion
@@ -149,22 +153,23 @@ impl Terminal {
     ## Commands
     `{command}` = `{command};echo Command finished with code $?;sleep infinity`
 
-    | Terminal       | Command to open terminal                                                  |
-    |----------------|---------------------------------------------------------------------------|
-    | CMD            | `start cmd.exe /k  {command}`                                            |
-    | GNOMETerminal  | `gnome-terminal -- /usr/bin/env sh -c  {command}`                        |
-    | GNOMEConsole   | `kgx -e /usr/bin/env sh -c  {command}`                                   |
-    | Konsole        | `konsole -e /usr/bin/env sh -c  {command}`                               |
-    | Xfce4Terminal  | `xfce4-terminal -x /usr/bin/env sh -c  {command}`                        |
-    | Terminator     | `terminator -T "Downloading depot..." -e  {command}`                     |
-    | Terminology    | `terminology -e /usr/bin/env sh -c  {command}`                           |
-    | XTerm          | `xterm -hold -T "Downloading depot..." -e /usr/bin/env sh -c  {command}` |
-    | Kitty          | `kitty /usr/bin/env sh -c  {command}`                                    |
-    | LXTerminal     | `lxterminal -e /usr/bin/env sh -c  {command}`                            |
-    | Tilix          | `tilix -e /usr/bin/env sh -c  {command}`                                 |
-    | DeepinTerminal | `deepin-terminal -e /usr/bin/env sh -c  {command}`                       |
-    | CoolRetroTerm  | `cool-retro-term -e /usr/bin/env sh -c  {command}`                       |
-    | Alacritty      | `alacritty -e /usr/bin/env sh -c  {command}`                             |
+    | Terminal         | Command to open terminal                                                 |
+    |------------------|--------------------------------------------------------------------------|
+    | cmd              | `start cmd.exe /k  {command}`                                            |
+    | GNOMETerminal    | `gnome-terminal -- /usr/bin/env sh -c  {command}`                        |
+    | GNOMEConsole     | `kgx -e /usr/bin/env sh -c  {command}`                                   |
+    | Konsole          | `konsole -e /usr/bin/env sh -c  {command}`                               |
+    | Xfce4Terminal    | `xfce4-terminal -x /usr/bin/env sh -c  {command}`                        |
+    | Terminator       | `terminator -T "Downloading depot..." -e  {command}`                     |
+    | Terminology      | `terminology -e /usr/bin/env sh -c  {command}`                           |
+    | XTerm            | `xterm -hold -T "Downloading depot..." -e /usr/bin/env sh -c  {command}` |
+    | Kitty            | `kitty /usr/bin/env sh -c  {command}`                                    |
+    | LXTerminal       | `lxterminal -e /usr/bin/env sh -c  {command}`                            |
+    | Tilix            | `tilix -e /usr/bin/env sh -c  {command}`                                 |
+    | DeepinTerminal   | `deepin-terminal -e /usr/bin/env sh -c  {command}`                       |
+    | CoolRetroTerm    | `cool-retro-term -e /usr/bin/env sh -c  {command}`                       |
+    | Alacritty        | `alacritty -e /usr/bin/env sh -c  {command}`                             |
+    | Terminal (macOS) | We create a bash script and run that using `open`.                       |
 
      */
     pub fn create_command(&self, steam_download: &SteamDownload) -> Command {
@@ -307,6 +312,18 @@ impl Terminal {
                 ]).args(command);
                 cmd
             }
+            Terminal::Terminal => {
+                // Create a bash script and run that. Not very secure but it makes this easier.
+                let download_script = format!("#!/bin/bash\ncd {}\n{}",env::current_dir().unwrap().display(), command[0]);
+                // println!("{}", download_script);
+
+                fs::write("./script.sh", download_script).unwrap();
+                fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
+
+                let mut cmd = Command::new("/usr/bin/open");
+                cmd.args(&["-a", "Terminal", "./script.sh"]);
+                cmd
+            }
         }
     }
     //endregion
@@ -327,7 +344,7 @@ A vector containing a list of terminals that should work.
 ## Commands
 | Terminal       | Command to check if installed |
 |----------------|-------------------------------|
-| CMD            | `cmd /?`                      |
+| cmd            | `cmd /?`                      |
 | GNOMETerminal  | `gnome-terminal --version`    |
 | GNOMEConsole   | `kgx --version`               |
 | Konsole        | `konsole --version`           |
@@ -344,9 +361,12 @@ A vector containing a list of terminals that should work.
 
  */
 pub async fn get_installed_terminals(return_immediately: bool) -> Vec<Terminal> {
-    #[cfg(windows)]
-    // For Windows, only CMD is available.
-    return vec!(Terminal::CMD);
+    match get_os() {
+        "windows" => { return vec!(Terminal::CMD); }
+        "macos" => { return vec!(Terminal::Terminal); }
+        _ => {}
+    }
+
 
     let mut available_terminals: Vec<Terminal> = Vec::new();
 
@@ -369,15 +389,15 @@ pub async fn get_installed_terminals(return_immediately: bool) -> Vec<Terminal> 
 
 /// Creates the DepotDownloader command necessary to download the requested manifest.
 fn create_depotdownloader_command(steam_download: &SteamDownload) -> Vec<String> {
-    let output_dir = if cfg!(windows) {
+    let output_dir = if get_os() == "windows" {
         // In PowerShell, spaces can be escaped with a backtick.
         steam_download.output_path().replace(" ", "` ")
     } else {
         // In bash, spaces can be escaped with a backslash.
         steam_download.output_path().replace(" ", "\\ ")
     };
-    
-    
+
+
     if cfg!(not(windows)) {
         if steam_download.is_anonymous() {
             vec![format!(r#"./DepotDownloader -app {} -depot {} -manifest {} -dir {};echo Done!;sleep infinity"#, steam_download.app_id(), steam_download.depot_id(), steam_download.manifest_id(), output_dir)]

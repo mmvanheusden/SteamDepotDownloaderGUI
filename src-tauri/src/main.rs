@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::io;
+use std::{env, io};
 use std::path::Path;
 use std::sync::OnceLock;
 use std::time::Duration;
@@ -18,6 +18,7 @@ static DEPOTDOWNLOADER_VERSION: &str = "2.7.1";
 //TODO: arm
 static DEPOTDOWNLOADER_LINUX_URL: &str = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.7.1/DepotDownloader-linux-x64.zip";
 static DEPOTDOWNLOADER_WIN_URL: &str = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.7.1/DepotDownloader-windows-x64.zip";
+static DEPOTDOWNLOADER_MAC_URL: &str = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.7.1/DepotDownloader-macos-x64.zip";
 
 
 // We create this variable now, and quickly populate it in preload_vectum(). Then we later access the data in start_download()
@@ -61,17 +62,18 @@ async fn start_download(steam_download: steam::SteamDownload) {
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
 #[tauri::command]
 async fn download_depotdownloader() {
-    let url = if std::env::consts::OS == "windows" {
-        DEPOTDOWNLOADER_WIN_URL
-    } else {
-        DEPOTDOWNLOADER_LINUX_URL
+    let url = match get_os() {
+        "linux"  => DEPOTDOWNLOADER_LINUX_URL,
+        "macos" => DEPOTDOWNLOADER_MAC_URL,
+        "windows" => DEPOTDOWNLOADER_WIN_URL,
+        _ => DEPOTDOWNLOADER_LINUX_URL,
     };
     
     // Where we store the DepotDownloader zip.
-    let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, std::env::consts::OS);
+    let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
     let depotdownloader_zip = Path::new(&zip_filename);
 
-    println!("Downloading DepotDownloader for {} to .{}{}", std::env::consts::OS, std::path::MAIN_SEPARATOR, depotdownloader_zip.display());
+    println!("Downloading DepotDownloader for {} to .{}{}", env::consts::OS, std::path::MAIN_SEPARATOR, depotdownloader_zip.display());
 
     match depotdownloader::download_file(url, depotdownloader_zip).await {
         Err(e) => {
@@ -111,6 +113,15 @@ async fn get_all_terminals(app: AppHandle) {
         // Sends: (terminal index aligned with dropdown; total terminals)
         app.emit("working-terminal", (terminal.index(), Terminal::total())).unwrap();
     });
+}
+
+pub fn get_os() -> &'static str {
+    match env::consts::OS {
+        "linux" => "linux",
+        "macos" => "macos",
+        "windows" => "windows",
+        _ => "unknown",
+    }
 }
 
 fn main() {

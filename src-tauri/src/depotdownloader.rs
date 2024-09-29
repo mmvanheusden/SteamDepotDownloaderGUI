@@ -5,6 +5,7 @@ use std::{io::Write, path::Path};
 
 use reqwest;
 use sha256;
+use crate::get_os;
 
 pub fn calc_checksum(path: &Path) -> io::Result<String> {
     let bytes = fs::read(path)?;
@@ -57,9 +58,8 @@ pub fn unzip(zip_file: &Path) -> io::Result<()> {
         io::copy(&mut file, &mut outfile)?;
 
 
-        // Copy over permissions from enclosed file to extracted file on UNIX systems.
-        #[cfg(unix)]
-        {
+        // Copy over permissions from enclosed file to extracted file on Unix and macOS systems.
+        if get_os() != "windows" {
             use std::os::unix::fs::PermissionsExt;
 
             // If the mode `file.unix_mode()` is something (not None), copy it over to the extracted file.
