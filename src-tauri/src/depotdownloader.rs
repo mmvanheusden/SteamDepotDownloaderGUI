@@ -3,14 +3,30 @@ use std::io::ErrorKind::AlreadyExists;
 use std::{fs, io};
 use std::{io::Write, path::Path};
 
+use crate::get_os;
 use reqwest;
 use sha256;
-use crate::get_os;
+
+pub static DEPOTDOWNLOADER_VERSION: &str = "2.7.2";
 
 pub fn calc_checksum(path: &Path) -> io::Result<String> {
     let bytes = fs::read(path)?;
     let hash = sha256::digest(&bytes);
     Ok(hash)
+}
+
+/**
+See: [`test_get_depotdownloader_url()`]
+*/
+pub fn get_depotdownloader_url() -> String {
+    let arch = match std::env::consts::ARCH {
+        "x86_64" => "x64",
+        "aarch64" => "arm64",
+        "arm" => "arm",
+        _ => "x86_64",
+    };
+
+    format!("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_{}/DepotDownloader-{}-{}.zip", DEPOTDOWNLOADER_VERSION, get_os(), arch)
 }
 
 /// Downloads a file. The file will be saved to the [`filename`] provided.
@@ -74,4 +90,26 @@ pub fn unzip(zip_file: &Path) -> io::Result<()> {
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use reqwest::blocking;
+
+    #[test]
+    /// checks if all possible DepotDownloader URLs exist.
+    fn test_get_depotdownloader_url() {
+        for os in ["windows", "linux", "macos"].iter() {
+            for arch in ["x64", "arm64", "arm"].iter() {
+                if arch.eq(&"arm") && !os.eq(&"linux") {
+                    continue;
+                }
+                let url = format!("https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_{}/DepotDownloader-{}-{}.zip", DEPOTDOWNLOADER_VERSION, os, arch);
+                println!("Testing DepotDownloader URL: {}", url);
+
+                assert!(blocking::get(url).unwrap().status().is_success());
+            }
+        }
+    }
 }

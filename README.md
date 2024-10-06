@@ -20,9 +20,9 @@
 - **Cross-platform support**
   | OS      | Supported |
   |---------|-----------|
-  | Windows | ✔️        |
-  | Linux   | ✔️        |
-  | macOS   | ❌         |
+  | Windows | ✔️         |
+  | Linux   | ✔️         |
+  | macOS   | ✔️         |
 
 - **Support for every major Linux terminal emulator**
   <details><summary>List of supported terminals</summary>
