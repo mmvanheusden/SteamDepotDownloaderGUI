@@ -10,14 +10,14 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "2.0.0-rc.4",
-    "@tauri-apps/plugin-dialog": "2.0.0-rc.1",
-    "@tauri-apps/plugin-shell": "2.0.0-rc.1",
+    "@tauri-apps/api": "2.0.3",
+    "@tauri-apps/plugin-dialog": "2.0.1",
+    "@tauri-apps/plugin-shell": "2.0.1",
     "jquery": "^3.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
-    "@tauri-apps/cli": "2.0.0-rc.15",
+    "@tauri-apps/cli": "2.0.4",
     "@types/eslint__js": "^8.42.3",
     "@types/jquery": "^3.5.30",
     "eslint": "^9.10.0",

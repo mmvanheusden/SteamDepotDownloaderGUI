@@ -39,7 +39,7 @@ async fn preload_vectum(app: AppHandle) {
 #[tauri::command]
 async fn start_download(steam_download: steam::SteamDownload) {
     let default_terminal = TERMINAL.get().unwrap();
-    let working_dir = std::env::current_dir().unwrap();
+    let working_dir = env::current_dir().unwrap();
 
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
 
@@ -69,7 +69,7 @@ async fn download_depotdownloader() {
     let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
     let depotdownloader_zip = Path::new(&zip_filename);
 
-    println!("Downloading DepotDownloader for {} to {}/{}", env::consts::OS, std::path::current_dir(), depotdownloader_zip.display());
+    println!("Downloading DepotDownloader for {} to {}/{}", env::consts::OS, env::current_dir().unwrap().display(), depotdownloader_zip.display());
 
     match depotdownloader::download_file(url.as_str(), depotdownloader_zip).await {
         Err(e) => {
