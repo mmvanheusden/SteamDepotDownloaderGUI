@@ -7,7 +7,7 @@ use crate::get_os;
 use reqwest;
 use sha256;
 
-pub static DEPOTDOWNLOADER_VERSION: &str = "2.7.2";
+pub static DEPOTDOWNLOADER_VERSION: &str = "2.7.3";
 
 pub fn calc_checksum(path: &Path) -> io::Result<String> {
     let bytes = fs::read(path)?;
