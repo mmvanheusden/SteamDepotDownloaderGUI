@@ -21,7 +21,7 @@ let exportedFile = ""
 let ready = true
 let app_version
 
-const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.5.0/depotdownloader-2.5.0.zip" // the url to the depotdownloader zip
+const DOTNET_DOWNLOAD_URL = "https://github.com/SteamRE/DepotDownloader/releases/download/DepotDownloader_2.7.3/DepotDownloader-framework.zip" // the url to the depotdownloader zip
 const DOTNET_DIR = "depotdownloader" // folder where zip is extracted
 const DOTNET_ZIP_FILE = DOTNET_DOWNLOAD_URL.split("/").pop() // the file that is being downloaded.
 
