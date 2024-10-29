@@ -43,7 +43,7 @@ async fn start_download(steam_download: steam::SteamDownload) {
 
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
 
-    println!("-------------------------DEBUG INFO------------------------");
+    println!("\n-------------------------DEBUG INFO------------------------");
     println!("received these values from frontend:");
     println!("\t- Username: {}", steam_download.username().as_ref().unwrap_or(&String::from("Not provided")));
     // println!("\t- Password: {}", steam_download.password().as_ref().unwrap_or(&String::from("Not provided"))); Don't log in prod lol
@@ -51,11 +51,10 @@ async fn start_download(steam_download: steam::SteamDownload) {
     println!("\t- Depot ID: {}", steam_download.depot_id());
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
-    println!("------------------------DEBUG INFORMATION-----------------");
     println!("\t- Default terminal: {}", Terminal::pretty_name(&default_terminal[0]));
     println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download));
     println!("\t- Working directory: {}", working_dir.display());
-    println!("----------------------------------------------------------");
+    println!("----------------------------------------------------------\n");
 
     terminal_to_use.create_command(&steam_download).spawn().ok();
 }
