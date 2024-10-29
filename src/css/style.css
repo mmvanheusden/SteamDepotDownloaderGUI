@@ -87,16 +87,6 @@ hr {
     cursor: pointer;
 }
 
-.opium-button {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-size: 0.9em;
-    padding: 5px 10px;
-    font-family: monospace;
-    cursor: pointer;
-}
-
 .AnimatedEllipsis {
     display: inline-block;
     overflow: hidden;
@@ -115,7 +105,7 @@ hr {
     }
 }
 
-.knopje {
+.opium-button {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -133,12 +123,12 @@ hr {
 
 }
 
-.knopje:hover {
+.opium-button:hover {
     cursor: zoom-in;
     background: linear-gradient(180deg, #b0b0b0 25%, #504f4f 75%);
 }
 
-.knopje:active {
+.opium-button:active {
     cursor: crosshair;
     border: 1px inset black;
     background: linear-gradient(180deg, #333232 25%, #504f4f 75%);
