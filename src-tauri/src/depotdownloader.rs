@@ -41,10 +41,7 @@ pub async fn download_file(url: &str, filename: &Path) -> io::Result<()> {
         .await
         .expect("Failed to contact internet.");
 
-    let content = response
-        .bytes()
-        .await
-        .expect("Failed to get response content.");
+    let content = response.bytes().await.unwrap();
 
     file.write_all(&content)?;
     Ok(())
