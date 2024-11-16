@@ -7,6 +7,10 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
 
   - package-ecosystem: "cargo"
     directory: "src-tauri/"
@@ -15,3 +19,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
