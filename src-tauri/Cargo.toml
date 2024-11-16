@@ -13,7 +13,7 @@ tauri-build = { version = "2.0.3", features = [] }
 
 [dependencies]
 fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs" }
-tauri = { version = "2.0.6", features = [] }
+tauri = { version = "2.1.1", features = [] }
 tauri-plugin-shell = "2.0.2"
 tauri-plugin-dialog = "2.0.3"
 serde = { version = "1", features = ["derive"] }
