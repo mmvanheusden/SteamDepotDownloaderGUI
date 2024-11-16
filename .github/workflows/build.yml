@@ -30,6 +30,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
+      - name: setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.13.2
+
       - name: setup node
         uses: actions/setup-node@v4
         with:
