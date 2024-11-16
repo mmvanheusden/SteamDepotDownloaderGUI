@@ -1,6 +1,6 @@
 [package]
 name = "vectum"
-version = "3.0.0-alpha.2"
+version = "3.0.0"
 description = "Download older versions of Steam games with DepotDownloader"
 authors = ["mmvanheusden"]
 edition = "2021"

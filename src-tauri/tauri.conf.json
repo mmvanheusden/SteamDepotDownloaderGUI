@@ -1,6 +1,6 @@
 {
   "productName": "SteamDepotDownloaderGUI",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0",
   "identifier": "net.oopium.depotdownloader",
   "build": {
     "beforeDevCommand": "pnpm dev",

@@ -4798,7 +4798,7 @@ checksum = "accd4ea62f7bb7a82fe23066fb0957d48ef677f6eeb8215f372f52e48bb32426"
 
 [[package]]
 name = "vectum"
-version = "3.0.0-alpha.2"
+version = "3.0.0"
 dependencies = [
  "async-process",
  "derive-getters",

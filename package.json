@@ -1,7 +1,7 @@
 {
   "name": "vectum",
   "private": true,
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0",
   "type": "module",
   "license": "GPL-3.0-only",
   "scripts": {
