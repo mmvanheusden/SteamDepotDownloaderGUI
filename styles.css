@@ -3,6 +3,18 @@
     src: url(./fonts/windows_regular-webfont.woff) format('woff'), url(./fonts/windows_regular-webfont.woff2) format('woff2'), url(./fonts/Windows-Regular.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'Hubot Sans';
+    src:
+      url('./fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+      url('./fonts/Hubot-Sans.woff2') format('woff2-variations');
+    font-weight: 200 900;
+    font-stretch: 75% 125%;
+  }
+  html {
+    font-family: 'Hubot Sans';
+  }
+
 .instructions-link {
     animation: highlight 2s infinite;
     text-decoration: none;
@@ -17,8 +29,17 @@
     }
 }
 
-.hero {
-    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.4);
+
+.title {
+    font-family: 'Hubot Sans';
+    font-weight: bolder;
+    font-size: 50px;
+}
+
+.subtitle {
+    font-family: 'Hubot Sans';
+    font-weight: 600;
+    font-size: 30px;
 }
 
 .knopje {
