@@ -8,7 +8,7 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     groups:
-      actions-deps:
+      npm-deps:
         patterns:
           - "*"
 
@@ -20,6 +20,6 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     groups:
-      actions-deps:
+      cargo-deps:
         patterns:
           - "*"
