@@ -77,7 +77,7 @@ $(async () => {
 	$("#pickpath").on("click", async () => {
 		// Open a dialog
 		downloadDirectory = await openDialog({
-			title: "Choose where to download the game. You can specify the directory later.",
+			title: "Choose where to save the game download.",
 			multiple: false,
 			directory: true,
 			canCreateDirectories: true
@@ -92,6 +92,9 @@ $(async () => {
 
 		$("#checkpath").prop("ariaDisabled", false);
 		$("#checkpath").prop("disabled", false);
+		$("#downloadbtn").prop("ariaDisabled", false);
+		$("#nopathwarning").prop("hidden", true);
+
 
 		console.log(downloadDirectory);
 	});
@@ -113,9 +116,15 @@ $(async () => {
 			// Loop through invalid fields. If there are any, make those "errored" and block the download button.
 			for (const id of invalidFields()) {
 				document.getElementById(id)?.parentElement?.classList.toggle("errored", true);
-				$("#emptywarning").prop("hidden", false);
-				$("#downloadbtn").prop("ariaDisabled", true);
 			}
+			$("#emptywarning").prop("hidden", false);
+			$("#downloadbtn").prop("ariaDisabled", true);
+			return;
+		}
+
+		if (downloadDirectory == null) {
+			$("#nopathwarning").prop("hidden", false);
+			$("#downloadbtn").prop("ariaDisabled", true);
 			return;
 		}
 
@@ -125,7 +134,6 @@ $(async () => {
 
 		const terminalChoice = (document.getElementById("terminal-dropdown") as HTMLSelectElement).selectedIndex;
 		const directoryNameChoice = $("#folder-name-custom-input").val();
-
 
 		// Output path w/ directories chosen is: {downloadDirectory}/{directoryNameChoice}
 		const vectumOptions = {

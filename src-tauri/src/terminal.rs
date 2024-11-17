@@ -1,6 +1,7 @@
 use serde::Serialize;
 use tauri_plugin_shell::process::Command;
 use std::{env, fs};
+use std::path::{Path, PathBuf};
 use tauri::Wry;
 use tauri_plugin_shell::Shell;
 use crate::get_os;
@@ -125,7 +126,7 @@ impl Terminal {
     | Terminal (macOS) | We create a bash script and run that using `open`.                       |
 
      */
-    pub fn create_command(&self, steam_download: &SteamDownload, shell: &Shell<Wry>) -> Command {
+    pub fn create_command(&self, steam_download: &SteamDownload, shell: &Shell<Wry>, working_dir: PathBuf) -> Command {
         let command = create_depotdownloader_command(steam_download);
 
         match self {
@@ -141,72 +142,72 @@ impl Terminal {
                 shell.command("gnome-terminal")
                     .args(&["--", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::GNOMEConsole => {
                 shell.command("kgx")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Konsole => {
                 shell.command("konsole")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Xfce4Terminal => {
                 shell.command("xfce4-terminal")
                     .args(&["-x", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Terminator => {
                 shell.command("terminator")
                     .args(&["-T", "Downloading depot...", "-e"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::XTerm => {
                 shell.command("xterm")
                     .args(&["-hold", "-T", "Downloading depot...", "-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Kitty => {
                 shell.command("kitty")
                     .args(&["/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::LXTerminal => {
                 shell.command("lxterminal")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Tilix => {
                 shell.command("tilix")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::DeepinTerminal => {
                 shell.command("deepin-terminal")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
 
             Terminal::Alacritty => {
                 shell.command("alacritty")
                     .args(&["-e", "/usr/bin/env", "sh", "-c"])
                     .args(command)
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
             }
             Terminal::Terminal => {
                 // Create a bash script and run that. Not very secure but it makes this easier.
-                let download_script = format!("#!/bin/bash\ncd {}\n{}",env::current_dir().unwrap().display(), command[0]);
+                let download_script = format!("#!/bin/bash\ncd {}\n{}",working_dir.as_path().display(), command[0]);
                 // println!("{}", download_script);
 
                 fs::write("./script.sh", download_script).unwrap();
@@ -220,7 +221,7 @@ impl Terminal {
 
                 shell.command("/usr/bin/open")
                     .args(&["-a", "Terminal", "./script.sh"])
-                    .current_dir(env::current_dir().unwrap())
+                    .current_dir(working_dir.as_path())
 
             }
         }

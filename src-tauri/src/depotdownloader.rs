@@ -5,15 +5,10 @@ use std::{io::Write, path::Path};
 
 use crate::get_os;
 use reqwest;
-use sha256;
 
 pub static DEPOTDOWNLOADER_VERSION: &str = "2.7.4";
 
-pub fn calc_checksum(path: &Path) -> io::Result<String> {
-    let bytes = fs::read(path)?;
-    let hash = sha256::digest(&bytes);
-    Ok(hash)
-}
+
 
 /**
 See: [`test_get_depotdownloader_url()`]
@@ -34,6 +29,12 @@ pub async fn download_file(url: &str, filename: &Path) -> io::Result<()> {
     if filename.exists() {
         println!("DEBUG: Not downloading. File already exists.");
         return Err(io::Error::from(AlreadyExists));
+    }
+    // Create any missing directories.
+    if let Some(p) = filename.parent() {
+        if !p.exists() {
+            fs::create_dir_all(p)?;
+        }
     }
 
     let mut file = File::create(filename)?;
@@ -57,7 +58,7 @@ pub fn unzip(zip_file: &Path) -> io::Result<()> {
 
         let outpath = match file.enclosed_name() {
             Some(path) => path,
-            None => continue
+            None => continue,
         };
 
         println!("Extracted {} from archive.", outpath.display());
@@ -69,7 +70,6 @@ pub fn unzip(zip_file: &Path) -> io::Result<()> {
         }
         let mut outfile = File::create(&outpath)?;
         io::copy(&mut file, &mut outfile)?;
-
 
         // Copy over permissions from enclosed file to extracted file on UNIX systems.
         #[cfg(unix)]

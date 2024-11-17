@@ -9,8 +9,12 @@ use std::time::Duration;
 
 use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
 use crate::terminal::Terminal;
-use tauri_plugin_shell::{ShellExt};
-use tauri::{AppHandle, Emitter};
+use tauri::path::BaseDirectory;
+use tauri::App;
+use tauri::{AppHandle, Emitter, Manager};
+use tauri_plugin_fs::FsExt;
+use tauri_plugin_fs::FilePath;
+use tauri_plugin_shell::ShellExt;
 
 mod depotdownloader;
 mod steam;
@@ -35,12 +39,15 @@ async fn preload_vectum(app: AppHandle) {
         Terminal::pretty_name(&TERMINAL.get().unwrap()[0]),
     )
     .unwrap();
+
+    // set working directory
+    std::env::set_current_dir(app.path().app_cache_dir().unwrap()).unwrap();
 }
 
 #[tauri::command]
 async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     let default_terminal = TERMINAL.get().unwrap();
-    let working_dir = env::current_dir().unwrap();
+    let working_dir = app.path().app_cache_dir().unwrap();
     let shell = app.shell();
 
 
@@ -55,26 +62,30 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
     println!("\t- Default terminal: {}", Terminal::pretty_name(&default_terminal[0]));
-    println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download, shell));
-    println!("\t- Working directory: {}", working_dir.display());
+    println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download, shell, working_dir.clone()));
+    println!("\t- Working directory: {}", working_dir.clone()   .display());
+    // println!("\t- Working directory2: {}", std::env::current_exe().unwrap().display());
+    // println!("\t- Working directory2: {}", app.path().app_cache_dir().unwrap().display());
+
+
     println!("----------------------------------------------------------\n");
 
 
-    terminal_to_use.create_command(&steam_download, shell).spawn().ok();
+    terminal_to_use.create_command(&steam_download, shell, working_dir).spawn().ok();
 }
 
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
 #[tauri::command]
-async fn download_depotdownloader() {
+async fn download_depotdownloader(app: AppHandle) {
     let url = get_depotdownloader_url();
 
     // Where we store the DepotDownloader zip.
     let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
-    let depotdownloader_zip = Path::new(&zip_filename);
+    let depotdownloader_zip = Path::join(app.path().app_cache_dir().unwrap().as_path(), Path::new(&zip_filename));
 
-    println!("Downloading DepotDownloader for {} to {}/{}", env::consts::OS, env::current_dir().unwrap().display(), depotdownloader_zip.display());
+    println!("Downloading DepotDownloader for {} to {}", env::consts::OS, depotdownloader_zip.display());
 
-    match depotdownloader::download_file(url.as_str(), depotdownloader_zip).await {
+    match depotdownloader::download_file(url.as_str(), depotdownloader_zip.as_path()).await {
         Err(e) => {
             if e.kind() == io::ErrorKind::AlreadyExists {
                 println!("DepotDownloader already exists. Skipping download.");
@@ -83,13 +94,13 @@ async fn download_depotdownloader() {
 
             println!("Failed to download DepotDownloader: {}", e);
             return;
-        },
+        }
         _ => {}
     }
 
     println!("Succesfully downloaded DepotDownloader from {}", url);
 
-    depotdownloader::unzip(depotdownloader_zip).unwrap();
+    depotdownloader::unzip(depotdownloader_zip.as_path()).unwrap();
     println!("Succesfully extracted DepotDownloader zip.");
 }
 
@@ -126,19 +137,20 @@ fn main() {
     // macOS: change dir to documents because upon opening, our current dir by default is "/".
     if get_os() == "macos" {
         let _ = fix_path_env::fix(); // todo: does this actually do something useful
-        let documents_dir = format!(
-            "{}/Documents/SteamDepotDownloaderGUI",
-            std::env::var_os("HOME").unwrap().to_str().unwrap()
-        );
-        let documents_dir = Path::new(&documents_dir);
-        // println!("{}", documents_dir.display());
+        // let documents_dir = format!(
+        //     "{}/Documents/SteamDepotDownloaderGUI",
+        //     std::env::var_os("HOME").unwrap().to_str().unwrap()
+        // );
+        // let documents_dir = Path::new(&documents_dir);
+        // // println!("{}", documents_dir.display());
 
-        std::fs::create_dir_all(documents_dir).unwrap();
-        env::set_current_dir(documents_dir).unwrap();
+        // std::fs::create_dir_all(documents_dir).unwrap();
+        // env::set_current_dir(documents_dir).unwrap();
     }
 
     println!();
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![

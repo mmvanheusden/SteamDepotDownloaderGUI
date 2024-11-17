@@ -1,7 +1,7 @@
 {
   "name": "vectum",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "type": "module",
   "license": "GPL-3.0-only",
   "scripts": {
@@ -13,6 +13,7 @@
   "dependencies": {
     "@tauri-apps/api": "2.1.1",
     "@tauri-apps/plugin-dialog": "2.0.1",
+    "@tauri-apps/plugin-fs": "~2",
     "@tauri-apps/plugin-shell": "2.0.1",
     "jquery": "^3.7.1"
   },
