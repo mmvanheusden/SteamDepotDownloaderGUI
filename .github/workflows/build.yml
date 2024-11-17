@@ -11,9 +11,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+          - platform: 'macos-latest'
+            arch: 'aarch64'
             args: '--target aarch64-apple-darwin --bundles dmg'
-          - platform: 'macos-latest' # for Intel based macs.
+          - platform: 'macos-latest'
+            arch: 'x86_64'
             args: '--target x86_64-apple-darwin --bundles dmg'
           - platform: 'ubuntu-22.04'
             args: '--bundles appimage'
@@ -67,16 +69,30 @@ jobs:
         id: truncate_paths
         run: echo "paths=$(echo '${{ steps.build.outputs.artifactPaths }}' | sed 's/^..//' | sed 's/..$//')" >> $GITHUB_OUTPUT
 
-      - name: upload unix artifacts
-        if: matrix.platform == 'macos-latest' || matrix.platform == 'ubuntu-22.04'
+      - name: upload macos artifacts (M1)
+        if: matrix.platform == 'macos-latest' && matrix.arch == 'aarch64'
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: macos-m1-artifacts
+          path: ${{ steps.truncate_paths.outputs.paths }}
+      
+      - name: upload macos artifacts (Intel)
+        if: matrix.platform == 'macos-latest' && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-intel-artifacts
+          path: ${{ steps.truncate_paths.outputs.paths }}
+
+      - name: upload linux artifacts
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
           path: ${{ steps.truncate_paths.outputs.paths }}
 
       - name: upload windows artifacts
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
+          name: windows-artifacts
           path: ${{ steps.truncate_paths.outputs.paths }}
