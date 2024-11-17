@@ -2,7 +2,6 @@ use crate::steam::SteamDownload;
 use async_process::Command;
 use serde::Serialize;
 use std::{env, fs};
-use std::fs::File;
 use std::os::unix::fs::PermissionsExt;
 use crate::get_os;
 
@@ -318,7 +317,11 @@ impl Terminal {
                 // println!("{}", download_script);
 
                 fs::write("./script.sh", download_script).unwrap();
-                fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
+
+                #[cfg(unix)]
+                {
+                    fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
+                }
 
                 let mut cmd = Command::new("/usr/bin/open");
                 cmd.args(&["-a", "Terminal", "./script.sh"]);
