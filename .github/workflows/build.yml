@@ -62,17 +62,22 @@ jobs:
         with:
           args: ${{ matrix.args }}
           includeUpdaterJson: false
+      
+      - name: fix JSON
+        id: truncate_paths
+        run: echo "::set-output name=paths::$(echo '${{ steps.build.outputs.artifactPaths }}' | sed 's/^..//' | sed 's/..$//')"
+
 
       - name: upload unix artifacts
         if: matrix.platform == 'macos-latest' || matrix.platform == 'ubuntu-22.04'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: ${{ steps.build.outputs.artifactPaths }}
   
       - name: upload windows artifacts
         if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: ${{ steps.build.outputs.artifactPaths }}
