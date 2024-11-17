@@ -129,7 +129,7 @@ $(async () => {
 
 		// Output path w/ directories chosen is: {downloadDirectory}/{directoryNameChoice}
 		const vectumOptions = {
-			terminal: terminalChoice == 15 ? null : terminalChoice,
+			terminal: terminalChoice == 13 ? null : terminalChoice,
 			output_directory: downloadDirectory || null, // if not specified let backend choose a path.
 			directory_name: directoryNameChoice || null,
 		};

@@ -9,6 +9,7 @@ use std::time::Duration;
 
 use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
 use crate::terminal::Terminal;
+use tauri_plugin_shell::{ShellExt};
 use tauri::{AppHandle, Emitter};
 
 mod depotdownloader;
@@ -21,10 +22,10 @@ static TERMINAL: OnceLock<Vec<Terminal>> = OnceLock::new(); // We create this va
 /// This function is called every time the app is reloaded/started. It quickly populates the [`TERMINAL`] variable with a working terminal.
 #[tauri::command]
 async fn preload_vectum(app: AppHandle) {
-    // Only fill this variable once.
+    // Only fill these variables once.
     if TERMINAL.get().is_none() {
         TERMINAL
-            .set(terminal::get_installed_terminals(true).await)
+            .set(terminal::get_installed_terminals(true, app.shell()).await)
             .expect("Failed to set available terminals")
     }
 
@@ -37,9 +38,11 @@ async fn preload_vectum(app: AppHandle) {
 }
 
 #[tauri::command]
-async fn start_download(steam_download: steam::SteamDownload) {
+async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     let default_terminal = TERMINAL.get().unwrap();
     let working_dir = env::current_dir().unwrap();
+    let shell = app.shell();
+
 
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
 
@@ -52,11 +55,12 @@ async fn start_download(steam_download: steam::SteamDownload) {
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
     println!("\t- Default terminal: {}", Terminal::pretty_name(&default_terminal[0]));
-    println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download));
+    println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download, shell));
     println!("\t- Working directory: {}", working_dir.display());
     println!("----------------------------------------------------------\n");
 
-    terminal_to_use.create_command(&steam_download).spawn().ok();
+
+    terminal_to_use.create_command(&steam_download, shell).spawn().ok();
 }
 
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
@@ -99,7 +103,7 @@ async fn internet_connection() -> bool {
 
 #[tauri::command]
 async fn get_all_terminals(app: AppHandle) {
-    let terminals = terminal::get_installed_terminals(false).await;
+    let terminals = terminal::get_installed_terminals(false, app.shell()).await;
 
     terminals.iter().for_each(|terminal| {
         println!("Terminal #{} ({}) is installed!", terminal.index().unwrap(), terminal.pretty_name());

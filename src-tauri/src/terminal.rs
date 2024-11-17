@@ -1,8 +1,10 @@
-use crate::steam::SteamDownload;
-use async_process::Command;
 use serde::Serialize;
+use tauri_plugin_shell::process::Command;
 use std::{env, fs};
+use tauri::Wry;
+use tauri_plugin_shell::Shell;
 use crate::get_os;
+use crate::steam::SteamDownload;
 
 /// Represents a terminal that can be used to run commands.
 /// **Should be in sync with the terminal dropdown in the frontend.**
@@ -15,11 +17,9 @@ pub enum Terminal {
     Xfce4Terminal,
     DeepinTerminal,
     Terminator,
-    Terminology,
     Kitty,
     LXTerminal,
     Tilix,
-    CoolRetroTerm,
     XTerm,
     CMD,
     Terminal
@@ -32,7 +32,7 @@ impl Terminal {
         use self::Terminal::*;
 
         vec![
-            GNOMETerminal, Alacritty, Konsole, GNOMEConsole, Xfce4Terminal, DeepinTerminal, Terminator, Terminology, Kitty, LXTerminal, Tilix, CoolRetroTerm, XTerm, CMD, Terminal
+            GNOMETerminal, Alacritty, Konsole, GNOMEConsole, Xfce4Terminal, DeepinTerminal, Terminator, Kitty, LXTerminal, Tilix, XTerm, CMD, Terminal
         ].into_iter()
     }
 
@@ -50,7 +50,7 @@ impl Terminal {
 
     /// Get total number of terminals **possible** depending on the OS
     pub fn total() -> u8 {
-        if get_os() != "windows" || get_os() == "macos" {
+        if get_os() == "windows" || get_os() == "macos" {
             return 1;
         }
 
@@ -65,13 +65,11 @@ impl Terminal {
             Terminal::Konsole => "Konsole",
             Terminal::Xfce4Terminal => "Xfce Terminal",
             Terminal::Terminator => "Terminator",
-            Terminal::Terminology => "Terminology",
             Terminal::XTerm => "XTerm",
             Terminal::Kitty => "Kitty",
             Terminal::LXTerminal => "LXTerminal",
             Terminal::Tilix => "Tilix",
             Terminal::DeepinTerminal => "Deepin Terminal",
-            Terminal::CoolRetroTerm => "cool-retro-term",
             Terminal::Alacritty => "Alacritty",
             Terminal::CMD => "cmd",
             Terminal::Terminal => "Terminal"
@@ -82,62 +80,21 @@ impl Terminal {
     //region Probing a terminal
     /// Checks if a [`Terminal`] is installed.
     /// **See:** [`get_installed_terminals`]
-    pub async fn installed(&self) -> bool {
+    pub async fn installed(&self, shell: &Shell<Wry>) -> bool {
         match self {
-            Terminal::CMD => { get_os() == "windows" }
-            Terminal::GNOMETerminal => {
-                let mut cmd = Command::new("gnome-terminal");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::GNOMEConsole => {
-                let mut cmd = Command::new("kgx");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Konsole => {
-                let mut cmd = Command::new("konsole");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Xfce4Terminal => {
-                let mut cmd = Command::new("xfce4-terminal");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Terminator => {
-                let mut cmd = Command::new("terminator");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Terminology => {
-                let mut cmd = Command::new("terminology");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::XTerm => {
-                let mut cmd = Command::new("xterm");
-                cmd.arg("-v").output().await.is_ok()
-            }
-            Terminal::Kitty => {
-                let mut cmd = Command::new("kitty");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::LXTerminal => {
-                let mut cmd = Command::new("lxterminal");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Tilix => {
-                let mut cmd = Command::new("tilix");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::DeepinTerminal => {
-                let mut cmd = Command::new("deepin-terminal");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::CoolRetroTerm => {
-                let mut cmd = Command::new("cool-retro-term");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Alacritty => {
-                let mut cmd = Command::new("alacritty");
-                cmd.arg("--version").output().await.is_ok()
-            }
-            Terminal::Terminal => { get_os() == "macos" }
+            Terminal::CMD => get_os() == "windows",
+            Terminal::GNOMETerminal => shell.command("gnome-terminal").arg("--version").status().await.is_ok(),
+            Terminal::GNOMEConsole => shell.command("kgx").arg("--version").status().await.is_ok(),
+            Terminal::Konsole => shell.command("konsole").arg("--version").status().await.is_ok(),
+            Terminal::Xfce4Terminal => shell.command("xfce4-terminal").arg("--version").status().await.is_ok(),
+            Terminal::Terminator => shell.command("terminator").arg("--version").status().await.is_ok(),
+            Terminal::XTerm => shell.command("xterm").arg("-v").status().await.is_ok(),
+            Terminal::Kitty => shell.command("kitty").arg("--version").status().await.is_ok(),
+            Terminal::LXTerminal => shell.command("lxterminal").arg("--version").status().await.is_ok(),
+            Terminal::Tilix => shell.command("tilix").arg("--version").status().await.is_ok(),
+            Terminal::DeepinTerminal => shell.command("deepin-terminal").arg("--version").status().await.is_ok(),
+            Terminal::Alacritty => shell.command("alacritty").arg("--version").status().await.is_ok(),
+            Terminal::Terminal => get_os() == "macos",
         }
     }
     //endregion
@@ -159,156 +116,93 @@ impl Terminal {
     | Konsole          | `konsole -e /usr/bin/env sh -c  {command}`                               |
     | Xfce4Terminal    | `xfce4-terminal -x /usr/bin/env sh -c  {command}`                        |
     | Terminator       | `terminator -T "Downloading depot..." -e  {command}`                     |
-    | Terminology      | `terminology -e /usr/bin/env sh -c  {command}`                           |
     | XTerm            | `xterm -hold -T "Downloading depot..." -e /usr/bin/env sh -c  {command}` |
     | Kitty            | `kitty /usr/bin/env sh -c  {command}`                                    |
     | LXTerminal       | `lxterminal -e /usr/bin/env sh -c  {command}`                            |
     | Tilix            | `tilix -e /usr/bin/env sh -c  {command}`                                 |
     | DeepinTerminal   | `deepin-terminal -e /usr/bin/env sh -c  {command}`                       |
-    | CoolRetroTerm    | `cool-retro-term -e /usr/bin/env sh -c  {command}`                       |
     | Alacritty        | `alacritty -e /usr/bin/env sh -c  {command}`                             |
     | Terminal (macOS) | We create a bash script and run that using `open`.                       |
 
      */
-    pub fn create_command(&self, steam_download: &SteamDownload) -> Command {
+    pub fn create_command(&self, steam_download: &SteamDownload, shell: &Shell<Wry>) -> Command {
         let command = create_depotdownloader_command(steam_download);
 
         match self {
             Terminal::CMD => {
-                let mut cmd = Command::new("cmd.exe");
+                    return shell.command("cmd.exe").args(&["/c", "start", "PowerShell.exe", "-NoExit", "-Command"]).args(command);
+
+/*                let mut cmd = std::process::Command::new("cmd.exe");
                 cmd.args(&["/c", "start", "PowerShell.exe", "-NoExit", "-Command"]).args(command);
-                cmd
+
+                return cmd*/
             }
             Terminal::GNOMETerminal => {
-                let mut cmd = Command::new("gnome-terminal");
-                cmd.args([
-                    "--",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("gnome-terminal")
+                    .args(&["--", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::GNOMEConsole => {
-                let mut cmd = Command::new("kgx");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c"
-                ]).args(command);
-                cmd
+                shell.command("kgx")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Konsole => {
-                let mut cmd = Command::new("konsole");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("konsole")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Xfce4Terminal => {
-                let mut cmd = Command::new("xfce4-terminal");
-                cmd.args([
-                    "-x",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("xfce4-terminal")
+                    .args(&["-x", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Terminator => {
-                let mut cmd = Command::new("terminator");
-                cmd.args([
-                    "-T",
-                    "Downloading depot...",
-                    "-e",
-                ]).args(command);
-                cmd
-            }
-            Terminal::Terminology => {
-                let mut cmd = Command::new("terminology");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("terminator")
+                    .args(&["-T", "Downloading depot...", "-e"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::XTerm => {
-                let mut cmd = Command::new("xterm");
-                cmd.args([
-                    "-hold",
-                    "-T",
-                    "Downloading depot...",
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("xterm")
+                    .args(&["-hold", "-T", "Downloading depot...", "-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Kitty => {
-                let mut cmd = Command::new("kitty");
-                cmd.args([
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("kitty")
+                    .args(&["/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::LXTerminal => {
-                let mut cmd = Command::new("lxterminal");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("lxterminal")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Tilix => {
-                let mut cmd = Command::new("tilix");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("tilix")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::DeepinTerminal => {
-                let mut cmd = Command::new("deepin-terminal");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("deepin-terminal")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
-            Terminal::CoolRetroTerm => {
-                let mut cmd = Command::new("cool-retro-term");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
-            }
+
             Terminal::Alacritty => {
-                let mut cmd = Command::new("alacritty");
-                cmd.args([
-                    "-e",
-                    "/usr/bin/env",
-                    "sh",
-                    "-c",
-                ]).args(command);
-                cmd
+                shell.command("alacritty")
+                    .args(&["-e", "/usr/bin/env", "sh", "-c"])
+                    .args(command)
+                    .current_dir(env::current_dir().unwrap())
             }
             Terminal::Terminal => {
                 // Create a bash script and run that. Not very secure but it makes this easier.
@@ -324,9 +218,10 @@ impl Terminal {
                     fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
                 }
 
-                let mut cmd = Command::new("/usr/bin/open");
-                cmd.args(&["-a", "Terminal", "./script.sh"]);
-                cmd
+                shell.command("/usr/bin/open")
+                    .args(&["-a", "Terminal", "./script.sh"])
+                    .current_dir(env::current_dir().unwrap())
+
             }
         }
     }
@@ -354,17 +249,15 @@ A vector containing a list of terminals that should work.
 | Konsole        | `konsole --version`           |
 | Xfce4Terminal  | `xfce4-terminal --version`    |
 | Terminator     | `terminator --version`        |
-| Terminology    | `terminology --version`       |
 | XTerm          | `xterm -v`                    |
 | Kitty          | `kitty --version`             |
 | LXTerminal     | `lxterminal --version`        |
 | Tilix          | `tilix --version`             |
 | DeepinTerminal | `deepin-terminal --version`   |
-| CoolRetroTerm  | `cool-retro-term --version`   |
 | Alacritty      | `alacritty --version`         |
 
  */
-pub async fn get_installed_terminals(return_immediately: bool) -> Vec<Terminal> {
+pub async fn get_installed_terminals(return_immediately: bool, shell: &Shell<Wry>) -> Vec<Terminal> {
     match get_os() {
         "windows" => { return vec!(Terminal::CMD); }
         "macos" => { return vec!(Terminal::Terminal); }
@@ -376,7 +269,7 @@ pub async fn get_installed_terminals(return_immediately: bool) -> Vec<Terminal> 
 
     for terminal in Terminal::iter() {
         // Probe terminal. If it doesn't raise an error, it is probably installed.
-        if terminal.installed().await {
+        if terminal.installed(shell).await {
             if return_immediately {
                 return vec![terminal];
             }

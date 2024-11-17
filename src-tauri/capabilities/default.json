@@ -7,6 +7,7 @@
     "core:default",
     "shell:allow-open",
     "dialog:default",
-    "shell:default"
+    "shell:allow-execute",
+    "shell:allow-spawn"
   ]
 }
