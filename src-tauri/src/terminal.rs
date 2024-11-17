@@ -2,7 +2,6 @@ use crate::steam::SteamDownload;
 use async_process::Command;
 use serde::Serialize;
 use std::{env, fs};
-use std::os::unix::fs::PermissionsExt;
 use crate::get_os;
 
 /// Represents a terminal that can be used to run commands.
@@ -320,6 +319,8 @@ impl Terminal {
 
                 #[cfg(unix)]
                 {
+                    use std::os::unix::fs::PermissionsExt;
+
                     fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
                 }
 
