@@ -56,8 +56,23 @@ jobs:
         run: pnpm install # change this to npm or pnpm depending on which one you use.
 
       - uses: tauri-apps/tauri-action@v0
+        id: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: ${{ matrix.args }}
           includeUpdaterJson: false
+
+      - name: upload unix artifacts
+        if: matrix.platform == 'macos-latest' || matrix.platform == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ${{ steps.build.outputs.artifactPaths }}
+  
+      - name: upload windows artifacts
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ${{ steps.build.outputs.artifactPaths }}
