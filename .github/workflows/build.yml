@@ -64,9 +64,15 @@ jobs:
         with:
           args: ${{ matrix.args }}
           includeUpdaterJson: false
+      
+      - name: fix JSON (Windows)
+        if: matrix.platform == 'windows-latest'
+        id: truncate_paths_win
+        run: echo "paths=$(echo '${{ steps.build.outputs.artifactPaths }}' | jq -r '.[0]')" >> $GITHUB_OUTPUT
 
-      - name: fix JSON
-        id: truncate_paths
+      - name: fix JSON (Linux, MacOS)
+        if: matrix.platform != 'windows-latest'
+        id: truncate_paths_x
         run: echo "paths=$(echo '${{ steps.build.outputs.artifactPaths }}' | sed 's/^..//' | sed 's/..$//')" >> $GITHUB_OUTPUT
 
       - name: upload macos artifacts (M1)
@@ -74,25 +80,25 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-m1-artifacts
-          path: ${{ steps.truncate_paths.outputs.paths }}
+          path: ${{ steps.truncate_paths_x.outputs.paths }}
       
       - name: upload macos artifacts (Intel)
         if: matrix.platform == 'macos-latest' && matrix.arch == 'x86_64'
         uses: actions/upload-artifact@v4
         with:
           name: macos-intel-artifacts
-          path: ${{ steps.truncate_paths.outputs.paths }}
+          path: ${{ steps.truncate_paths_x.outputs.paths }}
 
       - name: upload linux artifacts
         if: matrix.platform == 'ubuntu-22.04'
         uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts
-          path: ${{ steps.truncate_paths.outputs.paths }}
+          path: ${{ steps.truncate_paths_x.outputs.paths }}
 
       - name: upload windows artifacts
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
-          path: ${{ steps.truncate_paths.outputs.paths }}
+          path: ${{ steps.truncate_paths_win.outputs.paths }}
