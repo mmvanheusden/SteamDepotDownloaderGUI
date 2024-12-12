@@ -94,6 +94,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
-          path: "./src-tauri/target/release/bundle/**/*.{msi,MSI,exe,EXE}" # fck windows
+          path: "./src-tauri/target/release/bundle/*" # fck windows
 
           
