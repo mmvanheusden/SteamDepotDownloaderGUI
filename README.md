@@ -3,7 +3,7 @@
 <h4>A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy.</h4>
 
 → <a href="https://www.youtube.com/watch?v=H2COwT5OUOo" target="_blank"><b>Tutorial</b></a> ~ 
-<a href="https://depotdownloader.00pium.net/" target="_blank"><b>Website</b></a> ~ 
+<a href="https://depotdownloader.aphex.cc/" target="_blank"><b>Website</b></a> ~ 
 <a href="https://www.youtube.com/watch?v=ogiDAuH3VdY" target="_blank"><b>Example usage</b></a> ←
 </h4>
 
@@ -92,7 +92,7 @@ $ pnpm eslint --fix src/
   <a href="https://www.gnu.org/licenses/gpl-3.0" target="_blank">
     <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/b5649b7f-ea49-45c4-b0cd-5f3788dcd6ca" height="40px">
   </a>
-  <a href="https://00pium.net" target="_blank">
+  <a href="https://aphex.cc" target="_blank">
     <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/83f5f3b2-2bf9-41aa-ab87-880466f785fe" height="40px">
   </a>
 </p>

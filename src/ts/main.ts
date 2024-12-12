@@ -176,7 +176,7 @@ $(async () => {
 	});
 
 	$("#opium-btn").on("click", () => {
-		openShell("https://00pium.net");
+		openShell("https://aphex.cc");
 	});
 
 
