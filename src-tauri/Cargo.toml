@@ -23,5 +23,22 @@ reqwest = { version = "0.12.9",features = ["blocking"] }
 zip = "2.2.1"
 tauri-plugin-fs = "2"
 
+
+
+# Bacon - https://dystroy.org/bacon/
+# Mold - https://github.com/rui314/mold#how-to-use
+# https://discord.com/channels/616186924390023171/731495028677148753/1254902668376150149
 [profile.dev]
 incremental = true
+opt-level = 1
+debug = 0
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = true # Enables link-time-optimizations.
+opt-level = 3 # Prioritizes small binary size. Use `3` if you prefer speed.
+panic = "abort" # Higher performance by disabling panic handlers.
+strip = true # Ensures debug symbols are removed.
