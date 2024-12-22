@@ -44,6 +44,8 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     let default_terminal = TERMINAL.get().unwrap();
     let shell = app.shell();
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
+    // Also change working directory
+    std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
 
     println!("\n-------------------------DEBUG INFO------------------------");
     println!("received these values from frontend:");

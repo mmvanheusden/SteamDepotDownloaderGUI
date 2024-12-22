@@ -206,16 +206,13 @@ impl Terminal {
             }
             Terminal::Terminal => {
                 // Create a bash script and run that. Not very secure but it makes this easier.
-                let download_script = format!("#!/bin/bash\ncd {}\n{}",working_dir.as_path().display(), command[0]);
-                // println!("{}", download_script);
+                let download_script = format!("#!/bin/bash\ncd {}\n{}",working_dir.to_str().unwrap().replace(" ", "\\ "), command[0]);
 
                 fs::write("./script.sh", download_script).unwrap();
 
                 #[cfg(unix)]
                 {
-                    //todo: test if still working
                     use std::os::unix::fs::PermissionsExt;
-
                     fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission
                 }
 
