@@ -1,13 +1,12 @@
+use crate::get_os;
+use reqwest;
 use std::fs::File;
 use std::io::ErrorKind::AlreadyExists;
+use std::path::PathBuf;
 use std::{fs, io};
 use std::{io::Write, path::Path};
 
-use crate::get_os;
-use reqwest;
-
 pub static DEPOTDOWNLOADER_VERSION: &str = "2.7.4";
-
 
 
 /**
@@ -30,6 +29,7 @@ pub async fn download_file(url: &str, filename: &Path) -> io::Result<()> {
         println!("DEBUG: Not downloading. File already exists.");
         return Err(io::Error::from(AlreadyExists));
     }
+
     // Create any missing directories.
     if let Some(p) = filename.parent() {
         if !p.exists() {
@@ -49,15 +49,14 @@ pub async fn download_file(url: &str, filename: &Path) -> io::Result<()> {
 }
 
 /// Unzips DepotDownloader zips
-pub fn unzip(zip_file: &Path) -> io::Result<()> {
+pub fn unzip(zip_file: &Path, working_dir: &PathBuf) -> io::Result<()> {
     let file = File::open(zip_file)?;
     let mut archive = zip::ZipArchive::new(file)?;
 
     for i in 0..archive.len() {
         let mut file = archive.by_index(i)?;
-
         let outpath = match file.enclosed_name() {
-            Some(path) => path,
+            Some(path) => working_dir.join(path),
             None => continue,
         };
 
@@ -81,9 +80,9 @@ pub fn unzip(zip_file: &Path) -> io::Result<()> {
                 fs::set_permissions(&outpath, fs::Permissions::from_mode(mode))?;
             }
 
-            // Set DepotDownloader executable.
-            if outpath.display().to_string() == "DepotDownloader" {
-                fs::set_permissions(&outpath, fs::Permissions::from_mode(0o755))?; // WTF is an octal?
+            // Set executable permission.
+            if outpath.file_name().unwrap() == "DepotDownloader" {
+                fs::set_permissions(&outpath, fs::Permissions::from_mode(0o755))?;
             }
         }
     }

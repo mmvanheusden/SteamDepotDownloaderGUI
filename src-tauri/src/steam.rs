@@ -1,6 +1,6 @@
-use std::path::PathBuf;
 use derive_getters::Getters;
 use serde::Deserialize;
+use std::path::PathBuf;
 
 
 /// Represents the data required to download a Steam depot.

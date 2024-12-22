@@ -1,15 +1,14 @@
-use serde::Serialize;
-use tauri_plugin_shell::process::Command;
-use std::{env, fs};
-use std::path::{Path, PathBuf};
-use tauri::Wry;
-use tauri_plugin_shell::Shell;
 use crate::get_os;
 use crate::steam::SteamDownload;
+use std::fs;
+use std::path::PathBuf;
+use tauri::Wry;
+use tauri_plugin_shell::process::Command;
+use tauri_plugin_shell::Shell;
 
 /// Represents a terminal that can be used to run commands.
 /// **Should be in sync with the terminal dropdown in the frontend.**
-#[derive(Debug, Serialize, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Terminal {
     GNOMETerminal,
     Alacritty,
@@ -126,7 +125,7 @@ impl Terminal {
     | Terminal (macOS) | We create a bash script and run that using `open`.                       |
 
      */
-    pub fn create_command(&self, steam_download: &SteamDownload, shell: &Shell<Wry>, working_dir: PathBuf) -> Command {
+    pub fn create_command(&self, steam_download: &SteamDownload, shell: &Shell<Wry>, working_dir: &PathBuf) -> Command {
         let command = create_depotdownloader_command(steam_download);
 
         match self {
@@ -214,6 +213,7 @@ impl Terminal {
 
                 #[cfg(unix)]
                 {
+                    //todo: test if still working
                     use std::os::unix::fs::PermissionsExt;
 
                     fs::set_permissions("./script.sh", fs::Permissions::from_mode(0o755)).unwrap(); // Won't run without executable permission

@@ -1,56 +1,48 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::env;
-use std::io;
-use std::path::Path;
-use std::sync::OnceLock;
-use std::time::Duration;
-
-use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
-use crate::terminal::Terminal;
-use tauri::path::BaseDirectory;
-use tauri::App;
-use tauri::{AppHandle, Emitter, Manager};
-use tauri_plugin_fs::FsExt;
-use tauri_plugin_fs::FilePath;
-use tauri_plugin_shell::ShellExt;
-
 mod depotdownloader;
 mod steam;
 mod terminal;
 
+use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
+use crate::terminal::Terminal;
+use std::env;
+use std::io::ErrorKind::AlreadyExists;
+use std::path::{Path, PathBuf};
+use std::sync::OnceLock;
+use std::time::Duration;
+use tauri::{AppHandle, Emitter, Manager};
+use tauri_plugin_shell::ShellExt;
+
+
 /// The first terminal found. Used as default terminal.
 static TERMINAL: OnceLock<Vec<Terminal>> = OnceLock::new(); // We create this variable now, and quickly populate it in preload_vectum(). we then later access the data in start_download()
+static WORKING_DIR: OnceLock<PathBuf> = OnceLock::new();
 
 /// This function is called every time the app is reloaded/started. It quickly populates the [`TERMINAL`] variable with a working terminal.
 #[tauri::command]
 async fn preload_vectum(app: AppHandle) {
     // Only fill these variables once.
     if TERMINAL.get().is_none() {
-        TERMINAL
-            .set(terminal::get_installed_terminals(true, app.shell()).await)
-            .expect("Failed to set available terminals")
+        TERMINAL.set(terminal::get_installed_terminals(true, app.shell()).await).expect("Failed to set available terminals")
+    }
+
+    if WORKING_DIR.get().is_none() {
+        WORKING_DIR.set(Path::join(&app.path().local_data_dir().unwrap(), "SteamDepotDownloaderGUI")).expect("Failed to configure working directory")
     }
 
     // Send the default terminal name to the frontend.
     app.emit(
         "default-terminal",
         Terminal::pretty_name(&TERMINAL.get().unwrap()[0]),
-    )
-    .unwrap();
-
-    // set working directory
-    std::env::set_current_dir(app.path().app_cache_dir().unwrap()).unwrap();
+    ).unwrap();
 }
 
 #[tauri::command]
 async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     let default_terminal = TERMINAL.get().unwrap();
-    let working_dir = app.path().app_cache_dir().unwrap();
     let shell = app.shell();
-
-
     let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
 
     println!("\n-------------------------DEBUG INFO------------------------");
@@ -62,45 +54,36 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
     println!("\t- Default terminal: {}", Terminal::pretty_name(&default_terminal[0]));
-    println!("\t- Terminal command: {:?}", terminal_to_use.create_command(&steam_download, shell, working_dir.clone()));
-    println!("\t- Working directory: {}", working_dir.clone()   .display());
-    // println!("\t- Working directory2: {}", std::env::current_exe().unwrap().display());
-    // println!("\t- Working directory2: {}", app.path().app_cache_dir().unwrap().display());
-
-
+    println!("\t- Working directory: {}", &WORKING_DIR.get().unwrap().display());
+    println!("\t- Terminal command: \n\t  {:?}", terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()));
     println!("----------------------------------------------------------\n");
 
 
-    terminal_to_use.create_command(&steam_download, shell, working_dir).spawn().ok();
+    terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()).spawn().ok();
 }
 
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
 #[tauri::command]
-async fn download_depotdownloader(app: AppHandle) {
+async fn download_depotdownloader() {
     let url = get_depotdownloader_url();
 
     // Where we store the DepotDownloader zip.
     let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
-    let depotdownloader_zip = Path::join(app.path().app_cache_dir().unwrap().as_path(), Path::new(&zip_filename));
+    let depotdownloader_zip = Path::join(&WORKING_DIR.get().unwrap(), Path::new(&zip_filename));
 
-    println!("Downloading DepotDownloader for {} to {}", env::consts::OS, depotdownloader_zip.display());
 
-    match depotdownloader::download_file(url.as_str(), depotdownloader_zip.as_path()).await {
-        Err(e) => {
-            if e.kind() == io::ErrorKind::AlreadyExists {
-                println!("DepotDownloader already exists. Skipping download.");
-                return;
-            }
-
+    if let Err(e) = depotdownloader::download_file(url.as_str(), depotdownloader_zip.as_path()).await {
+        if e.kind() == AlreadyExists {
+            println!("DepotDownloader already exists. Skipping download.");
+        } else {
             println!("Failed to download DepotDownloader: {}", e);
-            return;
         }
-        _ => {}
+        return;
+    } else {
+        println!("Downloaded DepotDownloader for {} to {}", env::consts::OS, depotdownloader_zip.display());
     }
 
-    println!("Succesfully downloaded DepotDownloader from {}", url);
-
-    depotdownloader::unzip(depotdownloader_zip.as_path()).unwrap();
+    depotdownloader::unzip(depotdownloader_zip.as_path(), &WORKING_DIR.get().unwrap()).unwrap();
     println!("Succesfully extracted DepotDownloader zip.");
 }
 
@@ -149,17 +132,11 @@ fn main() {
     }
 
     println!();
-    tauri::Builder::default()
-        .plugin(tauri_plugin_fs::init())
-        .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![
+    tauri::Builder::default().plugin(tauri_plugin_dialog::init()).plugin(tauri_plugin_shell::init()).invoke_handler(tauri::generate_handler![
             start_download,
             download_depotdownloader,
             internet_connection,
             preload_vectum,
             get_all_terminals
-        ])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        ]).run(tauri::generate_context!()).expect("error while running tauri application");
 }

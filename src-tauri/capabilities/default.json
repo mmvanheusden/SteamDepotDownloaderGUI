@@ -10,7 +10,6 @@
     "shell:allow-open",
     "dialog:default",
     "shell:allow-execute",
-    "shell:allow-spawn",
-    "fs:default"
+    "shell:allow-spawn"
   ]
 }
