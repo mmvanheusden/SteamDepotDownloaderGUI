@@ -16,10 +16,10 @@ fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs" }
 tauri = { version = "2.1.1", features = [] }
 tauri-plugin-shell = "2.2.0"
 tauri-plugin-dialog = "2.2.0"
-serde = { version = "1.0.216", features = ["derive"] }
-serde_json = "1.0.134"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.138"
 derive-getters = "0.5.0"
-reqwest = { version = "0.12.9",features = ["blocking"] }
+reqwest = { version = "0.12.12",features = ["blocking"] }
 zip = "2.2.2"
 
 
