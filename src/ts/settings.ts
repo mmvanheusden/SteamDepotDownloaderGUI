@@ -1,5 +1,5 @@
 import {getVersion} from "@tauri-apps/api/app";
-import {open} from "@tauri-apps/plugin-shell";
+import {open} from "tauri-plugin-shellx-api";
 import $ from "jquery";
 
 

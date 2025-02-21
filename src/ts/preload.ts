@@ -1,10 +1,13 @@
 import {message} from "@tauri-apps/plugin-dialog";
 import {invoke} from "@tauri-apps/api/core";
-import {open} from "@tauri-apps/plugin-shell";
+import {fixPathEnv, open} from "tauri-plugin-shellx-api";
 import $ from "jquery";
 
 
 $(async () => {
+	/* Fix stupid PATH shit */
+	fixPathEnv();
+
 	/* eslint-disable indent */
 	switch (await invoke("internet_connection")) {
 		case false: {

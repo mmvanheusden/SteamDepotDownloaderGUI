@@ -20,6 +20,9 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
+      tauri-plugin-shellx-api:
+        specifier: ^2.0.14
+        version: 2.0.14
     devDependencies:
       '@eslint/js':
         specifier: ^9.20.0
@@ -849,6 +852,9 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
+  tauri-plugin-shellx-api@2.0.14:
+    resolution: {integrity: sha512-MdSYD2KDw63b7yEIa9Q2GXnbidL5Tk+s92BJX0XvYfHrv2l1fYE2vdRWGnyhvCWmUavyCeiOle5uMxM6QLOb2Q==}
+
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -1653,6 +1659,10 @@ snapshots:
   supports-color@7.2.0:
     dependencies:
       has-flag: 4.0.0
+
+  tauri-plugin-shellx-api@2.0.14:
+    dependencies:
+      '@tauri-apps/api': 2.2.0
 
   to-regex-range@5.0.1:
     dependencies:

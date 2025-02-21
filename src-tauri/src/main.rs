@@ -13,7 +13,7 @@ use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 use std::time::Duration;
 use tauri::{AppHandle, Emitter, Manager};
-use tauri_plugin_shell::ShellExt;
+use tauri_plugin_shellx::ShellExt;
 
 
 /// The first terminal found. Used as default terminal.
@@ -59,7 +59,6 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     println!("\t- Working directory: {}", &WORKING_DIR.get().unwrap().display());
     println!("\t- Terminal command: \n\t  {:?}", terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()));
     println!("----------------------------------------------------------\n");
-
 
     terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()).spawn().ok();
 }
@@ -134,7 +133,8 @@ fn main() {
     }
 
     println!();
-    tauri::Builder::default().plugin(tauri_plugin_dialog::init()).plugin(tauri_plugin_shell::init()).invoke_handler(tauri::generate_handler![
+
+    tauri::Builder::default().plugin(tauri_plugin_dialog::init()).plugin(tauri_plugin_shellx::init(true)).invoke_handler(tauri::generate_handler![
             start_download,
             download_depotdownloader,
             internet_connection,

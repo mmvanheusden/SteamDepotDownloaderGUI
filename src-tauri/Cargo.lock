@@ -4280,9 +4280,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin"
-version = "2.0.2"
+version = "2.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6fa4e6c94cb1d635f65a770c69e23de1bc054b0e4c554fa037a7cc7676333d39"
+checksum = "5841b9a0200e954ef7457f8d327091424328891e267a97b641dc246cc54d0dec"
 dependencies = [
  "anyhow",
  "glob",
@@ -4337,13 +4337,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "tauri-plugin-shell"
-version = "2.2.0"
+name = "tauri-plugin-shellx"
+version = "2.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bb2c50a63e60fb8925956cc5b7569f4b750ac197a4d39f13b8dd46ea8e2bad79"
+checksum = "32409a09fd9351a3d3e25f7a2e2ba501b114c6869afb7b46d06a5473055c995f"
 dependencies = [
  "encoding_rs",
- "log",
  "open",
  "os_pipe",
  "regex",
@@ -4351,9 +4350,10 @@ dependencies = [
  "serde",
  "serde_json",
  "shared_child",
+ "strip-ansi-escapes",
  "tauri",
  "tauri-plugin",
- "thiserror 2.0.11",
+ "thiserror 1.0.69",
  "tokio",
 ]
 
@@ -4938,7 +4938,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-dialog",
- "tauri-plugin-shell",
+ "tauri-plugin-shellx",
  "zip",
 ]
 

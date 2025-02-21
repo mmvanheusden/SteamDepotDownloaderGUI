@@ -3,8 +3,8 @@ use crate::steam::SteamDownload;
 use std::fs;
 use std::path::PathBuf;
 use tauri::Wry;
-use tauri_plugin_shell::process::Command;
-use tauri_plugin_shell::Shell;
+use tauri_plugin_shellx::process::Command;
+use tauri_plugin_shellx::Shell;
 
 /// Represents a terminal that can be used to run commands.
 /// **Should be in sync with the terminal dropdown in the frontend.**

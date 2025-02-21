@@ -14,7 +14,8 @@
     "@tauri-apps/api": "2.2.0",
     "@tauri-apps/plugin-dialog": "2.2.0",
     "@tauri-apps/plugin-shell": "2.2.0",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "tauri-plugin-shellx-api": "^2.0.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
