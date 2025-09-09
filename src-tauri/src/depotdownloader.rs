@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::{fs, io};
 use std::{io::Write, path::Path};
 
-pub static DEPOTDOWNLOADER_VERSION: &str = "3.0.0";
+pub static DEPOTDOWNLOADER_VERSION: &str = "3.4.0";
 
 
 /**
