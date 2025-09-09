@@ -1,5 +1,4 @@
 use crate::get_os;
-use reqwest;
 use std::fs::File;
 use std::io::ErrorKind::AlreadyExists;
 use std::path::PathBuf;
