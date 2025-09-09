@@ -1,7 +1,7 @@
 import $ from "jquery";
 import {invoke} from "@tauri-apps/api/core";
 import {open as openDialog} from "@tauri-apps/plugin-dialog";
-import {open as openShell} from "@tauri-apps/plugin-shell";
+import {openPath, openUrl} from '@tauri-apps/plugin-opener';
 import {listen} from "@tauri-apps/api/event";
 
 function setLoader(state: boolean) {
@@ -103,7 +103,7 @@ $(async () => {
 		console.log(`Checking path: ${downloadDirectory}`);
 
 		if (downloadDirectory != null) {
-			await openShell(downloadDirectory);
+			await openPath(downloadDirectory);
 		} else {
 			$("#checkpath").prop("ariaDisabled", true);
 		}
@@ -176,7 +176,7 @@ $(async () => {
 	});
 
 	$("#opium-btn").on("click", () => {
-		openShell("https://aphex.cc");
+		openUrl("https://l.aphex.cc/index.html");
 	});
 
 

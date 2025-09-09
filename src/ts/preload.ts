@@ -1,7 +1,7 @@
 import {message} from "@tauri-apps/plugin-dialog";
 import {invoke} from "@tauri-apps/api/core";
-import {open} from "@tauri-apps/plugin-shell";
 import $ from "jquery";
+import {openUrl} from "@tauri-apps/plugin-opener";
 
 
 $(async () => {
@@ -15,20 +15,20 @@ $(async () => {
 	}
 	/* eslint-enable indent */
 
-	//discord
+	// discord
 	$("#smbtn1").on("click", () => {
-		open("https://discord.com/invite/3qCt4DT5qe");
+		openUrl("https://discord.com/invite/3qCt4DT5qe");
 	});
 	// steamdb
 	$("#smbtn2").on("click", () => {
-		open("https://steamdb.info/instantsearch");
+		openUrl("https://steamdb.info/instantsearch");
 	});
 	// donate
 	$("#smbtn3").on("click", () => {
-		open("https://paypal.me/onderkin");
+		openUrl("https://paypal.me/onderkin");
 	});
 	// tutorial
 	$("#smbtn4").on("click", () => {
-		open("https://youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca");
+		openUrl("https://youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca");
 	});
 });

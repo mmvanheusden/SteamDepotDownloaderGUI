@@ -10,6 +10,23 @@
     "shell:allow-open",
     "dialog:default",
     "shell:allow-execute",
-    "shell:allow-spawn"
+    "shell:allow-spawn",
+    "opener:allow-open-path",
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [
+        {
+          "path": "**"
+        }
+      ]
+    },
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [
+        {
+          "url": "**"
+        }
+      ]
+    }
   ]
 }

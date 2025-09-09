@@ -1,6 +1,6 @@
 import {getVersion} from "@tauri-apps/api/app";
-import {open} from "@tauri-apps/plugin-shell";
 import $ from "jquery";
+import {openUrl} from "@tauri-apps/plugin-opener";
 
 
 $(async () => {
@@ -34,7 +34,7 @@ $(async () => {
 	console.log(await getVersion());
 
 	$("#version-info").on("click", async () => {
-		await open(`https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/v${await getVersion()}`);
+		await openUrl(`https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/v${await getVersion()}`);
 	});
 });
 
