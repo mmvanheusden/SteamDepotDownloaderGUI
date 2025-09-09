@@ -1,4 +1,4 @@
-name: 'build'
+name: 'build_debug'
 
 on:
   workflow_dispatch:
@@ -13,14 +13,14 @@ jobs:
         include:
           - platform: 'macos-latest'
             arch: 'aarch64'
-            args: '--target aarch64-apple-darwin --bundles dmg'
+            args: '--debug --target aarch64-apple-darwin --bundles dmg'
           - platform: 'macos-latest'
             arch: 'x86_64'
-            args: '--target x86_64-apple-darwin --bundles dmg'
+            args: '--debug --target x86_64-apple-darwin --bundles dmg'
           - platform: 'ubuntu-22.04'
-            args: '--bundles appimage'
+            args: '--debug --bundles appimage'
           - platform: 'windows-latest'
-            args: ''
+            args: '--debug'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -94,6 +94,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
-          path: "./src-tauri/target/release/bundle/*" # fck windows
+          path: "./src-tauri/target/debug/bundle/*" # fck windows
 
           

@@ -1,0 +1,99 @@
+name: 'build_release'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            arch: 'aarch64'
+            args: '--target aarch64-apple-darwin --bundles dmg'
+          - platform: 'macos-latest'
+            arch: 'x86_64'
+            args: '--target x86_64-apple-darwin --bundles dmg'
+          - platform: 'ubuntu-22.04'
+            args: '--bundles appimage'
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'pnpm'
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: install frontend dependencies
+        # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
+        run: pnpm install # change this to npm or pnpm depending on which one you use.
+
+      - uses: tauri-apps/tauri-action@v0
+        id: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: ${{ matrix.args }}
+          includeUpdaterJson: false
+      
+      - name: fix JSON
+        if: matrix.platform != 'windows-latest'
+        id: truncate_paths
+        run: echo "paths=$(echo '${{ steps.build.outputs.artifactPaths }}' | sed 's/^..//' | sed 's/..$//')" >> $GITHUB_OUTPUT
+
+      - name: upload macos artifacts (M1)
+        if: matrix.platform == 'macos-latest' && matrix.arch == 'aarch64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-m1-artifacts
+          path: ${{ steps.truncate_paths.outputs.paths }}
+      
+      - name: upload macos artifacts (Intel)
+        if: matrix.platform == 'macos-latest' && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-intel-artifacts
+          path: ${{ steps.truncate_paths.outputs.paths }}
+
+      - name: upload linux artifacts
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: ${{ steps.truncate_paths.outputs.paths }}
+
+      - name: upload windows artifacts
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: "./src-tauri/target/release/bundle/*" # fck windows
+
+          
