@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @font-face {
     font-family: 'Hubot Sans';
     src: url('../assets/Hubot-Sans.woff2') format('woff2 supports variations'),
@@ -20,6 +22,10 @@
     white-space: nowrap;
 }
 
+.f2-light {
+    font-family: 'Hubot Sans', sans-serif;
+}
+
 /* The grey part */
 .settings-surrounding {
     display: none;
@@ -39,11 +45,9 @@
     overflow: auto;
     /*noinspection CssUnresolvedCustomProperty*/
     background-color: var(--bgColor-default, var(--color-canvas-default));
-    margin: 5%;
+    margin: 1%;
     padding: 25px;
     border: 1.5px solid white;
-    width: 90vw; /* 90vw -> 90% */
-    height: 90vh; /* 90vh -> 90% */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 

@@ -6,46 +6,43 @@ mod steam;
 mod terminal;
 
 use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
-use crate::terminal::Terminal;
-use std::env;
+use crate::terminal::{async_read_from_pty, async_resize_pty, async_write_to_pty};
+use portable_pty::{native_pty_system, PtyPair, PtySize};
 use std::io::ErrorKind::AlreadyExists;
+use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
-use std::sync::OnceLock;
+use std::sync::{Arc, OnceLock};
 use std::time::Duration;
-use tauri::{AppHandle, Emitter, Manager};
+use std::{env, thread};
+use tauri::async_runtime::Mutex;
+use tauri::{AppHandle, Manager, State};
 use tauri_plugin_shell::ShellExt;
+
+struct AppState {
+    pty_pair: Arc<Mutex<PtyPair>>,
+    writer: Arc<Mutex<Box<dyn Write + Send>>>,
+    reader: Arc<Mutex<BufReader<Box<dyn Read + Send>>>>,
+}
 
 
 /// The first terminal found. Used as default terminal.
-static TERMINAL: OnceLock<Vec<Terminal>> = OnceLock::new(); // We create this variable now, and quickly populate it in preload_vectum(). we then later access the data in start_download()
 static WORKING_DIR: OnceLock<PathBuf> = OnceLock::new();
 
 /// This function is called every time the app is reloaded/started. It quickly populates the [`TERMINAL`] variable with a working terminal.
 #[tauri::command]
 async fn preload_vectum(app: AppHandle) {
     // Only fill these variables once.
-    if TERMINAL.get().is_none() {
-        TERMINAL.set(terminal::get_installed_terminals(true, app.shell()).await).expect("Failed to set available terminals")
-    }
 
     if WORKING_DIR.get().is_none() {
         WORKING_DIR.set(Path::join(&app.path().local_data_dir().unwrap(), "SteamDepotDownloaderGUI")).expect("Failed to configure working directory")
     }
-
-    // Send the default terminal name to the frontend.
-    app.emit(
-        "default-terminal",
-        Terminal::pretty_name(&TERMINAL.get().unwrap()[0]),
-    ).unwrap();
 }
 
 #[tauri::command]
-async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
-    let default_terminal = TERMINAL.get().unwrap();
+async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, state: State<'_, AppState>) -> Result<(), String> {
     let shell = app.shell();
-    let terminal_to_use = if steam_download.options().terminal().is_none() { default_terminal.first().unwrap() } else { &Terminal::from_index(&steam_download.options().terminal().unwrap()).unwrap() };
     // Also change working directory
-    std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
+    // std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
 
     println!("\n-------------------------DEBUG INFO------------------------");
     println!("received these values from frontend:");
@@ -55,13 +52,32 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle) {
     println!("\t- Depot ID: {}", steam_download.depot_id());
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
-    println!("\t- Default terminal: {}", Terminal::pretty_name(&default_terminal[0]));
     println!("\t- Working directory: {}", &WORKING_DIR.get().unwrap().display());
-    println!("\t- Terminal command: \n\t  {:?}", terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()));
     println!("----------------------------------------------------------\n");
 
+    /* Build the command and spawn it in our terminal */
+    let mut cmd = terminal::create_depotdownloader_command(&steam_download, WORKING_DIR.get().unwrap());
 
-    terminal_to_use.create_command(&steam_download, shell, &WORKING_DIR.get().unwrap()).spawn().ok();
+    // add the $TERM env variable so we can use clear and other commands
+    #[cfg(target_os = "windows")]
+    cmd.env("TERM", "cygwin");
+    #[cfg(not(target_os = "windows"))]
+    cmd.env("TERM", "xterm-256color");
+
+    let mut child = state
+        .pty_pair
+        .lock()
+        .await
+        .slave
+        .spawn_command(cmd)
+        .map_err(|err| err.to_string())?;
+
+    thread::spawn(move || {
+        let status = child.wait().unwrap();
+        println!("Command exited with status: {status}");
+        // exit(status.exit_code() as i32)
+    });
+    Ok(())
 }
 
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
@@ -71,7 +87,7 @@ async fn download_depotdownloader() {
 
     // Where we store the DepotDownloader zip.
     let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
-    let depotdownloader_zip = Path::join(&WORKING_DIR.get().unwrap(), Path::new(&zip_filename));
+    let depotdownloader_zip = Path::join(WORKING_DIR.get().unwrap(), Path::new(&zip_filename));
 
 
     if let Err(e) = depotdownloader::download_file(url.as_str(), depotdownloader_zip.as_path()).await {
@@ -85,7 +101,7 @@ async fn download_depotdownloader() {
         println!("Downloaded DepotDownloader for {} to {}", env::consts::OS, depotdownloader_zip.display());
     }
 
-    depotdownloader::unzip(depotdownloader_zip.as_path(), &WORKING_DIR.get().unwrap()).unwrap();
+    depotdownloader::unzip(depotdownloader_zip.as_path(), WORKING_DIR.get().unwrap()).unwrap();
     println!("Succesfully extracted DepotDownloader zip.");
 }
 
@@ -97,17 +113,6 @@ async fn internet_connection() -> bool {
     client.get("https://connectivitycheck.android.com/generate_204").send().await.is_ok()
 }
 
-#[tauri::command]
-async fn get_all_terminals(app: AppHandle) {
-    let terminals = terminal::get_installed_terminals(false, app.shell()).await;
-
-    terminals.iter().for_each(|terminal| {
-        println!("Terminal #{} ({}) is installed!", terminal.index().unwrap(), terminal.pretty_name());
-
-        // Sends: (terminal index aligned with dropdown; total terminals)
-        app.emit("working-terminal", (terminal.index(), Terminal::total())).unwrap();
-    });
-}
 
 pub fn get_os() -> &'static str {
     match env::consts::OS {
@@ -120,8 +125,9 @@ pub fn get_os() -> &'static str {
 
 fn main() {
     // macOS: change dir to documents because upon opening, our current dir by default is "/".
-    if get_os() == "macos" {
-        let _ = fix_path_env::fix(); // todo: does this actually do something useful
+    // todo: Is this still needed ??
+/*    if get_os() == "macos" {
+        let _ = fix_path_env::fix();
         // let documents_dir = format!(
         //     "{}/Documents/SteamDepotDownloaderGUI",
         //     std::env::var_os("HOME").unwrap().to_str().unwrap()
@@ -131,14 +137,41 @@ fn main() {
 
         // std::fs::create_dir_all(documents_dir).unwrap();
         // env::set_current_dir(documents_dir).unwrap();
-    }
+    }*/
+
+    /* Initialize the pty system */
+    let pty_system = native_pty_system();
+
+    let pty_pair = pty_system
+        .openpty(PtySize {
+            rows: 24,
+            cols: 80,
+            pixel_width: 0,
+            pixel_height: 0,
+        })
+        .unwrap();
+
+    let reader = pty_pair.master.try_clone_reader().unwrap();
+    let writer = pty_pair.master.take_writer().unwrap();
 
     println!();
-    tauri::Builder::default().plugin(tauri_plugin_opener::init()).plugin(tauri_plugin_dialog::init()).plugin(tauri_plugin_shell::init()).invoke_handler(tauri::generate_handler![
+    tauri::Builder::default()
+        .manage(AppState {
+            pty_pair: Arc::new(Mutex::new(pty_pair)),
+            writer: Arc::new(Mutex::new(writer)),
+            reader: Arc::new(Mutex::new(BufReader::new(reader))),
+        })
+        .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_shell::init())
+        .invoke_handler(tauri::generate_handler![
             start_download,
             download_depotdownloader,
             internet_connection,
             preload_vectum,
-            get_all_terminals
-        ]).run(tauri::generate_context!()).expect("error while running tauri application");
+            async_write_to_pty,
+            async_read_from_pty,
+            async_resize_pty,
+        ]).run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }
