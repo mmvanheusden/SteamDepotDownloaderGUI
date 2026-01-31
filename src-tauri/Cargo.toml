@@ -19,8 +19,8 @@ tauri-plugin-shell = "2.3.1"
 tauri-plugin-dialog = "2.4.0"
 serde = { version = "1.0.219", features = ["derive"] }
 derive-getters = "0.5.0"
-reqwest = { version = "0.12.23",features = ["blocking"] }
-zip = "5.0.0"
+reqwest = { version = "0.13.1",features = ["blocking"] }
+zip = "7.2.0"
 tauri-plugin-opener = "2"
 
 
