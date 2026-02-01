@@ -198,13 +198,12 @@ $(async () => {
 	});
 
 	$("#settings-button").on("click", async () => {
-		$("#settings-surrounding").css("display", "block");
+		$("#settings-surrounding").toggle();
 	});
 
 	$("#settings-surrounding").on("click", (event) => {
 		if (event.target === document.getElementById("settings-surrounding")) {
-			$("#settings-surrounding").css("display", "none");
-
+			$("#settings-surrounding").toggle();
 		}
 	});
 
