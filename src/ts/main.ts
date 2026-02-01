@@ -1,10 +1,10 @@
 import $ from "jquery";
 import {invoke} from "@tauri-apps/api/core";
 import {open as openDialog} from "@tauri-apps/plugin-dialog";
-import {openPath, openUrl} from '@tauri-apps/plugin-opener';
+import {openPath, openUrl} from "@tauri-apps/plugin-opener";
 import "@xterm/xterm/css/xterm.css";
 import {Terminal} from "@xterm/xterm";
-import { FitAddon } from '@xterm/addon-fit';
+import { FitAddon } from "@xterm/addon-fit";
 import { listen } from "@tauri-apps/api/event";
 
 function setLoader(state: boolean) {
@@ -97,7 +97,7 @@ const registerTerminal = async (terminalElement: HTMLElement) => {
 	}
 
 	window.requestAnimationFrame(readFromPty);
-}
+};
 
 
 $(async () => {
