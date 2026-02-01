@@ -5,6 +5,7 @@ import {openPath, openUrl} from '@tauri-apps/plugin-opener';
 import "@xterm/xterm/css/xterm.css";
 import {Terminal} from "@xterm/xterm";
 import { FitAddon } from '@xterm/addon-fit';
+import { listen } from "@tauri-apps/api/event";
 
 function setLoader(state: boolean) {
 	$("#busy").prop("hidden", !state);
@@ -193,6 +194,7 @@ $(async () => {
 
 		console.debug("DepotDownloader download process completed. Starting game download...");
 
+		setLoadingState(true);
 		await invoke("start_download", {steamDownload: steamDownload});
 		console.log("Send frontend data over to backend. Ready for next download.");
 	});
@@ -223,4 +225,9 @@ $(async () => {
 			$("#downloadbtn").prop("ariaDisabled", false);
 		}
 	});
+});
+
+
+listen<string>("command-exited", () => {
+	setLoadingState(false);
 });

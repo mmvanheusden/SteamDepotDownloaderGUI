@@ -15,7 +15,7 @@ use std::sync::{Arc, OnceLock};
 use std::time::Duration;
 use std::{env, thread};
 use tauri::async_runtime::Mutex;
-use tauri::{AppHandle, Manager, State};
+use tauri::{AppHandle, Emitter, Manager, State};
 
 struct AppState {
     pty_pair: Arc<Mutex<PtyPair>>,
@@ -38,7 +38,7 @@ async fn preload_vectum(app: AppHandle) {
 }
 
 #[tauri::command]
-async fn start_download(steam_download: steam::SteamDownload, state: State<'_, AppState>) -> Result<(), String> {
+async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, state: State<'_, AppState>) -> Result<(), String> {
     // Also change working directory
     // std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
 
@@ -73,6 +73,7 @@ async fn start_download(steam_download: steam::SteamDownload, state: State<'_, A
     thread::spawn(move || {
         let status = child.wait().unwrap();
         println!("Command exited with status: {status}");
+        app.emit("command-exited", {}).unwrap();
         // exit(status.exit_code() as i32)
     });
     Ok(())
