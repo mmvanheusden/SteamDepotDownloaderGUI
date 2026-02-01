@@ -16,7 +16,6 @@ pub struct SteamDownload {
 
 #[derive(Debug, Deserialize, Getters)]
 pub struct VectumOptions {
-    terminal: Option<u8>,
     output_directory: Option<PathBuf>,
     directory_name: Option<String>
 }

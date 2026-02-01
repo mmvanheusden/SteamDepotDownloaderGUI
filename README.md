@@ -12,54 +12,34 @@
 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest"><img src="https://img.shields.io/badge/Download -ffbd03?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABd0lEQVRoge2XwUrDQBCGPz3Ee++2UBSvdsGbeLHeFX0lPQhei+8g2AfwSVREK+LJ1oqHUGjRQ7Z0laRJNtldKPPBwoTM7D9/sks2IAiCsKrsAK/AC7DtSmTd1cTAKbAJtIAzVyIuDURGvOFKxKUBL4iB0IiB0IiB0IiB0IiB0IiB0IiB0IgBoA08Ak+AKpCvdO6AGn416zBwDGyRGLljuQmlc9pAEzipKl6HgVtgpOMGSYOdlLyOvtfQ1yPgpgb9WlDAEPjRYwj0jet+yv0iy80ru8AHiyazxiewF6jHXPJMeG3+CoiBy5J1/5dTlWVzAXwD5yXrAJho4YlFbdqesFnzsa6PLWr/PD0bFPAA3GO/YXN7WMspLpLnktweVvooMTPiKDPLHabmLCtpmYF3I96v3E55Doz4zWaCaxYb6Bno4udNRMCR1pzr92wmagFfZH+UfI0xycHPim5gE2Pg0Lb5OU2SVzgAph6anmqtHhWevCAIgh9+AdLMtu/CZhHJAAAAAElFTkSuQmCC" alt="Download latest release badge"></a>
 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest"><img src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads" alt="Download count badge"></a>
 
-<img src="https://github.com/user-attachments/assets/2e1b1b8e-9560-4dde-86c0-b70384a54fbb" alt="Steam downgrader interface" style="max-width: 40%;"/>
+
+<img src="https://github.com/user-attachments/assets/0a2debcc-617a-449d-971f-9e1cf1d5cb0b" alt="Steam downgrader interface" />
 </div>
 
-
 ## Features
-- **Cross-platform support**
-  | OS      | Supported |
-  |---------|-----------|
-  | Windows | ✅        |
-  | Linux   | ✅        |
-  | macOS   | ✅        |
+> ↓ *The downloader in action:*<br>
+> <img src="https://github.com/user-attachments/assets/8739f06e-a258-48b2-a684-ca8fcf84dd7e" alt="Steam downgrader process" style="width: 25svw;"/>
 
-- **Support for every major Linux terminal emulator**
-  <details><summary>List of supported terminals</summary>
+### Cross-platform support
+| OS      | Supported |
+|---------|-----------|
+| Windows | ✅         |
+| Linux   | ✅         |
+| macOS   | ✅         |
 
-  * GNOME Terminal
-  * GNOME Console
-  * Konsole
-  * Xfce-terminal
-  * Alacritty
-  * XTerm
-  * Terminator
-  * cool-retro-term
-  * Kitty
-  * LXTerminal
-  * Deepin Terminal
-  * Terminology
-  * Tilix
-  </details>
-
-- **Automatic download and extraction of DepotDownloader**
-
-
-## How to download
+## Installation
 > [!CAUTION]  
 > This GitHub repository is the only official place to download this software.  
-> If you have paid for this software, or downloaded this from an untrusted place, **you are at risk** <sub><sup><sub><sup>and an idiot.<sub><sup><sub><sup>
+> If you have paid for this software, or downloaded this from a different place than here, **you are an idiot and at risk**.
 
 
-### Windows:
+### Windows
 Download the [latest Windows release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple variants to choose from, but you are probably looking for the file that ends with **`.exe`**.
 
 
-### Linux:
+### Linux
 You'll need at least one of the supported terminal emulators. You most likely already have one of these.
-
-Download the [latest Linux release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple options to choose from.
-
+Download the [latest Linux release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple formats to choose from.
 
 ## Tutorials
 * https://www.youtube.com/watch?v=H2COwT5OUOo How to download older versions of Steam games tutorial
@@ -96,4 +76,3 @@ $ pnpm eslint --fix src/
     <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/83f5f3b2-2bf9-41aa-ab87-880466f785fe" height="40px">
   </a>
 </p>
-

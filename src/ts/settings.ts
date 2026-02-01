@@ -43,4 +43,5 @@ function setTheme(theme: string) {
 	$("#theme-light").attr("aria-selected", String(theme === "light"));
 	$("#theme-dark").attr("aria-selected", String(theme === "dark"));
 	$("#theme").attr("data-color-mode", theme);
+	localStorage.theme = theme;
 }

@@ -1,8 +1,11 @@
 import $ from "jquery";
 import {invoke} from "@tauri-apps/api/core";
 import {open as openDialog} from "@tauri-apps/plugin-dialog";
-import {openPath, openUrl} from '@tauri-apps/plugin-opener';
-import {listen} from "@tauri-apps/api/event";
+import {openPath, openUrl} from "@tauri-apps/plugin-opener";
+import "@xterm/xterm/css/xterm.css";
+import {Terminal} from "@xterm/xterm";
+import { FitAddon } from "@xterm/addon-fit";
+import { listen } from "@tauri-apps/api/event";
 
 function setLoader(state: boolean) {
 	$("#busy").prop("hidden", !state);
@@ -46,33 +49,66 @@ const invalidFields = () => {
 	return invalidFields;
 };
 
+const registerTerminal = async (terminalElement: HTMLElement) => {
+	const fitAddon = new FitAddon();
+	const term = new Terminal({
+		fontSize: 10,
+		cursorBlink: true,
+		rows: 100,
+		cols: 100,
+		theme: {
+			background: "rgb(47, 47, 47)",
+		},
+	});
+	term.loadAddon(fitAddon);
+	term.open(terminalElement);
+	async function fitTerminal() {
+		fitAddon.fit();
+		void invoke<string>("async_resize_pty", {
+			rows: term.rows,
+			cols: term.cols,
+		});
+	}
+
+	// Write data from pty into the terminal
+	function writeToTerminal(data: string) {
+		return new Promise<void>((r) => {
+			term.write(data, () => r());
+		});
+	}
+
+	// Write data from the terminal to the pty
+	function writeToPty(data: string) {
+		void invoke("async_write_to_pty", {
+			data,
+		});
+	}
+	term.onData(writeToPty);
+	addEventListener("resize", fitTerminal);
+	await fitTerminal();
+
+	async function readFromPty() {
+		const data = await invoke<string>("async_read_from_pty");
+
+		if (data) {
+			await writeToTerminal(data);
+		}
+		window.requestAnimationFrame(readFromPty);
+	}
+
+	window.requestAnimationFrame(readFromPty);
+};
+
 
 $(async () => {
-	let terminalsCollected = false;
+	await registerTerminal($("#xtermjs")[0]);
 	let downloadDirectory: string | null;
 
 	// Startup logic
 	setLoadingState(true);
-
 	await invoke("preload_vectum");
-
 	setLoadingState(false);
 
-
-	// Collect the rest of the terminals in the background.
-	if (!terminalsCollected) {
-		setLoader(true);
-		// @ts-ignore
-		const terminals = await invoke("get_all_terminals") as string[];
-		for (const terminal in terminals) {
-			console.log(terminal);
-		}
-
-		// Allow opening settings now that it is ready to be shown.
-		$("#settings-button").prop("ariaDisabled", false);
-		terminalsCollected = true;
-		setLoader(false);
-	}
 
 	$("#pickpath").on("click", async () => {
 		// Open a dialog
@@ -132,12 +168,10 @@ $(async () => {
 		$("#downloadingnotice").prop("hidden", false);
 		$("#busy").prop("hidden", true); // Don't show the loader this time.
 
-		const terminalChoice = (document.getElementById("terminal-dropdown") as HTMLSelectElement).selectedIndex;
 		const directoryNameChoice = $("#folder-name-custom-input").val();
 
 		// Output path w/ directories chosen is: {downloadDirectory}/{directoryNameChoice}
 		const vectumOptions = {
-			terminal: terminalChoice == 13 ? null : terminalChoice,
 			output_directory: downloadDirectory || null, // if not specified let backend choose a path.
 			directory_name: directoryNameChoice || null,
 		};
@@ -160,23 +194,23 @@ $(async () => {
 
 		console.debug("DepotDownloader download process completed. Starting game download...");
 
+		setLoadingState(true);
 		await invoke("start_download", {steamDownload: steamDownload});
 		console.log("Send frontend data over to backend. Ready for next download.");
 	});
 
 	$("#settings-button").on("click", async () => {
-		if (terminalsCollected) $("#settings-surrounding").css("display", "block");
+		$("#settings-surrounding").toggle();
 	});
 
 	$("#settings-surrounding").on("click", (event) => {
 		if (event.target === document.getElementById("settings-surrounding")) {
-			$("#settings-surrounding").css("display", "none");
-
+			$("#settings-surrounding").toggle();
 		}
 	});
 
 	$("#opium-btn").on("click", () => {
-		openUrl("https://l.aphex.cc/index.html");
+		openUrl("https://aphex.cc/index.html");
 	});
 
 
@@ -194,30 +228,6 @@ $(async () => {
 });
 
 
-let a = 0;
-// Each terminal that is installed gets received from rust with this event.
-listen<[number, number]>("working-terminal", (event) => {
-	a++;
-	console.log(
-		`Terminal #${event.payload[0]} is installed. a = ${a}`
-	);
-	const terminalSelection = (document.getElementById("terminal-dropdown") as HTMLSelectElement);
-
-	// Enable the <option> of the terminal because we know it is available. Ignore null check because we know it is valid.
-	// @ts-ignore
-	terminalSelection.options.item(event.payload[0]).disabled = false;
-	// @ts-ignore 16
-
-	terminalSelection.options.item(event.payload[0]).text = terminalSelection.options.item(event.payload[0]).text.slice(0,-16);
-
-	$("#terminals-found").text(`${a}/${event.payload[1]}`);
-});
-
-
-listen<string>("default-terminal", (event) => {
-	console.log(
-		`Default terminal is ${event.payload}.`
-	);
-
-	$("#default-terminal").text(event.payload);
+listen<string>("command-exited", () => {
+	setLoadingState(false);
 });
