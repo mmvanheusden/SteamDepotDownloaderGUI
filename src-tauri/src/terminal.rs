@@ -52,13 +52,15 @@ pub async fn async_resize_pty(rows: u16, cols: u16, state: State<'_, AppState>) 
 
 /// Creates the DepotDownloader command necessary to download the requested manifest.
 pub fn create_depotdownloader_command(steam_download: &SteamDownload, cwd: &PathBuf) -> CommandBuilder {
-    let mut command: CommandBuilder;
-
-    if cfg!(not(windows)) {
-        command = CommandBuilder::new("./DepotDownloader");
+    let depotdownloader_binary = if cfg!(windows) {
+        "DepotDownloader.exe"
     } else {
-        command = CommandBuilder::new(".\\DepotDownloader");
-    }
+        "DepotDownloader"
+    };
+    
+    let program = cwd.join(depotdownloader_binary);
+    let mut command = CommandBuilder::new(program);
+    
     command.cwd(cwd);
 
     if !steam_download.is_anonymous() {

@@ -9,14 +9,13 @@ use crate::depotdownloader::{get_depotdownloader_url, DEPOTDOWNLOADER_VERSION};
 use crate::terminal::{async_read_from_pty, async_resize_pty, async_write_to_pty};
 use portable_pty::{native_pty_system, PtyPair, PtySize};
 use std::io::ErrorKind::AlreadyExists;
-use std::io::{BufRead, BufReader, Read, Write};
+use std::io::{BufReader, Read, Write};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, OnceLock};
 use std::time::Duration;
 use std::{env, thread};
 use tauri::async_runtime::Mutex;
 use tauri::{AppHandle, Manager, State};
-use tauri_plugin_shell::ShellExt;
 
 struct AppState {
     pty_pair: Arc<Mutex<PtyPair>>,
@@ -39,8 +38,7 @@ async fn preload_vectum(app: AppHandle) {
 }
 
 #[tauri::command]
-async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, state: State<'_, AppState>) -> Result<(), String> {
-    let shell = app.shell();
+async fn start_download(steam_download: steam::SteamDownload, state: State<'_, AppState>) -> Result<(), String> {
     // Also change working directory
     // std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
 
