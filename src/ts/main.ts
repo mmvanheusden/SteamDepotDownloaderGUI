@@ -7,8 +7,10 @@ import {Terminal} from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { listen } from "@tauri-apps/api/event";
 
-function setLoader(state: boolean) {
-	$("#busy").prop("hidden", !state);
+/* Parts of this file are derived from https://github.com/cablehead/tauri-xtermjs-nushell/blob/0bdd4a27ee2874de12e99bccd6c91d6ec5d28fbc/src/main.ts */
+
+function blockTerminalClearButton(state: boolean) {
+	$("#clear-terminal").prop( "disabled", state );
 }
 
 
@@ -16,8 +18,9 @@ function setLoadingState(state: boolean) {
 	$("#busy").prop("hidden", !state);
 
 	// loop through all buttons and input fields and disable them
-	for (const element of document.querySelectorAll("button, input")) {
+	for (const element of document.querySelectorAll("button, input, div[role='button']")) {
 		if (element.closest("#settings-content")) continue;
+		if (element.closest("#right-side")) continue;
 		(element as any).disabled = state;
 	}
 
@@ -49,7 +52,7 @@ const invalidFields = () => {
 	return invalidFields;
 };
 
-const registerTerminal = async (terminalElement: HTMLElement) => {
+const registerTerminal: (terminalElement: HTMLElement) => Promise<Terminal> = async (terminalElement: HTMLElement) => {
 	const fitAddon = new FitAddon();
 	const term = new Terminal({
 		fontSize: 10,
@@ -57,7 +60,7 @@ const registerTerminal = async (terminalElement: HTMLElement) => {
 		rows: 100,
 		cols: 100,
 		theme: {
-			background: "rgb(47, 47, 47)",
+			background: "rgb(33, 33, 33)",
 		},
 	});
 	term.loadAddon(fitAddon);
@@ -97,11 +100,13 @@ const registerTerminal = async (terminalElement: HTMLElement) => {
 	}
 
 	window.requestAnimationFrame(readFromPty);
+
+	return term;
 };
 
 
 $(async () => {
-	await registerTerminal($("#xtermjs")[0]);
+	let terminal = await registerTerminal($("#xtermjs")[0]);
 	let downloadDirectory: string | null;
 
 	// Startup logic
@@ -109,6 +114,9 @@ $(async () => {
 	await invoke("preload_vectum");
 	setLoadingState(false);
 
+	$("#clear-terminal").on("click", async () => {
+		terminal.reset()
+	})
 
 	$("#pickpath").on("click", async () => {
 		// Open a dialog
@@ -196,6 +204,9 @@ $(async () => {
 
 		setLoadingState(true);
 		await invoke("start_download", {steamDownload: steamDownload});
+
+		// Block clear terminal button (to avoid clearing ongoing download logs)
+		blockTerminalClearButton(true);
 		console.log("Send frontend data over to backend. Ready for next download.");
 	});
 
@@ -230,4 +241,5 @@ $(async () => {
 
 listen<string>("command-exited", () => {
 	setLoadingState(false);
+	blockTerminalClearButton(false);
 });

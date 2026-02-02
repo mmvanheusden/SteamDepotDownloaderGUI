@@ -17,7 +17,7 @@
 <body class="select-none">
 <div class="f1-light text-center mb-1">Steam Depot Downloader</div>
 <div class="flex justify-between gap-2 w-svw flex-row">
-    <div class="w-1/2 h-full">
+    <div class="w-1/2 h-full" id="left-side">
         <div class="mx-auto">
             <form id="theform">
                 <div class="form-group mx-3 mt-1">
@@ -159,10 +159,15 @@
             </div>
         </div>
     </div>
-    <div class="w-1/2 h-full px-2">
+    <div class="w-1/2 h-full px-2" id="right-side">
         <div class="mt-2 h-full w-full mx-auto">
             <div class="border border-gray-300 rounded-md bg-gray-900 text-white shadow shadow-blue-200">
-                <span class="text-md font-semibold block text-center">Download output</span>
+                <div class="text-md font-semibold w-full inline-flex my-px items-center">
+                    <span class="text-center w-full">Download output</span>
+                    <button id="clear-terminal" class="disabled:pointer-events-none disabled:line-through disabled:text-gray-300 ml-auto py-px px-2 border-2 rounded-xs border-red-500/75 font-normal enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
+                        Clear
+                    </button>
+                </div>
                 <div class="max-h-[70vh]" id="xtermjs"></div>
             </div>
             <div class="mt-3 justify-between flex flex-row gap-3">

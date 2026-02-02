@@ -5,6 +5,8 @@ use tauri::State;
 use crate::AppState;
 use crate::steam::SteamDownload;
 
+/* Parts of this file are derived from https://github.com/cablehead/tauri-xtermjs-nushell/blob/0bdd4a27ee2874de12e99bccd6c91d6ec5d28fbc/src-tauri/src/main.rs */
+
 #[tauri::command]
 pub async fn async_write_to_pty(data: &str, state: State<'_, AppState>) -> Result<(), ()> {
     write!(state.writer.lock().await, "{}", data).map_err(|_| ())
@@ -18,7 +20,7 @@ pub async fn async_read_from_pty(state: State<'_, AppState>) -> Result<Option<St
         let data = reader.fill_buf().map_err(|_| ())?;
 
         // Send the data to the webview if necessary
-        if data.len() > 0 {
+        if !data.is_empty() {
             std::str::from_utf8(data)
                 .map(|v| Some(v.to_string()))
                 .map_err(|_| ())?
@@ -64,14 +66,14 @@ pub fn create_depotdownloader_command(steam_download: &SteamDownload, cwd: &Path
     command.cwd(cwd);
 
     if !steam_download.is_anonymous() {
-        command.args(["-username", &*steam_download.username().clone().unwrap()]);
-        command.args(["-password", &*steam_download.password().clone().unwrap()]);
+        command.args(["-username", &steam_download.username().clone().unwrap()]);
+        command.args(["-password", &steam_download.password().clone().unwrap()]);
     }
 
-    command.args(["-app", &*steam_download.app_id()]);
-    command.args(["-depot", &*steam_download.depot_id()]);
-    command.args(["-manifest", &*steam_download.manifest_id()]);
-    command.args(["-dir", &*steam_download.output_path()]);
+    command.args(["-app", steam_download.app_id()]);
+    command.args(["-depot", steam_download.depot_id()]);
+    command.args(["-manifest", steam_download.manifest_id()]);
+    command.args(["-dir", &steam_download.output_path()]);
 
     command
 }
