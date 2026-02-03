@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Hubot Sans';
+    src: url('../assets/Hubot-Sans.woff2') format('woff2 supports variations'),
+    url('../assets/Hubot-Sans.woff2') format('woff2-variations');
+    font-weight: 700;
+    font-stretch: expanded;
+}

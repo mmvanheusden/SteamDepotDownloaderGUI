@@ -1,4 +1,5 @@
 import {defineConfig} from "vite";
+import preact from "@preact/preset-vite";
 import tailwindcss from '@tailwindcss/vite'
 
 // @ts-expect-error process is a nodejs global
@@ -35,5 +36,6 @@ export default defineConfig(async () => ({
     },
     plugins: [
         tailwindcss(),
+        preact(),
     ]
 }));
