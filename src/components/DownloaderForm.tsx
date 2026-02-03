@@ -59,28 +59,34 @@ function DownloadButton(
 			appId: context.appId![0]!,
 			depotId: context.depotId![0]!,
 			manifestId: context.manifestId![0]!,
-			outputLocation: context.outputLocation![0]!,
+			outputLocation: context.outputLocation![0],
+			outputDirectoryName: context.outputFolderName![0],
 		}).catch((e) => console.error(e));
 		// setDownloading(false)
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="submit" class="w-full bg-green-500 rounded-md border py-1 font-bold text-2xl hover:bg-green-600 active:bg-green-700 active:scale-103 transition disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-start">
-			{downloading
-				? <>
-					<div class="absolute flex ml-2">
-						<Icon icon="line-md:downloading-loop" width="35" height="35" />
-					</div>
-					<span class="w-full">Downloading...</span>
-				</> :
-				<>
-					<div class="absolute flex ml-2">
-						<Icon icon="material-symbols:downloading-rounded" width="35" height="35" />
-					</div>
-					<span class="w-full">Download</span>
-				</>
-			}
-		</button>
+		<div class="flex">
+			<button disabled={disabled} onClick={onClick} type="submit" class="text-white border-black border-2 border-r-0 w-full bg-green-500 rounded-l-md py-1 font-bold text-2xl hover:bg-green-600 active:bg-green-700 active:scale-103 transition disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-between">
+				{downloading
+					? <>
+						<div class="absolute flex ml-2">
+							<Icon icon="line-md:downloading-loop" width="35" height="35" />
+						</div>
+						<span class="w-full">Downloading...</span>
+					</> :
+					<>
+						<div class="absolute flex ml-2">
+							<Icon icon="material-symbols:downloading-rounded" width="35" height="35" />
+						</div>
+						<span class="w-full">Download</span>
+					</>
+				}
+			</button>
+			<button onClick={() => context.showSettings![1](s => !s)} type="button" class="group text-white border-black w-15 bg-green-500 rounded-r-md border-2 ring-l-gray-800 py-1 font-bold text-2xl hover:bg-green-600 active:bg-green-700 transition disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center text-center justify-center">
+				<Icon icon="heroicons:cog" width="30" height="30" class="animate-spin [animation-play-state:paused] group-hover:[animation-play-state:running]"/>
+			</button>
+		</div>
 	);
 }
 
@@ -92,7 +98,7 @@ function InternetButton(
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="button" class="grow gap-px px-1 bg-blue-500 rounded-md border py-0.5 font-semibold text-md hover:bg-blue-400 active:bg-blue-300 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
+		<button disabled={disabled} onClick={onClick} type="button" class="text-white border-black grow gap-px px-1 bg-blue-500 rounded-md border py-0.5 font-semibold text-md hover:bg-blue-400 active:bg-blue-300 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
 			<Icon icon={icon} height="20"/>{title}
 		</button>
 	);

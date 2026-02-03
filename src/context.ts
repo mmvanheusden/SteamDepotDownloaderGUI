@@ -1,5 +1,19 @@
 import {createContext} from "preact";
 import {BooleanUseState, StringUseState} from "./components/FormInput";
+import { Dispatch, useState } from "preact/hooks";
+import { SetStateAction } from "preact/compat";
+
+
+// Source: https://stackoverflow.com/a/75420688
+type NoUndefinedState<T> =
+    T extends [infer S | undefined, Dispatch<SetStateAction<infer S | undefined>>]
+    ? [S, Dispatch<SetStateAction<S>>]
+	: never;
+
+export interface AppSettings {
+	outputDirectoryMode: "Manifest ID" | "Custom"	
+}
+
 
 interface AppContext {
 	username: StringUseState;
@@ -8,7 +22,10 @@ interface AppContext {
 	depotId: StringUseState;
 	manifestId: StringUseState;
 	outputLocation: StringUseState;
-	downloading: BooleanUseState
+	outputFolderName: StringUseState;
+	downloading: BooleanUseState;
+	showSettings: BooleanUseState;
+	appSettings: NoUndefinedState<ReturnType<typeof useState<AppSettings>>>
 }
 
 export const AppContext = createContext<Partial<AppContext>>({});

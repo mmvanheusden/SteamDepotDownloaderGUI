@@ -2,8 +2,9 @@ import {useState} from "preact/hooks";
 import "./css/App.css";
 import {DownloaderOutput} from "./components/DownloaderOutput.tsx";
 import {DownloaderForm} from "./components/DownloaderForm.tsx";
-import {AppContext} from "./context.ts";
+import {AppContext, AppSettings} from "./context.ts";
 import {invoke} from "@tauri-apps/api/core";
+import { Settings } from "./components/Settings.tsx";
 
 function App() {
 	const username = useState<string>();
@@ -12,7 +13,14 @@ function App() {
 	const depotId = useState<string>();
 	const manifestId = useState<string>();
 	const outputLocation = useState<string>();
+	const outputFolderName = useState<string>();
 	const downloading = useState<boolean>();
+	const showSettings = useState<boolean>();
+	const appSettings = useState<AppSettings>({
+		// Settings defaults are defined here.
+		outputDirectoryMode: "Manifest ID"
+	});
+	
 	
 
 	return (
@@ -25,21 +33,29 @@ function App() {
 				manifestId,
 				outputLocation,
 				downloading,
+				showSettings,
+				outputFolderName,
+				appSettings,
 			}}
 		>
 			<main class="bg-[#0d1117] left-0 top-0 bottom-0 absolute right-0 select-none p-px">
-				<div class="text-white font-bold text-4xl text-center mb-1 font-['Hubot_Sans']">
-					Steam Depot Downloader
-				</div>
+				{showSettings[0]
+					?<Settings />
+					: <>
+						<div class="text-white font-bold text-4xl text-center mb-1 font-['Hubot_Sans']">
+							Steam Depot Downloader
+						</div>
 
-				<div class="flex justify-between gap-5">
-					<div class="w-full max-w-1/2 pl-3">
-						<DownloaderForm />
-					</div>
-					<div class="w-full max-w-1/2 pr-3">
-						<DownloaderOutput />
-					</div>
-				</div>
+						<div class="flex justify-between gap-5">
+							<div class="w-full max-w-1/2 pl-3">
+								<DownloaderForm />
+							</div>
+							<div class="w-full max-w-1/2 pr-3">
+								<DownloaderOutput />
+							</div>
+						</div>
+					</>
+				}
 			</main>
 		</AppContext.Provider>
 	);
@@ -62,7 +78,10 @@ export async function startDownload(options: {
 	// BLOCK INTERFACE & CLEARING TERMINAL
 	
 	await invoke("start_download", {
-		steamDownload: options
+		steamDownload: {
+			...options,
+			outputDirectoryName: options.outputDirectoryName == "" ? null : options.outputDirectoryName, // empty string becomes null.
+		}
 	}); // First make backend download DepotDownloader
 	
 	
