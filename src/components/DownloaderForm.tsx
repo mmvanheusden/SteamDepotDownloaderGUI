@@ -1,4 +1,4 @@
-import {useContext, useState} from "preact/hooks";
+import {useContext} from "preact/hooks";
 import "../css/App.css";
 import {BooleanUseState, FileInput, NumberInput, TextInput} from "./FormInput";
 import {startDownload} from "../App";
@@ -7,22 +7,21 @@ import {AppContext} from "../context";
 import {openUrl} from "@tauri-apps/plugin-opener";
 
 export function DownloaderForm() {
-	const downloading = useState<boolean>();
 	const context = useContext(AppContext);
 	
 	return (
 		<>
 			<form>
 				<div class="flex flex-col gap-0.5 mb-2">
-					<TextInput label="Username" valueState={context.username!} />
-					<TextInput label="Password" valueState={context.password!} password={true} />
+					<TextInput id="username" label="Username" valueState={context.username!} />
+					<TextInput id="password" label="Password" valueState={context.password!} password={true} />
 					<br />
-					<NumberInput label="App ID" valueState={context.appId!} required={true} />
-					<NumberInput label="Depot ID" valueState={context.depotId!} required={true} />
-					<NumberInput label="Manifest ID" valueState={context.manifestId!} required={true} />
-					<FileInput label="Manifest ID" valueState={context.manifestId!} required={true} pathState={context.outputLocation!} />
+					<NumberInput id="appId" label="App ID" valueState={context.appId!} required={true} />
+					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId!} required={true} />
+					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId!} required={true} />
+					<FileInput required={true} pathState={context.outputLocation!} />
 					<br />
-					<DownloadButton disabled={downloading[0]} downloadingState={downloading} />
+					<DownloadButton disabled={context.downloading![0]} downloadingState={context.downloading!} />
 				</div>
 			</form>
 			<div class="flex justify-between gap-1">
@@ -31,6 +30,7 @@ export function DownloaderForm() {
 				<InternetButton icon={"mdi:youtube"} title="Tutorials" href="https://youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca"/>
 				<InternetButton icon={"bx:donate-heart"} title="Donate" href="https://paypal.me/onderkin"/>
 			</div>
+			<span>{context.appId}</span>
 		</>
 	);
 }
@@ -52,7 +52,7 @@ function DownloadButton(
 			console.warn("Form invalid!");
 			return;
 		}
-		setDownloading(true)
+		setDownloading(true);
 		startDownload({
 			username: context.username![0],
 			password: context.password![0],
@@ -65,17 +65,16 @@ function DownloadButton(
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="submit" class="w-full bg-green-500 rounded-md border py-1.5 font-semibold text-xl hover:bg-green-600 active:bg-green-700 active:scale-103 transition disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-start">
+		<button disabled={disabled} onClick={onClick} type="submit" class="w-full bg-green-500 rounded-md border py-1 font-bold text-2xl hover:bg-green-600 active:bg-green-700 active:scale-103 transition disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-start">
 			{downloading
 				? <>
-					<div class="justify-start ml-5 items-center flex">
+					<div class="absolute flex ml-2">
 						<Icon icon="line-md:downloading-loop" width="35" height="35" />
 					</div>
 					<span class="w-full">Downloading...</span>
-
 				</> :
 				<>
-					<div class="justify-start ml-5 items-center flex">
+					<div class="absolute flex ml-2">
 						<Icon icon="material-symbols:downloading-rounded" width="35" height="35" />
 					</div>
 					<span class="w-full">Download</span>
@@ -93,8 +92,8 @@ function InternetButton(
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="button" class="grow gap-px px-1 bg-gray-500 rounded-md border py-0.5 font-semibold text-md hover:bg-gray-400 active:bg-gray-300 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
-			<Icon icon={icon} />{title}
+		<button disabled={disabled} onClick={onClick} type="button" class="grow gap-px px-1 bg-blue-500 rounded-md border py-0.5 font-semibold text-md hover:bg-blue-400 active:bg-blue-300 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
+			<Icon icon={icon} height="20"/>{title}
 		</button>
 	);
 }

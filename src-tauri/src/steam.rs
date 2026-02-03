@@ -9,17 +9,11 @@ use std::path::PathBuf;
 pub struct SteamDownload {
     username: Option<String>,
     password: Option<String>,
-    app_id: u32,
-    depot_id: u32,
-    manifest_id: u32,
+    app_id: String,
+    depot_id: String,
+    manifest_id: String,
     output_location: Option<PathBuf>,
     output_directory_name: Option<String>
-}
-
-#[derive(Debug, Deserialize, Getters)]
-pub struct VectumOptions {
-    output_directory: Option<PathBuf>,
-    directory_name: Option<String>
 }
 
 

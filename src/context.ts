@@ -1,13 +1,14 @@
 import {createContext} from "preact";
-import {NumberUseState, StringUseState} from "./components/FormInput";
+import {BooleanUseState, StringUseState} from "./components/FormInput";
 
 interface AppContext {
 	username: StringUseState;
 	password: StringUseState;
-	appId: NumberUseState;
-	depotId: NumberUseState;
-	manifestId: NumberUseState;
+	appId: StringUseState;
+	depotId: StringUseState;
+	manifestId: StringUseState;
 	outputLocation: StringUseState;
+	downloading: BooleanUseState
 }
 
 export const AppContext = createContext<Partial<AppContext>>({});
