@@ -4,7 +4,7 @@ export function DownloaderOutput() {
 			<div class="border border-gray-300 rounded-md bg-gray-900 text-white shadow shadow-blue-200">
 				<div class="text-md font-semibold w-full inline-flex my-px items-center">
 					<span class="text-center w-full">Download output</span>
-					<button id="clear-terminal" class="disabled:pointer-events-none disabled:line-through disabled:text-gray-300 ml-auto py-px px-2 border-2 rounded-xs border-red-500/75 font-normal enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
+					<button type="button" id="clear-terminal" class="disabled:pointer-events-none disabled:line-through disabled:text-gray-300 ml-auto py-px px-2 border-2 rounded-xs border-red-500/75 font-normal enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
                     Clear
 					</button>
 				</div>

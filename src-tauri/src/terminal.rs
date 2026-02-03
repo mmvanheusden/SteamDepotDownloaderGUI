@@ -70,9 +70,9 @@ pub fn create_depotdownloader_command(steam_download: &SteamDownload, cwd: &Path
         command.args(["-password", &steam_download.password().clone().unwrap()]);
     }
 
-    command.args(["-app", steam_download.app_id()]);
-    command.args(["-depot", steam_download.depot_id()]);
-    command.args(["-manifest", steam_download.manifest_id()]);
+    command.args(["-app", &steam_download.app_id().to_string()]);
+    command.args(["-depot", &steam_download.depot_id().to_string()]);
+    command.args(["-manifest", &steam_download.manifest_id().to_string()]);
     command.args(["-dir", &steam_download.output_path()]);
 
     command
