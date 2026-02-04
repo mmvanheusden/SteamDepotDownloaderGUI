@@ -1,7 +1,7 @@
-import {Icon} from "@iconify-icon/react";
-import {useState} from "preact/hooks";
-import {open as openDialog} from "@tauri-apps/plugin-dialog";
-import {openPath} from "@tauri-apps/plugin-opener";
+import { Icon } from "@iconify-icon/react";
+import { open as openDialog } from "@tauri-apps/plugin-dialog";
+import { openPath } from "@tauri-apps/plugin-opener";
+import { useState } from "preact/hooks";
 import "../css/App.css";
 
 export type StringUseState = ReturnType<typeof useState<string>>;

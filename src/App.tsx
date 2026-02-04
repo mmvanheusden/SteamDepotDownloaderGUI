@@ -1,12 +1,12 @@
-import {useState} from "preact/hooks";
-import "./css/App.css";
-import {DownloaderOutput} from "./components/DownloaderOutput.tsx";
-import {DownloaderForm} from "./components/DownloaderForm.tsx";
-import {AppContext, AppSettings} from "./context.ts";
-import {invoke} from "@tauri-apps/api/core";
-import {Settings} from "./components/Settings.tsx";
-import { openUrl } from "@tauri-apps/plugin-opener";
 import { getVersion } from "@tauri-apps/api/app";
+import { invoke } from "@tauri-apps/api/core";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { useState } from "preact/hooks";
+import { DownloaderForm } from "./components/DownloaderForm.tsx";
+import { DownloaderOutput } from "./components/DownloaderOutput.tsx";
+import { Settings } from "./components/Settings.tsx";
+import { AppContext, AppSettings } from "./context.ts";
+import "./css/App.css";
 
 const appVersion = await getVersion();
 
@@ -14,7 +14,7 @@ const appVersion = await getVersion();
 // Settings defaults are defined here.
 const DEFAULT_APP_SETTINGS: AppSettings = {
 	outputDirectoryMode: "Manifest ID"
-}
+};
 
 
 function App() {

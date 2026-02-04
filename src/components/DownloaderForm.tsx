@@ -1,10 +1,10 @@
-import {useContext} from "preact/hooks";
+import { Icon } from "@iconify-icon/react";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { useContext } from "preact/hooks";
+import { startDownload } from "../App";
+import { AppContext } from "../context";
 import "../css/App.css";
-import {BooleanUseState, FileInput, NumberInput, TextInput} from "./FormInput";
-import {startDownload} from "../App";
-import {Icon} from "@iconify-icon/react";
-import {AppContext} from "../context";
-import {openUrl} from "@tauri-apps/plugin-opener";
+import { BooleanUseState, FileInput, NumberInput, TextInput } from "./FormInput";
 
 export function DownloaderForm() {
 	const context = useContext(AppContext);

@@ -1,7 +1,7 @@
-import {createContext} from "preact";
-import {BooleanUseState, StringUseState} from "./components/FormInput";
-import { Dispatch, useState } from "preact/hooks";
+import { createContext } from "preact";
 import { SetStateAction } from "preact/compat";
+import { Dispatch, useState } from "preact/hooks";
+import { BooleanUseState, StringUseState } from "./components/FormInput";
 
 
 // Source: https://stackoverflow.com/a/75420688

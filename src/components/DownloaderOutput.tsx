@@ -1,10 +1,10 @@
-import {invoke} from "@tauri-apps/api/core";
-import {FitAddon} from "@xterm/addon-fit";
-import {Terminal} from "@xterm/xterm";
-import {useContext, useEffect, useRef, useState} from "preact/hooks";
+import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
+import { FitAddon } from "@xterm/addon-fit";
+import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
-import {AppContext} from "../context";
-import {listen} from "@tauri-apps/api/event";
+import { useContext, useEffect, useRef, useState } from "preact/hooks";
+import { AppContext } from "../context";
 
 /* Parts of this file are derived from https://github.com/cablehead/tauri-xtermjs-nushell/blob/0bdd4a27ee2874de12e99bccd6c91d6ec5d28fbc/src/main.ts */
 

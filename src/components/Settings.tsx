@@ -1,7 +1,7 @@
-import {useContext} from "preact/hooks";
-import {TextInput} from "./FormInput";
-import {AppContext} from "../context";
 import { Icon } from "@iconify-icon/react";
+import { useContext } from "preact/hooks";
+import { AppContext } from "../context";
+import { TextInput } from "./FormInput";
 
 export function Settings() {
 	const context = useContext(AppContext);
