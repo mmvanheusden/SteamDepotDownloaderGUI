@@ -11,7 +11,7 @@ use portable_pty::{native_pty_system, PtyPair, PtySize};
 use std::io::ErrorKind::AlreadyExists;
 use std::io::{BufReader, Read, Write};
 use std::path::{Path, PathBuf};
-use std::sync::{Arc, OnceLock};
+use std::sync::{Arc};
 use std::time::Duration;
 use std::{env, thread};
 use tauri::async_runtime::Mutex;
@@ -23,24 +23,12 @@ struct AppState {
     reader: Arc<Mutex<BufReader<Box<dyn Read + Send>>>>,
 }
 
-
-/// The first terminal found. Used as default terminal.
-static WORKING_DIR: OnceLock<PathBuf> = OnceLock::new();
-
-/// This function is called every time the app is reloaded/started. It quickly populates the [`TERMINAL`] variable with a working terminal.
-#[tauri::command]
-async fn preload_vectum(app: AppHandle) {
-    // Only fill these variables once.
-
-    if WORKING_DIR.get().is_none() {
-        WORKING_DIR.set(Path::join(&app.path().local_data_dir().unwrap(), "SteamDepotDownloaderGUI")).expect("Failed to configure working directory")
-    }
-}
-
 #[tauri::command]
 async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, state: State<'_, AppState>) -> Result<(), String> {
-    // Also change working directory
+    let working_dir: PathBuf = get_working_dir(&app);
+
     // std::env::set_current_dir(&WORKING_DIR.get().unwrap()).unwrap();
+    dbg!(&steam_download);
 
     println!("\n-------------------------DEBUG INFO------------------------");
     println!("received these values from frontend:");
@@ -50,11 +38,11 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, st
     println!("\t- Depot ID: {}", steam_download.depot_id());
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
     println!("\t- Output Path: {}", steam_download.output_path());
-    println!("\t- Working directory: {}", &WORKING_DIR.get().unwrap().display());
+    println!("\t- Working directory: {}", &working_dir.display());
     println!("----------------------------------------------------------\n");
 
     /* Build the command and spawn it in our terminal */
-    let mut cmd = terminal::create_depotdownloader_command(&steam_download, WORKING_DIR.get().unwrap());
+    let mut cmd = terminal::create_depotdownloader_command(&steam_download, &working_dir);
 
     // add the $TERM env variable so we can use clear and other commands
     #[cfg(target_os = "windows")]
@@ -81,12 +69,13 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, st
 
 /// Downloads the DepotDownloader zip file from the internet based on the OS.
 #[tauri::command]
-async fn download_depotdownloader() {
+async fn download_depotdownloader(app: AppHandle) {
+    let working_dir: PathBuf = get_working_dir(&app);
     let url = get_depotdownloader_url();
 
     // Where we store the DepotDownloader zip.
     let zip_filename = format!("DepotDownloader-v{}-{}.zip", DEPOTDOWNLOADER_VERSION, env::consts::OS);
-    let depotdownloader_zip = Path::join(WORKING_DIR.get().unwrap(), Path::new(&zip_filename));
+    let depotdownloader_zip = Path::join(&working_dir, Path::new(&zip_filename));
 
 
     if let Err(e) = depotdownloader::download_file(url.as_str(), depotdownloader_zip.as_path()).await {
@@ -100,7 +89,7 @@ async fn download_depotdownloader() {
         println!("Downloaded DepotDownloader for {} to {}", env::consts::OS, depotdownloader_zip.display());
     }
 
-    depotdownloader::unzip(depotdownloader_zip.as_path(), WORKING_DIR.get().unwrap()).unwrap();
+    depotdownloader::unzip(depotdownloader_zip.as_path(), &working_dir).unwrap();
     println!("Succesfully extracted DepotDownloader zip.");
 }
 
@@ -120,6 +109,10 @@ pub fn get_os() -> &'static str {
         "windows" => "windows",
         _ => "unknown",
     }
+}
+
+pub fn get_working_dir(app: &AppHandle) -> PathBuf {
+    Path::join(&app.path().local_data_dir().unwrap(), "SteamDepotDownloaderGUI")
 }
 
 fn main() {
@@ -162,12 +155,10 @@ fn main() {
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
             start_download,
             download_depotdownloader,
             internet_connection,
-            preload_vectum,
             async_write_to_pty,
             async_read_from_pty,
             async_resize_pty,

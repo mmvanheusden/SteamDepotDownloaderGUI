@@ -4,7 +4,7 @@
 
 → <a href="https://www.youtube.com/watch?v=H2COwT5OUOo" target="_blank"><b>Tutorial</b></a> ~ 
 <a href="https://depotdownloader.aphex.cc/" target="_blank"><b>Website</b></a> ~ 
-<a href="https://www.youtube.com/watch?v=ogiDAuH3VdY" target="_blank"><b>Example usage</b></a> ←
+<a href="https://www.youtube.com/watch?v=ogiDAuH3VdY" target="_blank"><b>Downgrade Subnautica</b></a> ←
 </h4>
 
 
@@ -13,19 +13,26 @@
 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest"><img src="https://img.shields.io/github/downloads/mmvanheusden/SteamDepotDownloaderGUI/total?color=orange&label=downloads" alt="Download count badge"></a>
 
 
-<img src="https://github.com/user-attachments/assets/0a2debcc-617a-449d-971f-9e1cf1d5cb0b" alt="Steam downgrader interface" />
+<img src="https://github.com/user-attachments/assets/e2de938d-e54d-4f30-a405-b0d9d2d8e4d9" alt="Steam downgrader interface" />
 </div>
 
 ## Features
 > ↓ *The downloader in action:*<br>
-> <img src="https://github.com/user-attachments/assets/8739f06e-a258-48b2-a684-ca8fcf84dd7e" alt="Steam downgrader process" style="width: 25svw;"/>
+> <img src="https://github.com/user-attachments/assets/7d8a97b8-79df-4c54-a74b-fb7b4b85913c" alt="Steam downgrader process" style="width: 25svw;"/>
+
 
 ### Cross-platform support
-| OS      | Supported |
-|---------|-----------|
-| Windows | ✅         |
-| Linux   | ✅         |
-| macOS   | ✅         |
+| OS      | Support |
+|---------|---------|
+| Windows | ✅      |
+| Linux   | ✅      |
+| macOS   | ✅      |
+
+
+> [!TIP]
+> ## Tutorials
+> * https://www.youtube.com/watch?v=H2COwT5OUOo How to download older versions of Steam games tutorial
+> * https://www.youtube.com/watch?v=ogiDAuH3VdY How to download older versions of Subnautica tutorial
 
 ## Installation
 > [!CAUTION]  
@@ -41,18 +48,11 @@ Download the [latest Windows release](https://github.com/mmvanheusden/SteamDepot
 You'll need at least one of the supported terminal emulators. You most likely already have one of these.
 Download the [latest Linux release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple formats to choose from.
 
-## Tutorials
-* https://www.youtube.com/watch?v=H2COwT5OUOo How to download older versions of Steam games tutorial
-
-* https://www.youtube.com/watch?v=ogiDAuH3VdY How to download older versions of Subnautica tutorial
-
-
 ## Credits
 This software makes use of the following projects:
-- [**DepotDownloader**](https://github.com/SteamRE/DepotDownloader/)
+- [**DepotDownloader**](https://github.com/SteamRE/DepotDownloader)
 - [Tauri](https://tauri.app)
-- [Primer CSS](https://primer.style/css/)
-- [async-process](https://github.com/smol-rs/async-process)
+- [Preact](https://preactjs.com)
 - [Hubut Sans](https://github.com/github/hubot-sans) under [license](https://github.com/github/hubot-sans/blob/05d5ea150c20e6434485db8ffd2277ed18a9e911/LICENSE) 
 
 
@@ -66,13 +66,9 @@ Please cleanup the code using:
 ```console
 $ pnpm eslint --fix src/
 ```
+Please also sort Tailwind classes using [RustyWind](https://github.com/avencera/rustywind).
 
 
-<p align="center">
-  <a href="https://www.gnu.org/licenses/gpl-3.0" target="_blank">
-    <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/b5649b7f-ea49-45c4-b0cd-5f3788dcd6ca" height="40px">
-  </a>
-  <a href="https://aphex.cc" target="_blank">
-    <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/83f5f3b2-2bf9-41aa-ab87-880466f785fe" height="40px">
-  </a>
-</p>
+<a href="https://www.gnu.org/licenses/gpl-3.0" target="_blank">
+  <img src="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/assets/50550545/b5649b7f-ea49-45c4-b0cd-5f3788dcd6ca" height="40px" alt="GPL v3">
+</a>

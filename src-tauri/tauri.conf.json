@@ -1,6 +1,6 @@
 {
   "productName": "SteamDepotDownloaderGUI",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "identifier": "net.oopium.depotdownloader",
   "build": {
     "beforeDevCommand": "pnpm dev",
@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "SteamDepotDownloaderGUI",
-        "width": 890,
-        "height": 650,
+        "width": 900,
+        "height": 720,
         "resizable": false,
         "maximizable": false
       }
