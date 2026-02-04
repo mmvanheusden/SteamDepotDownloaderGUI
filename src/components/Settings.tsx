@@ -30,13 +30,13 @@ export function Settings() {
 						<button
 							onClick={() => setSettings(oldSettings => { context.outputFolderName![1](""); return ({ ...oldSettings, outputDirectoryMode: "Manifest ID" }); })}
 							type="button"
-							class={`border-black px-3 py-2  border border-r-0 font-semibold text-md active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center rounded-s-lg focus:z-10 focus:ring-2 text-white hover:text-white focus:ring-blue-500 focus:text-white ${settings?.outputDirectoryMode === "Manifest ID" ? "bg-blue-500 underline border-0 outline-gray-300 outline shadow-[0px_0px_29px_-8px_cornflowerblue] hover:bg-blue-600 active:bg-blue-700" : "hover:bg-blue-800 active:bg-blue-900 bg-blue-700"}`}>
+							class={`border-black px-3 py-2  border border-r-0 font-medium text-md disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center rounded-s-lg focus:z-10 focus:ring-2 text-white hover:text-white focus:ring-blue-500 focus:text-white ${settings?.outputDirectoryMode === "Manifest ID" ? "bg-blue-500 underline border-0 outline-gray-300 outline shadow-[0px_0px_29px_-8px_cornflowerblue] hover:bg-blue-600 active:bg-blue-700" : "hover:bg-blue-800 active:bg-blue-900 bg-blue-700"}`}>
 							Manifest ID
 					  </button>
 						<button
 							onClick={() => setSettings(oldSettings => ({ ...oldSettings, outputDirectoryMode: "Custom" }))}
 							type="button"
-							class={`border-black px-3 py-2  border border-l-0 font-semibold text-md active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center rounded-e-lg focus:z-10 focus:ring-2 text-white hover:text-white focus:ring-blue-500 focus:text-white ${settings?.outputDirectoryMode === "Custom" ? "bg-blue-500 underline border-0 outline-gray-300 outline shadow-[0px_0px_29px_-8px_cornflowerblue] hover:bg-blue-600 active:bg-blue-700" : "hover:bg-blue-800 active:bg-blue-900 bg-blue-700"}`}>
+							class={`border-black px-3 py-2  border border-l-0 font-medium text-md disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center rounded-e-lg focus:z-10 focus:ring-2 text-white hover:text-white focus:ring-blue-500 focus:text-white ${settings?.outputDirectoryMode === "Custom" ? "bg-blue-500 underline border-0 outline-gray-300 outline shadow-[0px_0px_29px_-8px_cornflowerblue] hover:bg-blue-600 active:bg-blue-700" : "hover:bg-blue-800 active:bg-blue-900 bg-blue-700"}`}>
 							Custom
 					  </button>
 					</div>

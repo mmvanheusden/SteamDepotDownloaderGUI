@@ -86,7 +86,7 @@ function DownloadButton(
 					</>
 				}
 			</button>
-			<button onClick={() => context.showSettings![1](s => !s)} type="button" class="group text-white border-black w-15 rounded-r-md border-2 border-l-0 ring-l-gray-800 py-1 font-bold text-2xl bg-green-600 hover:bg-green-700 active:bg-green-800 transition disabled:bg-red-500/70 inline-flex items-center text-center justify-center">
+			<button onClick={() => context.showSettings![1](s => !s)} type="button" class="group text-white border-black w-15 rounded-r-md border-2 border-l-0 ring-l-gray-800 py-1 font-bold text-2xl bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:bg-red-500/70 inline-flex items-center text-center justify-center">
 				<Icon icon="heroicons:cog" width="30" height="30" class="animate-spin [animation-play-state:paused] group-hover:[animation-play-state:running]"/>
 			</button>
 		</div>
@@ -101,7 +101,7 @@ function InternetButton(
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="button" class="text-white border-black grow gap-px px-1 bg-blue-900/90 rounded-md border py-0.5 font-semibold text-md hover:bg-blue-400 active:bg-blue-300 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
+		<button disabled={disabled} onClick={onClick} type="button" class="text-white border-black grow gap-0.5 px-1 bg-blue-900/90 rounded-md border py-0.5 font-medium text-md hover:bg-blue-900/65 active:bg-blue-900/40 active:scale-103 transition-transform disabled:bg-red-500/70 disabled:pointer-events-none inline-flex items-center justify-center">
 			<Icon icon={icon} height="20"/>{title}
 		</button>
 	);
