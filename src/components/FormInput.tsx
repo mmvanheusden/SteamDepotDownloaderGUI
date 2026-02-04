@@ -17,14 +17,14 @@ export function Label({ forId, text, required }: { forId?: string, text: string,
 }
 
 
-export function TextInput({ id, label, placeholder, valueState, required, password, disabled }: { id: string, label?: string, placeholder?: string, valueState: StringUseState, required?: boolean, password?: boolean, disabled?: boolean }) {
+export function TextInput({ id, label, placeholder, valueState, required, password, disabled, className }: { id: string, label?: string, placeholder?: string, valueState: StringUseState, required?: boolean, password?: boolean, disabled?: boolean, className?: string }) {
 	const [value, setValue] = valueState;
 	const onInput = (e: InputEvent) => setValue((e.currentTarget as HTMLInputElement).value);
   
 	return (
 		<>
 			{label && <Label forId={id} text={label} required={required} />}
-			<input disabled={disabled} id={id} required={required} value={value} onInput={onInput} placeholder={placeholder} type={password ? "password": "text"} class="block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:line-through disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)]" />
+			<input disabled={disabled} id={id} required={required} value={value} onInput={onInput} placeholder={placeholder} type={password ? "password" : "text"} class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:line-through disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)] ${className} `} />
 		</>
 	);
 }
@@ -32,7 +32,7 @@ export function TextInput({ id, label, placeholder, valueState, required, passwo
 export function NumberInput({ id, label, placeholder, valueState, required, min, max, step }: { id: string, label: string, placeholder?: string, valueState: StringUseState, required?: boolean, min?: number, max?: number, step?: number }) {
 	const [value, setValue] = valueState;
 	const onInput = (e: Event) => {
-		const newVal: string = (e.currentTarget as HTMLInputElement).value
+		const newVal: string = (e.currentTarget as HTMLInputElement).value;
 		// // https://stackoverflow.com/a/73143643
 		// if (!(!isNaN(parseFloat(newVal)) && !isNaN(+newVal))) { // Check if new value is a number
 		// 	console.warn("Not a number!")
@@ -40,7 +40,7 @@ export function NumberInput({ id, label, placeholder, valueState, required, min,
 		// 	return;
 		// }
 		
-		setValue(newVal)
+		setValue(newVal);
 	};
   
 	return (

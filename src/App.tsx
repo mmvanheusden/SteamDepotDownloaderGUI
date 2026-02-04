@@ -6,6 +6,12 @@ import {AppContext, AppSettings} from "./context.ts";
 import {invoke} from "@tauri-apps/api/core";
 import {Settings} from "./components/Settings.tsx";
 
+// Settings defaults are defined here.
+const DEFAULT_APP_SETTINGS: AppSettings = {
+	outputDirectoryMode: "Manifest ID"
+}
+
+
 function App() {
 	const username = useState<string>();
 	const password = useState<string>();
@@ -16,13 +22,9 @@ function App() {
 	const outputFolderName = useState<string>();
 	const downloading = useState<boolean>();
 	const showSettings = useState<boolean>();
-	const appSettings = useState<AppSettings>({
-		// Settings defaults are defined here.
-		outputDirectoryMode: "Manifest ID"
-	});
+	const appSettings = useState<AppSettings>(DEFAULT_APP_SETTINGS);
 	
 	
-
 	return (
 		<AppContext.Provider
 			value={{
@@ -75,16 +77,10 @@ export async function startDownload(options: {
 	
 	await invoke("download_depotdownloader"); // First make backend download DepotDownloader
 	
-	// BLOCK INTERFACE & CLEARING TERMINAL
-	
 	await invoke("start_download", {
 		steamDownload: {
 			...options,
 			outputDirectoryName: options.outputDirectoryName == "" ? null : options.outputDirectoryName, // empty string becomes null.
 		}
 	}); // First make backend download DepotDownloader
-	
-	
-	// UNBLOCK INTERFACE & CLEARING TERMINAL
-	
 }

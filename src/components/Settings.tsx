@@ -9,20 +9,20 @@ export function Settings() {
 	
 	return (
 		<>
-			<div class="flex justify-center items-center w-2/3">
-				<button onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex absolute left-0 items-center py-1 px-2 ml-10 text-xl font-semibold text-white bg-green-600 rounded hover:bg-green-700 active:bg-green-800">
+			<div class="flex justify-center w-full">
+				<button onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex absolute left-0 items-center py-1 px-2 translate-y-1 translate-x-1 text-xl font-semibold text-white bg-green-600 rounded hover:bg-green-700 active:bg-green-800">
 					<Icon icon="icon-park-solid:back" width="20" height="20"/>Back
 				</button>
 				<div class="mb-1 text-4xl font-bold text-center text-white font-['Hubot_Sans']">
 					Settings
 				</div>
 			</div>
-			<div class="px-[10%] w-2/3">
+			<div class="px-[10%]">
 				<div>
 					<div class="text-2xl font-semibold text-white">
 						Directory name
 					</div>
-					<p class="mb-3 text-white text-nowrap">
+					<p class="mb-3 text-white">
 						This is the name the folder DepotDownloader will download the game in.<br />
 						It will be located in the chosen output directory.
 					</p>
@@ -40,7 +40,7 @@ export function Settings() {
 							Custom
 					  </button>
 					</div>
-					<TextInput disabled={settings?.outputDirectoryMode === "Manifest ID"} id="directoryName" placeholder="DepotDownloader output directory name" valueState={context.outputFolderName!} />
+					<TextInput className="max-w-1/2" disabled={settings?.outputDirectoryMode === "Manifest ID"} id="directoryName" placeholder="DepotDownloader output directory name" valueState={context.outputFolderName!} />
 				</div>
 			</div>
 		</>
