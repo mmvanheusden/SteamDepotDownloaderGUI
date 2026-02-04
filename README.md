@@ -66,6 +66,7 @@ Please cleanup the code using:
 ```console
 $ pnpm eslint --fix src/
 ```
+Please also sort Tailwind classes using [RustyWind](https://github.com/avencera/rustywind).
 
 
 <p align="center">

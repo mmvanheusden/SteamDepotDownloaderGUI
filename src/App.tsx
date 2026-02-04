@@ -38,19 +38,19 @@ function App() {
 				appSettings,
 			}}
 		>
-			<main class="bg-[#0d1117] left-0 top-0 bottom-0 absolute right-0 select-none p-px">
+			<main class="absolute top-0 right-0 bottom-0 left-0 p-px select-none bg-[#0d1117]">
 				{showSettings[0]
 					?<Settings />
 					: <>
-						<div class="text-white font-bold text-4xl text-center mb-1 font-['Hubot_Sans']">
+						<div class="mb-1 text-4xl font-bold text-center text-white font-['Hubot_Sans']">
 							Steam Depot Downloader
 						</div>
 
-						<div class="flex justify-between gap-5 max-h-screen">
-							<div class="w-full max-w-1/2 pl-3">
+						<div class="flex gap-5 justify-between max-h-screen">
+							<div class="pl-3 w-full max-w-1/2">
 								<DownloaderForm />
 							</div>
-							<div class="w-full max-w-1/2 pr-3">
+							<div class="pr-3 w-full max-w-1/2">
 								<DownloaderOutput />
 							</div>
 						</div>

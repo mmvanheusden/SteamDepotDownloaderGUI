@@ -9,11 +9,11 @@ export function Settings() {
 	
 	return (
 		<>
-			<div class="flex justify-center w-2/3 items-center">
-				<button onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex items-center font-semibold text-xl absolute left-0 ml-10 text-white rounded px-2 py-1 bg-green-600 hover:bg-green-700 active:bg-green-800">
+			<div class="flex justify-center items-center w-2/3">
+				<button onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex absolute left-0 items-center py-1 px-2 ml-10 text-xl font-semibold text-white bg-green-600 rounded hover:bg-green-700 active:bg-green-800">
 					<Icon icon="icon-park-solid:back" width="20" height="20"/>Back
 				</button>
-				<div class="text-white font-bold text-4xl text-center mb-1 font-['Hubot_Sans']">
+				<div class="mb-1 text-4xl font-bold text-center text-white font-['Hubot_Sans']">
 					Settings
 				</div>
 			</div>
@@ -26,7 +26,7 @@ export function Settings() {
 						This is the name the folder DepotDownloader will download the game in.<br />
 						It will be located in the chosen output directory.
 					</p>
-					<div class="flex rounded-md shadow-xs gap-px mb-2">
+					<div class="flex gap-px mb-2 rounded-md shadow-xs">
 						<button
 							onClick={() => setSettings(oldSettings => { context.outputFolderName![1](""); return ({ ...oldSettings, outputDirectoryMode: "Manifest ID" }); })}
 							type="button"

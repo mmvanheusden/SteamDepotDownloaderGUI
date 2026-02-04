@@ -24,12 +24,12 @@ export function DownloaderOutput() {
 	}, []);
 	
 	return (
-		<div class="mt-2 h-full w-full mx-auto">
-			<div class="border border-gray-300 rounded-md bg-gray-900 text-white shadow shadow-blue-200">
-				<div class="text-md font-semibold w-full inline-flex my-px items-center">
-					<span class="text-center w-full">Download output</span>
+		<div class="mx-auto mt-2 w-full h-full">
+			<div class="text-white bg-gray-900 rounded-md border border-gray-300 shadow shadow-blue-200">
+				<div class="inline-flex items-center my-px w-full font-semibold text-md">
+					<span class="w-full text-center">Download output</span>
 					{terminal &&
-						<button onClick={() => { if (!context.downloading![0]) terminal.reset(); }} type="button" disabled={context.downloading![0] ?? false} class="disabled:cursor-not-allowed disabled:line-through disabled:text-gray-300 ml-auto mr-2 my-1 py-px px-2 border-2 rounded-xs border-red-500/75 font-normal enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
+						<button onClick={() => { if (!context.downloading![0]) terminal.reset(); }} type="button" disabled={context.downloading![0] ?? false} class="py-px px-2 my-1 mr-2 ml-auto font-normal border-2 disabled:text-gray-300 disabled:line-through disabled:cursor-not-allowed rounded-xs border-red-500/75 enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
 							Clear
 						</button>
 					}
