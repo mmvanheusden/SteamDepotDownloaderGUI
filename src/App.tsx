@@ -4,7 +4,7 @@ import {DownloaderOutput} from "./components/DownloaderOutput.tsx";
 import {DownloaderForm} from "./components/DownloaderForm.tsx";
 import {AppContext, AppSettings} from "./context.ts";
 import {invoke} from "@tauri-apps/api/core";
-import { Settings } from "./components/Settings.tsx";
+import {Settings} from "./components/Settings.tsx";
 
 function App() {
 	const username = useState<string>();
@@ -46,7 +46,7 @@ function App() {
 							Steam Depot Downloader
 						</div>
 
-						<div class="flex justify-between gap-5">
+						<div class="flex justify-between gap-5 max-h-screen">
 							<div class="w-full max-w-1/2 pl-3">
 								<DownloaderForm />
 							</div>

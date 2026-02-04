@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "SteamDepotDownloaderGUI",
-        "width": 890,
-        "height": 650,
+        "width": 900,
+        "height": 720,
         "resizable": false,
         "maximizable": false
       }
