@@ -13,14 +13,14 @@ export function DownloaderForm() {
 		<>
 			<form class="mb-1">
 				<div class="flex flex-col gap-0.5 mb-8">
-					<TextInput id="username" label="Username" valueState={context.username!} placeholder="Leave empty for anonymous download" />
-					<TextInput id="password" label="Password" valueState={context.password!} placeholder="Leave empty for anonymous download" password={true} />
+					<TextInput id="username" label="Username" valueState={context.username!} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} />
+					<TextInput id="password" label="Password" valueState={context.password!} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} password={true} />
 					<div class="h-5" />
-					<NumberInput id="appId" label="App ID" valueState={context.appId!} required={true} />
-					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId!} required={true} />
-					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId!} required={true} />
+					<NumberInput id="appId" label="App ID" valueState={context.appId!} required={true} disabled={context.downloading![0]} />
+					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId!} required={true} disabled={context.downloading![0]} />
+					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId!} required={true} disabled={context.downloading![0]} />
 					<div class="h-1" />
-					<FileInput required={true} pathState={context.outputLocation!} />
+					<FileInput required={true} pathState={context.outputLocation!} disabled={context.downloading![0]} />
 				</div>
 				<DownloadButton disabled={context.downloading![0]} downloadingState={context.downloading!} />
 			</form>
@@ -69,8 +69,8 @@ function DownloadButton(
 	};
   
 	return (
-		<div class="flex transition-transform group/button active:scale-102">
-			<button disabled={disabled} onClick={onClick} type="submit" class="inline-flex justify-between items-center py-1 w-full text-2xl font-bold text-white bg-green-600 rounded-l-md border-2 border-black hover:bg-green-700 active:bg-green-800 disabled:cursor-not-allowed disabled:bg-red-500/70">
+		<div class={`flex transition-transform ${disabled ? "cursor-not-allowed" :"active:scale-102"}`}>
+			<button disabled={disabled} onClick={onClick} type="submit" class="inline-flex justify-between items-center py-1 w-full text-2xl font-bold text-white bg-green-600 rounded-l-md border-2 border-black hover:bg-green-700 active:bg-green-800 disabled:bg-red-500/70">
 				{downloading
 					? <>
 						<div class="flex absolute ml-2">
@@ -86,8 +86,8 @@ function DownloadButton(
 					</>
 				}
 			</button>
-			<button onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex justify-center items-center py-1 text-2xl font-bold text-center text-white bg-green-600 rounded-r-md border-2 border-l-0 border-black hover:bg-green-700 active:bg-green-800 group w-15 ring-l-gray-800 disabled:bg-red-500/70">
-				<Icon icon="heroicons:cog" width="30" height="30" class="animate-spin [animation-play-state:paused] group-hover:[animation-play-state:running]"/>
+			<button disabled={disabled} onClick={() => context.showSettings![1](s => !s)} type="button" class="inline-flex justify-center items-center py-1 text-2xl font-bold text-center text-white bg-green-600 rounded-r-md border-2 border-l-0 border-black hover:bg-green-700 active:bg-green-800 group w-15 ring-l-gray-800 disabled:bg-red-500/70">
+				<Icon icon="heroicons:cog" width="30" height="30" class={`animate-spin [animation-play-state:paused] ${!disabled && "group-hover:[animation-play-state:running]"}`}/>
 			</button>
 		</div>
 	);

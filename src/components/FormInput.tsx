@@ -24,12 +24,12 @@ export function TextInput({ id, label, placeholder, valueState, required, passwo
 	return (
 		<>
 			{label && <Label forId={id} text={label} required={required} />}
-			<input disabled={disabled} id={id} required={required} value={value} onInput={onInput} placeholder={placeholder} type={password ? "password" : "text"} class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:line-through disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)] ${className} `} />
+			<input disabled={disabled} id={id} required={required} value={value} onInput={onInput} placeholder={placeholder} type={password ? "password" : "text"} class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)] ${className} `} />
 		</>
 	);
 }
 
-export function NumberInput({ id, label, placeholder, valueState, required, min, max, step }: { id: string, label: string, placeholder?: string, valueState: StringUseState, required?: boolean, min?: number, max?: number, step?: number }) {
+export function NumberInput({ id, label, placeholder, valueState, required, min, max, step, disabled }: { id: string, label: string, placeholder?: string, valueState: StringUseState, required?: boolean, min?: number, max?: number, step?: number, disabled?: boolean }) {
 	const [value, setValue] = valueState;
 	const onInput = (e: Event) => {
 		const newVal: string = (e.currentTarget as HTMLInputElement).value;
@@ -46,12 +46,12 @@ export function NumberInput({ id, label, placeholder, valueState, required, min,
 	return (
 		<>
 			<Label forId={id} text={label} required={required} />
-			<input id={id} required={required} value={value} onInput={onInput} min={min ?? 1} max={max} step={step} placeholder={placeholder} type="number" pattern="[0-9]" class="block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)]" />
+			<input disabled={disabled} id={id} required={required} value={value} onInput={onInput} min={min ?? 1} max={max} step={step} placeholder={placeholder} type="number" pattern="[0-9]" class="block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_29px_1px_rgba(59,130,246,0.5)]" />
 		</>
 	);
 }
 
-export function FileInput({ required, pathState }: { required?: boolean, pathState: StringUseState }) {
+export function FileInput({ required, pathState, disabled }: { required?: boolean, pathState: StringUseState, disabled?: boolean }) {
 	const [path, setPath] = pathState;
 	const selectPath = () => {
 		openDialog({
@@ -78,7 +78,7 @@ export function FileInput({ required, pathState }: { required?: boolean, pathSta
 		<>
 			<Label text="Output directory" required={required} />
 			<div className="flex gap-2 justify-start w-2/3">
-				<button type="button" onClick={selectPath}
+				<button disabled={disabled} type="button" onClick={selectPath}
 					className="inline-flex gap-2 justify-center items-center py-1 px-2 font-medium text-white rounded-md border border-gray-600 shadow-2xl transition-transform disabled:cursor-not-allowed grow bg-blue-900/90 text-md enabled:active:scale-103 hover:bg-blue-900/65 active:bg-blue-900/40 disabled:bg-red-500/70">
 					<Icon icon="subway:folder-2" height="25" width="25" />Choose
 				</button>

@@ -5,6 +5,11 @@ import {DownloaderForm} from "./components/DownloaderForm.tsx";
 import {AppContext, AppSettings} from "./context.ts";
 import {invoke} from "@tauri-apps/api/core";
 import {Settings} from "./components/Settings.tsx";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { getVersion } from "@tauri-apps/api/app";
+
+const appVersion = await getVersion();
+
 
 // Settings defaults are defined here.
 const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -58,6 +63,7 @@ function App() {
 						</div>
 					</>
 				}
+				<button tabIndex={-1} type="button" onClick={() => { openUrl(`https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/v${appVersion}`).catch((e) => console.error(e)); }} class="absolute right-0 bottom-0 text-white hover:underline">{`v${appVersion}`}</button>
 			</main>
 		</AppContext.Provider>
 	);
