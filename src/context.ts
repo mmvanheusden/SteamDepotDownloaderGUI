@@ -11,7 +11,9 @@ type NoUndefinedState<T> =
 	: never;
 
 export interface AppSettings {
-	outputDirectoryMode: "Manifest ID" | "Custom"	
+	outputDirectoryMode: "Manifest ID" | "Custom";
+	outputDirectoryName?: string;
+	noMobileAuth: boolean;
 }
 
 
@@ -22,10 +24,9 @@ interface AppContext {
 	depotId: StringUseState;
 	manifestId: StringUseState;
 	outputLocation: StringUseState;
-	outputFolderName: StringUseState;
 	downloading: BooleanUseState;
 	showSettings: BooleanUseState;
-	appSettings: NoUndefinedState<ReturnType<typeof useState<AppSettings>>>
+	appSettings: NoUndefinedState<ReturnType<typeof useState<AppSettings>>>;
 }
 
 export const AppContext = createContext<Partial<AppContext>>({});

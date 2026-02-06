@@ -42,7 +42,7 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, st
     println!("----------------------------------------------------------\n");
 
     /* Build the command and spawn it in our terminal */
-    let mut cmd = terminal::create_depotdownloader_command(&steam_download, &working_dir);
+    let mut cmd = terminal::create_depotdownloader_command(steam_download, &working_dir);
 
     // add the $TERM env variable so we can use clear and other commands
     #[cfg(target_os = "windows")]

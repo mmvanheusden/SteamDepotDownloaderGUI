@@ -13,7 +13,8 @@ pub struct SteamDownload {
     depot_id: String,
     manifest_id: String,
     output_location: Option<PathBuf>,
-    output_directory_name: Option<String>
+    output_directory_name: Option<String>,
+    no_mobile_auth: bool,
 }
 
 

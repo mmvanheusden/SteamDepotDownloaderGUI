@@ -53,7 +53,7 @@ pub async fn async_resize_pty(rows: u16, cols: u16, state: State<'_, AppState>) 
 
 
 /// Creates the DepotDownloader command necessary to download the requested manifest.
-pub fn create_depotdownloader_command(steam_download: &SteamDownload, cwd: &PathBuf) -> CommandBuilder {
+pub fn create_depotdownloader_command(steam_download: SteamDownload, cwd: &PathBuf) -> CommandBuilder {
     let depotdownloader_binary = if cfg!(windows) {
         "DepotDownloader.exe"
     } else {
@@ -69,11 +69,13 @@ pub fn create_depotdownloader_command(steam_download: &SteamDownload, cwd: &Path
         command.args(["-username", &steam_download.username().clone().unwrap()]);
         command.args(["-password", &steam_download.password().clone().unwrap()]);
     }
+    if *steam_download.no_mobile_auth() { command.arg("-no-mobile"); }
 
     command.args(["-app", &steam_download.app_id().to_string()]);
     command.args(["-depot", &steam_download.depot_id().to_string()]);
     command.args(["-manifest", &steam_download.manifest_id().to_string()]);
     command.args(["-dir", &steam_download.output_path()]);
+    
 
     command
 }

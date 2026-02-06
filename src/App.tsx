@@ -13,7 +13,9 @@ const appVersion = await getVersion();
 
 // Settings defaults are defined here.
 const DEFAULT_APP_SETTINGS: AppSettings = {
-	outputDirectoryMode: "Manifest ID"
+	outputDirectoryMode: "Manifest ID",
+	outputDirectoryName: "",
+	noMobileAuth: false,
 };
 
 
@@ -24,7 +26,6 @@ function App() {
 	const depotId = useState<string>();
 	const manifestId = useState<string>();
 	const outputLocation = useState<string>();
-	const outputFolderName = useState<string>();
 	const downloading = useState<boolean>();
 	const showSettings = useState<boolean>();
 	const appSettings = useState<AppSettings>(DEFAULT_APP_SETTINGS);
@@ -41,11 +42,10 @@ function App() {
 				outputLocation,
 				downloading,
 				showSettings,
-				outputFolderName,
 				appSettings,
 			}}
 		>
-			<main class="absolute top-0 right-0 bottom-0 left-0 p-px select-none bg-[#0d1117]">
+			<main class="absolute top-0 right-0 bottom-0 left-0 p-px text-white select-none bg-[#0d1117]">
 				{showSettings[0]
 					?<Settings />
 					: <>
@@ -79,14 +79,14 @@ export async function startDownload(options: {
 	manifestId: string;
 	outputLocation?: string;
 	outputDirectoryName?: string;
+	noMobileAuth: boolean;
 }) {
 	
 	await invoke("download_depotdownloader"); // First make backend download DepotDownloader
 	
 	await invoke("start_download", {
 		steamDownload: {
-			...options,
-			outputDirectoryName: options.outputDirectoryName == "" ? null : options.outputDirectoryName, // empty string becomes null.
+			...options
 		}
 	}); // First make backend download DepotDownloader
 }

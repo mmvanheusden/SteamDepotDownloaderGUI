@@ -13,14 +13,14 @@ export function DownloaderForm() {
 		<>
 			<form class="mb-1">
 				<div class="flex flex-col gap-0.5 mb-8">
-					<TextInput id="username" label="Username" valueState={context.username!} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} />
-					<TextInput id="password" label="Password" valueState={context.password!} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} password={true} />
+					<TextInput id="username" label="Username" valueState={context.username} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} />
+					<TextInput id="password" label="Password" valueState={context.password} placeholder="Leave empty for anonymous download" disabled={context.downloading![0]} password={true} />					
 					<div class="h-5" />
-					<NumberInput id="appId" label="App ID" valueState={context.appId!} required={true} disabled={context.downloading![0]} />
-					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId!} required={true} disabled={context.downloading![0]} />
-					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId!} required={true} disabled={context.downloading![0]} />
+					<NumberInput id="appId" label="App ID" valueState={context.appId} required={true} disabled={context.downloading![0]} />
+					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId} required={true} disabled={context.downloading![0]} />
+					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId} required={true} disabled={context.downloading![0]} />
 					<div class="h-1" />
-					<FileInput required={true} pathState={context.outputLocation!} disabled={context.downloading![0]} />
+					<FileInput required={true} pathState={context.outputLocation!} disabled={context.downloading![0]} label="Output directory" />
 				</div>
 				<DownloadButton disabled={context.downloading![0]} downloadingState={context.downloading!} />
 			</form>
@@ -63,7 +63,8 @@ function DownloadButton(
 			depotId: context.depotId![0]!,
 			manifestId: context.manifestId![0]!,
 			outputLocation: context.outputLocation![0],
-			outputDirectoryName: context.outputFolderName![0],
+			outputDirectoryName: context.appSettings![0].outputDirectoryMode == "Custom" ? context.appSettings![0].outputDirectoryName : undefined,
+			noMobileAuth: context.appSettings![0].noMobileAuth,
 		}).catch((e) => console.error(e));
 		// setDownloading(false)
 	};
