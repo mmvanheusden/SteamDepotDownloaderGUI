@@ -25,7 +25,7 @@ interface AppContext {
 	manifestId: StringUseState;
 	outputLocation: StringUseState;
 	downloading: BooleanUseState;
-	showSettings: BooleanUseState;
+	showSettings: NoUndefinedState<BooleanUseState>;
 	appSettings: NoUndefinedState<ReturnType<typeof useState<AppSettings>>>;
 }
 

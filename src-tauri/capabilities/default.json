@@ -23,6 +23,7 @@
           "url": "**"
         }
       ]
-    }
+    },
+    "clipboard-manager:allow-read-text"
   ]
 }

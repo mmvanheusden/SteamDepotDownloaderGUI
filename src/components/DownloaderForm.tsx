@@ -102,7 +102,7 @@ function InternetButton(
 	};
   
 	return (
-		<button disabled={disabled} onClick={onClick} type="button" class="inline-flex gap-0.5 justify-center items-center py-0.5 px-1 font-medium text-white rounded-md border border-black transition-transform disabled:pointer-events-none grow bg-blue-900/90 text-md hover:bg-blue-900/65 active:bg-blue-900/40 active:scale-103 disabled:bg-red-500/70">
+		<button disabled={disabled} onClick={onClick} type="button" class="inline-flex gap-0.5 justify-center items-center py-0.5 px-1 font-medium text-white rounded-md border border-gray-600 transition-transform disabled:pointer-events-none grow bg-blue-900/90 text-md hover:bg-blue-900/65 active:bg-blue-900/40 active:scale-103 disabled:bg-red-500/70">
 			<Icon icon={icon} height="20"/>{title}
 		</button>
 	);

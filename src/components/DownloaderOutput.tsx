@@ -11,6 +11,7 @@ import { AppContext } from "../context";
 export function DownloaderOutput() {
 	const context = useContext(AppContext);
 	const [terminal, setTerminal] = useState<Terminal | undefined>();
+	const [downloading, ] = context.downloading!;
 	
 	// Hook on the "command-exited" Tauri emitter, and wait for it to emit, so we can flip the downloading state.
 	listen("command-exited", () => {
@@ -29,7 +30,7 @@ export function DownloaderOutput() {
 				<div class="inline-flex items-center my-px w-full font-semibold text-md">
 					<span class="w-full text-center">Download output</span>
 					{terminal &&
-						<button onClick={() => { if (!context.downloading![0]) terminal.reset(); }} type="button" disabled={context.downloading![0] ?? false} class="py-px px-2 my-1 mr-2 ml-auto font-normal border-2 disabled:text-gray-300 disabled:line-through disabled:cursor-not-allowed rounded-xs border-red-500/75 enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
+						<button onClick={() => { if (!downloading) terminal.reset(); }} type="button" disabled={downloading ?? false} class="py-px px-2 my-0.5 mr-1.5 ml-auto font-normal border-2 disabled:text-gray-300 disabled:line-through disabled:cursor-not-allowed rounded-xs border-red-500/75 enabled:hover:bg-red-200/30 enabled:active:bg-red-200/50">
 							Clear
 						</button>
 					}

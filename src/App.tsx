@@ -7,6 +7,7 @@ import { DownloaderOutput } from "./components/DownloaderOutput.tsx";
 import { Settings } from "./components/Settings.tsx";
 import { AppContext, AppSettings } from "./context.ts";
 import "./css/App.css";
+import { ClipBoardParserButton } from "./components/ClipboardParser.tsx";
 
 const appVersion = await getVersion();
 
@@ -27,7 +28,7 @@ function App() {
 	const manifestId = useState<string>();
 	const outputLocation = useState<string>();
 	const downloading = useState<boolean>();
-	const showSettings = useState<boolean>();
+	const showSettings = useState<boolean>(false);
 	const appSettings = useState<AppSettings>(DEFAULT_APP_SETTINGS);
 	
 	
@@ -46,23 +47,25 @@ function App() {
 			}}
 		>
 			<main class="absolute top-0 right-0 bottom-0 left-0 p-px text-white select-none bg-[#0d1117]">
-				{showSettings[0]
-					?<Settings />
-					: <>
-						<div class="mb-1 text-4xl font-bold text-center text-white font-['Hubot_Sans']">
+				<div hidden={!showSettings[0]}><Settings /></div>
+				<div hidden={showSettings[0]}>
+					<div class="flex justify-center w-full">
+						<div class="inline-flex absolute left-0 pt-1 pl-1">
+							<ClipBoardParserButton disabled={downloading[0]!}/>
+						</div>
+						<div class="mb-1 text-4xl font-bold text-center font-['Hubot_Sans']">
 							Steam Depot Downloader
 						</div>
-
-						<div class="flex gap-5 justify-between max-h-screen">
-							<div class="pl-3 w-full max-w-1/2">
-								<DownloaderForm />
-							</div>
-							<div class="pr-3 w-full max-w-1/2">
-								<DownloaderOutput />
-							</div>
+					</div>
+					<div class="flex gap-5 justify-between max-h-screen">
+						<div class="pl-3 w-full max-w-1/2">
+							<DownloaderForm />
 						</div>
-					</>
-				}
+						<div class="pr-3 w-full max-w-1/2">
+							<DownloaderOutput />
+						</div>
+					</div>
+				</div>
 				<button tabIndex={-1} type="button" onClick={() => { openUrl(`https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/v${appVersion}`).catch((e) => console.error(e)); }} class="absolute right-0 bottom-0 text-white hover:underline">{`v${appVersion}`}</button>
 			</main>
 		</AppContext.Provider>
