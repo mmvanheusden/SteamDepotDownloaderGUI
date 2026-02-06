@@ -1,45 +1,30 @@
 @font-face {
-    font-family: 'Windows';
-    src: url(./fonts/windows_regular-webfont.woff) format('woff'), url(./fonts/windows_regular-webfont.woff2) format('woff2'), url(./fonts/Windows-Regular.ttf) format('truetype');
-}
-
-@font-face {
     font-family: 'Hubot Sans';
-    src:
-      url('./fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
-      url('./fonts/Hubot-Sans.woff2') format('woff2-variations');
+    src: url('./fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+    url('./fonts/Hubot-Sans.woff2') format('woff2-variations');
     font-weight: 200 900;
     font-stretch: 75% 125%;
-  }
-  html {
-    font-family: 'Hubot Sans';
-  }
-
-.instructions-link {
-    animation: highlight 2s infinite;
-    text-decoration: none;
-}
-
-@keyframes highlight {
-    0%, 100% {
-        color: #ff0000;
-    }
-    50% {
-        color: #003cff;
-    }
 }
 
 
-.title {
+h1, h2 {
     font-family: 'Hubot Sans';
-    font-weight: bolder;
-    font-size: 50px;
 }
 
-.subtitle {
-    font-family: 'Hubot Sans';
-    font-weight: 600;
-    font-size: 30px;
+body {
+    background-color: #1a2733;
+}
+
+button {
+
+    /* TODO: match app font */
+}
+
+a {
+    color: greenyellow;
+}
+a:hover {
+    text-decoration: underline;
 }
 
 .knopje {
@@ -51,7 +36,6 @@
     font-size: 13px;
     color: darkred;
     text-decoration: none;
-
 }
 
 .knopje:hover {

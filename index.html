@@ -3,60 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>SteamDepotDownloaderGUI - downgrade Steam games</title>
-    <link href="https://unpkg.com/@primer/css@21.0.9/dist/primer.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.html-first.com/litewind-2.0.1.css" />
     <link href="styles.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"
-          rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<header class="bg-gray-dark text-white p-4 text-center">
-    <h1 class="title mb-2">SteamDepotDownloaderGUI</h1>
-    <h2 class="subtitle">Download older versions of Steam games!</h2>
-</header>
-<script src="./oneko.js"></script>
-<main class="container mx-auto p-2">
-    <a class="github-fork-ribbon" data-ribbon="Fork me on GitHub"
-       href="https://github.com/mmvanheusden/steamdepotdownloadergui" title="Fork me on GitHub">Fork me on GitHub</a>
-
-    <div style="display: flex;left: 0; right: 0">
-        <!-- 1st element -->
-        <div>
-            <section style="margin-right: 1%;">
-                <h3>About</h3>
-                <p>SteamDepotDownloaderGUI is a tool that<br>
-                    allows you to downgrade Steam games,
-                    using <a href="https://github.com/SteamRE/DepotDownloader">DepotDownloader</a>.<br>
-                    It is multiplatform, and easy to use.
-                    It works on Windows, macOS and Linux!</p>
-            </section>
-            <section>
-                <h2>How to use:</h2>
-                <a class="btn instructions-link" href="https://www.youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca"><b>Tutorials</b></a>
-            </section>
-        </div>
-
-        <!-- 2nd element -->
-        <div style="margin-right: 3%">
-            <section>
-                <h3>How to Download</h3>
-                <p>Click the download button below to get the latest version of SteamDepotDownloaderGUI.</p>
+<body class="select-none text-white">
+<main class="absolute top-0 right-0 bottom-0 left-0 p-px">
+    <div class="w-full max-w-3xl mx-auto h-svh justify-center">
+        <h1 class="text-4xl text-center font-bold mb-2 w-full">SteamDepotDownloaderGUI</h1>
+        <h2 class="text-xl text-center font-semibold w-full">A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy.</h2>
+        <img src="app.gif" />
+        <div class="flex justify-between w-full max-w-3xl mt-4 gap-4">
+            <div class="flex flex-col gap-1">
                 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest">
-                    <button class="btn btn-primary btn-block btn-">Download</button>
+                    <button class="hover:shadow-lg cursor-pointer inline-flex justify-between items-center py-1 px-4 w-full text-2xl font-bold text-white bg-green-600 rounded-md border-2 border-black hover:bg-green-700"
+                            type="button">
+                        <span class="w-full">Download</span>
+                    </button>
                 </a>
-            </section>
-        </div>
-
-        <!-- 3rd element -->
-        <div>
-            <img alt="The interface."src="https://github.com/user-attachments/assets/2e1b1b8e-9560-4dde-86c0-b70384a54fbb"
-                 style="object-fit: contain;width: 100%;max-height: 764px;">
+                <a href="https://www.youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca">
+                    <button class="hover:shadow-lg cursor-pointer inline-flex justify-between items-center py-1 px-4 w-full text-2xl font-bold text-white bg-yellow-600 rounded-md border-2 border-black hover:bg-yellow-700"
+                            type="button">
+                        <span class="w-full">Tutorials</span>
+                    </button>
+                </a>
+            </div>
+            <div>
+                <h2 class="text-2xl font-semibold w-full">About</h2>
+                <p>SteamDepotDownloaderGUI is a visual interface for <a href="https://github.com/SteamRE/DepotDownloader">DepotDownloader</a>.</p>
+                <p>It allows you to download older builds of Steam games with ease, by providing a depot and manifest ID.</p>
+            </div>
         </div>
     </div>
-
 </main>
 <footer class="text-center p-2" style="bottom: 0; position: absolute; right: 0; left:0">
-    © 2024 <a class="knopje" href="https://aphex.cc" type="button">aphex</a> Licensed under
+    © 2026 <a class="knopje" href="https://aphex.cc" type="button">aphex</a> Licensed under
     <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU GPLv3</a>
 </footer>
 </body>
