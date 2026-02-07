@@ -41,12 +41,11 @@
 
 
 ### Windows
-Download the [latest Windows release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple variants to choose from, but you are probably looking for the file that ends with **`.exe`**.
+Download the [latest Windows release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest).
 
 
-### Linux
-You'll need at least one of the supported terminal emulators. You most likely already have one of these.
-Download the [latest Linux release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest). There are multiple formats to choose from.
+### Linux/Steam Deck
+Download the [latest Linux release](https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest).
 
 ## Credits
 This software makes use of the following projects:
