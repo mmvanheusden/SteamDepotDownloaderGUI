@@ -3,42 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <title>SteamDepotDownloaderGUI - downgrade Steam games</title>
-    <link rel="stylesheet" href="https://cdn.html-first.com/litewind-2.0.1.css" />
-    <link href="styles.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: 'Hubot Sans';
+            src: url('./fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+            url('./fonts/Hubot-Sans.woff2') format('woff2-variations');
+            font-weight: 200 900;
+            font-stretch: 75% 125%;
+        }
+
+        @font-face {
+            font-family: 'Windows';
+            src: url('./fonts/windows_regular-webfont.woff2') format('woff2 supports variations'),
+            url('./fonts/windows_regular-webfont.woff2') format('woff2-variations');
+            font-weight: 200 900;
+        }
+
+        :root {
+            --default-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            --background-color: #1a2733;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        h1, h2 {
+            font-family: "Hubot Sans";
+            width: 100%;
+            text-align: center;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            font-size: 2.4rem;
+        }
+
+        h2 {
+            font-size: larger;
+        }
+
+        p {
+            font-family: var(--default-font-family);
+            margin: 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            width: 48rem;
+            align-items: center;
+            padding-bottom: 2rem;
+        }
+
+        buttons-area {
+            display: flex;
+
+            & div {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                width: max-content;
+                padding-right: 2%;
+                row-gap: 0.2rem;
+
+                & button {
+                    font-size: x-large;
+                    font-weight: bold;
+                    color: white;
+                    border: 2px solid black;
+                    border-radius: 0.4rem;
+                    width: 100%;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    padding-top: 0.2rem;
+                    padding-bottom: 0.2rem;
+
+                    &.download {
+                        background-color: #00a63e;
+                    }
+
+                    &.download:hover {
+                        background-color: #008236;
+                    }
+
+                    &.tutorials {
+                        background-color: #d08700;
+                    }
+
+                    &.tutorials:hover {
+                        background-color: #a65f00;
+                    }
+                }
+            }
+
+            about-area {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 2;
+    
+                & h2 {
+                    text-align: left;
+                    font-size: x-large;
+                }
+            }
+        }
+
+        img {
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+            max-width: 100%;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        footer {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            height: 1.8rem;
+            font-family: var(--default-font-family);
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-content: start;
+
+            & a[type=button] {
+                background: linear-gradient(rgb(140, 140, 140) 25%, rgb(67, 67, 67) 75%);
+                color: darkred;
+                display: inline-block;
+                font: 13px "Windows", monospace;
+                border: 1px solid black;
+                padding: 0px 5px;
+                font-size: 1rem;
+                text-decoration: none;
+            }
+        }
+
+        a {
+            color: #adff2f;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="select-none text-white">
-<main class="absolute top-0 right-0 bottom-0 left-0 p-px">
-    <div class="w-full max-w-3xl mx-auto h-svh justify-center">
-        <h1 class="text-4xl text-center font-bold mb-2 w-full">SteamDepotDownloaderGUI</h1>
-        <h2 class="text-xl text-center font-semibold w-full">A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy.</h2>
+<body>
+    <main>
+        <h1>Steam<wbr />Depot<wbr />Downloader<wbr />GUI</h1>
+        <h2>A graphical wrapper for DepotDownloader, designed to make downloading older versions of Steam games easy.</h2>
         <img src="app.gif" />
-        <div class="flex justify-between w-full max-w-3xl mt-4 gap-4">
-            <div class="flex flex-col gap-1">
+        <buttons-area>
+            <div>
                 <a href="https://github.com/mmvanheusden/SteamDepotDownloaderGUI/releases/latest">
-                    <button class="hover:shadow-lg cursor-pointer inline-flex justify-between items-center py-1 px-4 w-full text-2xl font-bold text-white bg-green-600 rounded-md border-2 border-black hover:bg-green-700"
-                            type="button">
-                        <span class="w-full">Download</span>
-                    </button>
+                    <button class="download">Download</button>
                 </a>
                 <a href="https://www.youtube.com/playlist?list=PLRAjc5plLScj967hnsYX-I3Vjw9C1v7Ca">
-                    <button class="hover:shadow-lg cursor-pointer inline-flex justify-between items-center py-1 px-4 w-full text-2xl font-bold text-white bg-yellow-600 rounded-md border-2 border-black hover:bg-yellow-700"
-                            type="button">
-                        <span class="w-full">Tutorials</span>
-                    </button>
+                    <button class="tutorials">Tutorials</button>
                 </a>
             </div>
-            <div>
-                <h2 class="text-2xl font-semibold w-full">About</h2>
-                <p>SteamDepotDownloaderGUI is a visual interface for <a href="https://github.com/SteamRE/DepotDownloader">DepotDownloader</a>.</p>
+            <about-area>
+                <h2>About</h2>
+                <p>Steam<wbr />Depot<wbr />Downloader<wbr />GUI is a visual interface for <a href="https://github.com/SteamRE/DepotDownloader">DepotDownloader</a>.</p>
                 <p>It allows you to download older builds of Steam games with ease, by providing a depot and manifest ID.</p>
             </div>
-        </div>
-    </div>
-</main>
-<footer class="text-center p-2" style="bottom: 0; position: absolute; right: 0; left:0">
-    © 2026 <a class="knopje" href="https://aphex.cc" type="button">aphex</a> Licensed under
-    <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU GPLv3</a>
-</footer>
+        </buttons-area>
+    </main>
+    <footer>
+        <footer-content>
+            © 2026 <a href="https://aphex.cc" type="button">aphex</a> Licensed under
+            <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU GPLv3</a>
+        </footer-content>
+    </footer>
 </body>
+<script src="oneko.js"></script>
 </html>
