@@ -37,7 +37,7 @@
 ## Installation
 > [!CAUTION]  
 > This GitHub repository is the only official place to download this software.  
-> If you have paid for this software, or downloaded this from a different place than here, **you are an idiot and at risk**.
+> If you have paid for this software, or downloaded this from a different place than here, **you should reconsider your digital literacy skills, and are at risk of having your Steam account stolen**.
 
 
 ### Windows
