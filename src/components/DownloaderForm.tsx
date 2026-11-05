@@ -19,6 +19,7 @@ export function DownloaderForm() {
 					<NumberInput id="appId" label="App ID" valueState={context.appId} required={true} disabled={context.downloading![0]} />
 					<NumberInput id="depotId" label="Depot ID" valueState={context.depotId} required={true} disabled={context.downloading![0]} />
 					<NumberInput id="manifestId" label="Manifest ID" valueState={context.manifestId} required={true} disabled={context.downloading![0]} />
+					<TextInput id="branch" label="Branch (optional)" valueState={context.branch} placeholder="Leave empty to use default branch" disabled={context.downloading![0]} />
 					<div class="h-1" />
 					<FileInput required={true} pathState={context.outputLocation!} disabled={context.downloading![0]} label="Output directory" />
 				</div>
@@ -62,6 +63,7 @@ function DownloadButton(
 			appId: context.appId![0]!,
 			depotId: context.depotId![0]!,
 			manifestId: context.manifestId![0]!,
+			branch: context.branch![0],
 			outputLocation: context.outputLocation![0],
 			outputDirectoryName: context.appSettings![0].outputDirectoryMode == "Custom" ? context.appSettings![0].outputDirectoryName : undefined,
 			noMobileAuth: context.appSettings![0].noMobileAuth,

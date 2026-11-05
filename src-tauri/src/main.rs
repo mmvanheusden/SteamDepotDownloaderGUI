@@ -37,6 +37,7 @@ async fn start_download(steam_download: steam::SteamDownload, app: AppHandle, st
     println!("\t- App ID: {}", steam_download.app_id());
     println!("\t- Depot ID: {}", steam_download.depot_id());
     println!("\t- Manifest ID: {}", steam_download.manifest_id());
+    println!("\t- Branch: {}", steam_download.branch().as_ref().unwrap_or(&String::from("Not provided")));
     println!("\t- Output Path: {}", steam_download.output_path());
     println!("\t- Working directory: {}", &working_dir.display());
     println!("----------------------------------------------------------\n");
