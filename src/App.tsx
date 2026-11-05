@@ -26,6 +26,7 @@ function App() {
 	const appId = useState<string>();
 	const depotId = useState<string>();
 	const manifestId = useState<string>();
+	const branch = useState<string>();
 	const outputLocation = useState<string>();
 	const downloading = useState<boolean>();
 	const showSettings = useState<boolean>(false);
@@ -40,6 +41,7 @@ function App() {
 				appId,
 				depotId,
 				manifestId,
+				branch,
 				outputLocation,
 				downloading,
 				showSettings,
@@ -80,6 +82,7 @@ export async function startDownload(options: {
 	appId: string;
 	depotId: string;
 	manifestId: string;
+	branch?: string;
 	outputLocation?: string;
 	outputDirectoryName?: string;
 	noMobileAuth: boolean;

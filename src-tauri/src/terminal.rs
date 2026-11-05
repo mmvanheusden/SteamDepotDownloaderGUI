@@ -74,6 +74,9 @@ pub fn create_depotdownloader_command(steam_download: SteamDownload, cwd: &PathB
     command.args(["-app", &steam_download.app_id().to_string()]);
     command.args(["-depot", &steam_download.depot_id().to_string()]);
     command.args(["-manifest", &steam_download.manifest_id().to_string()]);
+    if let Some(branch) = steam_download.branch().as_deref().filter(|branch| !branch.trim().is_empty()) {
+        command.args(["-branch", branch]);
+    }
     command.args(["-dir", &steam_download.output_path()]);
     
 
