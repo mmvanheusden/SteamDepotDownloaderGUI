@@ -23,26 +23,49 @@ jobs:
             target: aarch64-apple-darwin
             args: --target aarch64-apple-darwin --bundles dmg
             artifact: macos-arm64
+            package: macOS
+            architecture: aarch64
+            bundle_glob: '*.dmg'
           - name: macOS Intel
             runner: macos-26
             target: x86_64-apple-darwin
             args: --target x86_64-apple-darwin --bundles dmg
             artifact: macos-x64
+            package: macOS
+            architecture: x64
+            bundle_glob: '*.dmg'
           - name: Linux x64
             runner: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
             args: --target x86_64-unknown-linux-gnu --bundles appimage
             artifact: linux-x64
+            package: Linux
+            architecture: x64
+            bundle_glob: '*.AppImage'
           - name: Linux ARM64
             runner: ubuntu-26.04-arm
             target: aarch64-unknown-linux-gnu
             args: --target aarch64-unknown-linux-gnu --bundles appimage
             artifact: linux-arm64
+            package: Linux
+            architecture: aarch64
+            bundle_glob: '*.AppImage'
           - name: Windows x64
             runner: windows-2025
             target: ''
             args: ''
             artifact: windows-x64
+            package: Windows
+            architecture: x64
+            bundle_glob: '*.exe'
+          - name: Windows ARM64
+            runner: windows-2025
+            target: aarch64-pc-windows-msvc
+            args: --target aarch64-pc-windows-msvc
+            artifact: windows-arm64
+            package: Windows
+            architecture: aarch64
+            bundle_glob: '*.exe'
 
     runs-on: ${{ matrix.runner }}
     steps:
@@ -89,9 +112,43 @@ jobs:
           args: ${{ inputs.debug && '--debug ' || '' }}${{ matrix.args }}
           uploadUpdaterJson: false
 
+      - name: Rename bundle
+        shell: bash
+        env:
+          PACKAGE: ${{ matrix.package }}
+          ARCHITECTURE: ${{ matrix.architecture }}
+          BUNDLE_GLOB: ${{ matrix.bundle_glob }}
+          TARGET: ${{ matrix.target }}
+          DEBUG: ${{ inputs.debug }}
+        run: |
+          set -euo pipefail
+
+          version="$(node -e "console.log(JSON.parse(require('fs').readFileSync('src-tauri/tauri.conf.json', 'utf8')).version)")"
+          profile=release
+          if [[ "$DEBUG" == "true" ]]; then
+            profile=debug
+          fi
+
+          bundle_dir="src-tauri/target"
+          if [[ -n "$TARGET" ]]; then
+            bundle_dir="$bundle_dir/$TARGET"
+          fi
+          bundle_dir="$bundle_dir/$profile/bundle"
+          source_file="$(find "$bundle_dir" -type f -iname "$BUNDLE_GLOB" -print -quit)"
+
+          if [[ -z "$source_file" ]]; then
+            echo "No bundle matching $BUNDLE_GLOB found in $bundle_dir" >&2
+            exit 1
+          fi
+
+          mkdir -p renamed-bundle
+          extension="${BUNDLE_GLOB#*.}"
+          destination="renamed-bundle/SteamDepotDownloaderGUI-$PACKAGE-v$version-$ARCHITECTURE.$extension"
+          cp "$source_file" "$destination"
+
       - name: Upload bundle
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: ${{ matrix.artifact }}${{ inputs.debug && '-debug' || '' }}
-          path: src-tauri/target/${{ matrix.target && format('{0}/', matrix.target) || '' }}${{ inputs.debug && 'debug' || 'release' }}/bundle
+          path: renamed-bundle
           if-no-files-found: error
