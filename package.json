@@ -11,25 +11,25 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.3",
-    "@tauri-apps/api": "2.11.1",
-    "@tauri-apps/plugin-clipboard-manager": "~2.3.2",
-    "@tauri-apps/plugin-dialog": "2.7.2",
-    "@tauri-apps/plugin-opener": "~2.5.4",
+    "@tailwindcss/vite": "^4.3.5",
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-clipboard-manager": "^2.5.0",
+    "@tauri-apps/plugin-dialog": "^2.8.4",
+    "@tauri-apps/plugin-opener": "^2.7.3",
     "@xterm/addon-fit": "^0.11.0",
     "@xterm/xterm": "^6.0.0",
-    "preact": "^10.29.7",
-    "tailwindcss": "^4.3.3"
+    "preact": "^11.2.0",
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@iconify-icon/react": "^3.0.3",
+    "@iconify-icon/react": "^3.0.6",
     "@preact/preset-vite": "^2.10.6",
-    "@tauri-apps/cli": "2.11.4",
-    "eslint": "^10.8.0",
+    "@tauri-apps/cli": "^2.12.4",
+    "eslint": "^10.14.0",
     "typescript": "^7.0.2",
-    "typescript-eslint": "^8.65.0",
-    "vite": "^8.1.5"
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.7"
   },
-  "packageManager": "pnpm@11.17.0"
+  "packageManager": "pnpm@12.17.0"
 }

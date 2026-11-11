@@ -50,7 +50,11 @@ export function TextInput({ id, label, placeholder, valueState, initialValue, re
 	return (
 		<>
 			{label && <Label forId={id} text={label} required={required} />}
-			<input disabled={disabled} id={id} required={required} value={value} onInput={handleInput} placeholder={placeholder} type={password ? "password" : "text"} class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_15px_1px_rgba(59,130,246,0.5)] ${className} `} />
+			{password ? (
+				<input disabled={disabled} id={id} required={required} value={value} onInput={handleInput} placeholder={placeholder} type="password" class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_15px_1px_rgba(59,130,246,0.5)] ${className} `} />
+			) : (
+				<input disabled={disabled} id={id} required={required} value={value} onInput={handleInput} placeholder={placeholder} type="text" class={`block py-2 px-3 w-full text-sm placeholder-gray-400 text-white rounded-lg border border-gray-600 transition duration-300 focus:border-blue-500 disabled:placeholder-white disabled:bg-gray-700 bg-[#161b22] focus:shadow-[0px_0px_15px_1px_rgba(59,130,246,0.5)] ${className} `} />
+			)}
 		</>
 	);
 }

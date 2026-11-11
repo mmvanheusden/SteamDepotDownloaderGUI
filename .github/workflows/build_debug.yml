@@ -11,32 +11,32 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest'
+          - platform: 'macos-26'
             arch: 'aarch64'
             args: '--target aarch64-apple-darwin --bundles dmg'
-          - platform: 'macos-latest'
+          - platform: 'macos-26'
             arch: 'x86_64'
             args: '--target x86_64-apple-darwin --bundles dmg'
-          - platform: 'ubuntu-22.04'
+          - platform: 'ubuntu-26.04'
             args: '--bundles appimage'
-          - platform: 'windows-latest'
+          - platform: 'windows-2025'
             args: ''
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04'
+        if: matrix.platform == 'ubuntu-26.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
 
       - name: setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: lts/*
           cache: 'pnpm'
@@ -44,10 +44,10 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.platform == 'macos-26' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
-        uses: swatinem/rust-cache@v2
+        uses: swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: './src-tauri -> target'
 
@@ -55,47 +55,43 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: pnpm install # change this to npm or pnpm depending on which one you use.
 
-      - uses: tauri-apps/tauri-action@v0
+      - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
         id: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: ${{ matrix.args }}
-          includeUpdaterJson: false
-          includeRelease: 'false'
-          includeDebug: 'true'
+          args: '--debug ${{ matrix.args }}'
+          uploadUpdaterJson: false
 
       - name: fix JSON
-        if: matrix.platform != 'windows-latest'
+        if: matrix.platform != 'windows-2025'
         id: truncate_paths
         run: echo "paths=$(echo '${{ steps.build.outputs.artifactPaths }}' | sed 's/^..//' | sed 's/..$//')" >> $GITHUB_OUTPUT
 
       - name: upload macos artifacts (M1)
-        if: matrix.platform == 'macos-latest' && matrix.arch == 'aarch64'
-        uses: actions/upload-artifact@v4
+        if: matrix.platform == 'macos-26' && matrix.arch == 'aarch64'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: macos-m1-artifacts
           path: ${{ steps.truncate_paths.outputs.paths }}
-      
+
       - name: upload macos artifacts (Intel)
-        if: matrix.platform == 'macos-latest' && matrix.arch == 'x86_64'
-        uses: actions/upload-artifact@v4
+        if: matrix.platform == 'macos-26' && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: macos-intel-artifacts
           path: ${{ steps.truncate_paths.outputs.paths }}
 
       - name: upload linux artifacts
-        if: matrix.platform == 'ubuntu-22.04'
-        uses: actions/upload-artifact@v4
+        if: matrix.platform == 'ubuntu-26.04'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: linux-artifacts
           path: ${{ steps.truncate_paths.outputs.paths }}
 
       - name: upload windows artifacts
-        if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v4
+        if: matrix.platform == 'windows-2025'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: windows-artifacts
           path: "./src-tauri/target/debug/bundle/*" # fck windows
-
-          
