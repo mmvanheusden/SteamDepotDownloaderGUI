@@ -23,6 +23,7 @@ interface AppContext {
 	appId: StringUseState;
 	depotId: StringUseState;
 	manifestId: StringUseState;
+	branch: StringUseState;
 	outputLocation: StringUseState;
 	downloading: BooleanUseState;
 	showSettings: NoUndefinedState<BooleanUseState>;
